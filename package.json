@@ -2,11 +2,11 @@
   "name": "imlaa-server",
   "version": "1.0.0",
   "description": "Backend API for Imlaa IELTS learning workspace",
-  "main": "src/server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+    "start": "node index.js",
+    "dev": "node --watch index.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
