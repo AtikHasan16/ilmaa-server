@@ -1,0 +1,41 @@
+[
+  {
+    "word": "Fastidious",
+    "pos": "Adjective",
+    "banglaMeaning": "খুঁতখুঁতে / সহজে সন্তুষ্ট হয় না এমন",
+    "synonyms": [
+      "Meticulous",
+      "Punctilious",
+      "Scrupulous"
+    ],
+    "exampleUsage": "He was fastidious about his appearance, always immaculate in pressed linen.",
+    "topic": "Part 1: Basics",
+    "uploadedBy": null
+  },
+  {
+    "word": "Ubiquitous",
+    "pos": "Adjective",
+    "banglaMeaning": "সর্বব্যাপী / যা সর্বত্র বিদ্যমান",
+    "synonyms": [
+      "Omnipresent",
+      "Pervasive",
+      "Universal"
+    ],
+    "exampleUsage": "Smartphones have become ubiquitous in modern academic life.",
+    "topic": "Part 1: Basics",
+    "uploadedBy": null
+  },
+  {
+    "word": "Ephemeral",
+    "pos": "Adjective",
+    "banglaMeaning": "ক্ষণস্থায়ী",
+    "synonyms": [
+      "Transient",
+      "Fleeting",
+      "Short-lived"
+    ],
+    "exampleUsage": "Fashions are ephemeral, but true style endures.",
+    "topic": "Part 1: Basics",
+    "uploadedBy": null
+  }
+]

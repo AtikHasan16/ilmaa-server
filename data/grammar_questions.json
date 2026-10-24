@@ -1,0 +1,26 @@
+[
+  {
+    "module": "subject-verb-agreement",
+    "questionText": "Neither the teacher nor the students ____ present at yesterday's seminar.",
+    "options": [
+      "was",
+      "were",
+      "is",
+      "are"
+    ],
+    "correctAnswer": "were",
+    "explanation": "When subjects are connected by 'neither... nor', the verb agrees with the closer subject ('students')."
+  },
+  {
+    "module": "appropriate-prepositions",
+    "questionText": "She has always been deeply devoted ____ her scientific research.",
+    "options": [
+      "to",
+      "for",
+      "with",
+      "at"
+    ],
+    "correctAnswer": "to",
+    "explanation": "'Devoted' takes the preposition 'to'."
+  }
+]
