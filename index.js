@@ -11,7 +11,7 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-  })
+  }),
 );
 app.use(express.json());
 
@@ -34,7 +34,8 @@ const vocabularyCollection = new JsonCollection("vocabularies", [
     pos: "Adjective",
     banglaMeaning: "খুঁতখুঁতে / সহজে সন্তুষ্ট হয় না এমন",
     synonyms: ["Meticulous", "Punctilious", "Scrupulous"],
-    exampleUsage: "He was fastidious about his appearance, always immaculate in pressed linen.",
+    exampleUsage:
+      "He was fastidious about his appearance, always immaculate in pressed linen.",
     topic: "Part 1: Basics",
     uploadedBy: null,
   },
@@ -61,14 +62,17 @@ const vocabularyCollection = new JsonCollection("vocabularies", [
 const grammarCollection = new JsonCollection("grammar_questions", [
   {
     module: "subject-verb-agreement",
-    questionText: "Neither the teacher nor the students ____ present at yesterday's seminar.",
+    questionText:
+      "Neither the teacher nor the students ____ present at yesterday's seminar.",
     options: ["was", "were", "is", "are"],
     correctAnswer: "were",
-    explanation: "When subjects are connected by 'neither... nor', the verb agrees with the closer subject ('students').",
+    explanation:
+      "When subjects are connected by 'neither... nor', the verb agrees with the closer subject ('students').",
   },
   {
     module: "appropriate-prepositions",
-    questionText: "She has always been deeply devoted ____ her scientific research.",
+    questionText:
+      "She has always been deeply devoted ____ her scientific research.",
     options: ["to", "for", "with", "at"],
     correctAnswer: "to",
     explanation: "'Devoted' takes the preposition 'to'.",
@@ -127,10 +131,16 @@ app.post("/api/v1/auth/login-request", async (req, res) => {
     }
 
     // If approved and device token matches -> logged in
-    if (user.status === "approved" && (user.deviceToken === deviceToken || !user.deviceToken)) {
+    if (
+      user.status === "approved" &&
+      (user.deviceToken === deviceToken || !user.deviceToken)
+    ) {
       // Bind device token if first login
       if (!user.deviceToken) {
-        await usersCollection.updateOne({ accessId: cleanId }, { $set: { deviceToken } });
+        await usersCollection.updateOne(
+          { accessId: cleanId },
+          { $set: { deviceToken } },
+        );
       }
       return res.json({
         success: true,
@@ -145,7 +155,8 @@ app.post("/api/v1/auth/login-request", async (req, res) => {
       return res.status(403).json({
         success: false,
         status: "device_mismatch",
-        message: "This ID is bound to another browser/device. Please contact an admin for reset.",
+        message:
+          "This ID is bound to another browser/device. Please contact an admin for reset.",
       });
     }
 
@@ -165,7 +176,7 @@ app.post("/api/v1/auth/login-request", async (req, res) => {
           status: "pending_approval",
           requestedDeviceToken: deviceToken,
         },
-      }
+      },
     );
 
     res.json({
@@ -184,7 +195,9 @@ app.post("/api/v1/auth/validate-device", async (req, res) => {
   try {
     const { accessId, deviceToken } = req.body;
     if (!accessId || !deviceToken) {
-      return res.status(400).json({ success: false, message: "Missing credentials" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing credentials" });
     }
 
     const cleanId = String(accessId).trim();
@@ -233,20 +246,32 @@ app.get("/api/v1/vocabulary", async (req, res) => {
 // POST /api/v1/vocabulary (Upload to Study)
 app.post("/api/v1/vocabulary", async (req, res) => {
   try {
-    const { word, pos, banglaMeaning, synonyms, exampleUsage, topic, uploadedBy } = req.body;
+    const {
+      word,
+      pos,
+      banglaMeaning,
+      synonyms,
+      exampleUsage,
+      topic,
+      uploadedBy,
+    } = req.body;
 
     if (!word || !pos || !banglaMeaning) {
       return res.status(400).json({
         success: false,
-        message: "Target Word, Part of Speech, and Bangla Meaning are required.",
+        message:
+          "Target Word, Part of Speech, and Bangla Meaning are required.",
       });
     }
 
     const synList = Array.isArray(synonyms)
       ? synonyms
       : typeof synonyms === "string"
-      ? synonyms.split(",").map((s) => s.trim()).filter(Boolean)
-      : [];
+        ? synonyms
+            .split(",")
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
 
     const newWord = {
       word: word.trim(),
@@ -294,7 +319,9 @@ app.post("/api/v1/admin/access-ids", async (req, res) => {
   try {
     const { name, role = "general" } = req.body;
     if (!name || !name.trim()) {
-      return res.status(400).json({ success: false, message: "Candidate name is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Candidate name is required" });
     }
 
     let accessId = "";
@@ -336,44 +363,57 @@ app.get("/api/v1/admin/access-requests", async (req, res) => {
 });
 
 // PATCH /api/v1/admin/access-requests/:accessId/approve
-app.patch("/api/v1/admin/access-requests/:accessId/approve", async (req, res) => {
-  try {
-    const { accessId } = req.params;
-    const { role } = req.body;
+app.patch(
+  "/api/v1/admin/access-requests/:accessId/approve",
+  async (req, res) => {
+    try {
+      const { accessId } = req.params;
+      const { role } = req.body;
 
-    const user = await usersCollection.findOne({ accessId });
-    if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      const user = await usersCollection.findOne({ accessId });
+      if (!user) {
+        return res
+          .status(404)
+          .json({ success: false, message: "User not found" });
+      }
+
+      const updateSet = {
+        status: "approved",
+        deviceToken: user.requestedDeviceToken || "token-" + Date.now(),
+      };
+      if (role && ["general", "advance", "admin"].includes(role)) {
+        updateSet.role = role;
+      }
+
+      await usersCollection.updateOne({ accessId }, { $set: updateSet });
+      res.json({ success: true, message: `Access approved for ${user.name}` });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    const updateSet = {
-      status: "approved",
-      deviceToken: user.requestedDeviceToken || "token-" + Date.now(),
-    };
-    if (role && ["general", "advance", "admin"].includes(role)) {
-      updateSet.role = role;
-    }
-
-    await usersCollection.updateOne({ accessId }, { $set: updateSet });
-    res.json({ success: true, message: `Access approved for ${user.name}` });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // PATCH /api/v1/admin/access-requests/:accessId/reject
-app.patch("/api/v1/admin/access-requests/:accessId/reject", async (req, res) => {
-  try {
-    const { accessId } = req.params;
-    await usersCollection.updateOne({ accessId }, { $set: { status: "rejected" } });
-    res.json({ success: true, message: "Request rejected" });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+app.patch(
+  "/api/v1/admin/access-requests/:accessId/reject",
+  async (req, res) => {
+    try {
+      const { accessId } = req.params;
+      await usersCollection.updateOne(
+        { accessId },
+        { $set: { status: "rejected" } },
+      );
+      res.json({ success: true, message: "Request rejected" });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  },
+);
 
 // Start Server
 app.listen(port, () => {
   console.log(`[Imlaa Backend] Running smoothly on http://localhost:${port}`);
-  console.log(`[Imlaa Backend] Local JSON database loaded. Zero network dependency.`);
+  console.log(
+    `[Imlaa Backend] Local JSON database loaded. Zero network dependency.`,
+  );
 });
