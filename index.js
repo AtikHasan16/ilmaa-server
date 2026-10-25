@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import path from "path";
+import os from "os";
 import crypto from "crypto";
 import { EdgeTTS } from "@andresaya/edge-tts";
 
@@ -965,13 +966,13 @@ app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
 
 // Initialize EdgeTTS service and audio cache folder
 const ttsService = new EdgeTTS();
-const AUDIO_CACHE_DIR = path.resolve("./data/audio_cache");
+const AUDIO_CACHE_DIR = path.join(os.tmpdir(), "ilmaa_audio_cache");
 try {
   if (!fs.existsSync(AUDIO_CACHE_DIR)) {
     fs.mkdirSync(AUDIO_CACHE_DIR, { recursive: true });
   }
 } catch (e) {
-  // Harmless in serverless/read-only environments like Vercel
+  // Harmless in serverless
 }
 
 // GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural)
@@ -981,12 +982,14 @@ app.get("/api/v1/tts", async (req, res) => {
     const voice = req.query.voice || "en-US-ChristopherNeural";
 
     if (!rawText) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
       return res
         .status(400)
         .json({ success: false, message: "Text parameter is required" });
     }
 
     if (rawText.length > 500) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
       return res.status(400).json({
         success: false,
         message: "Text is too long (max 500 characters)",
@@ -1002,6 +1005,8 @@ app.get("/api/v1/tts", async (req, res) => {
 
     // Check if audio file is already cached locally
     if (fs.existsSync(cachePath)) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
+      res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
       res.setHeader("Content-Type", "audio/mpeg");
       res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       return fs.createReadStream(cachePath).pipe(res);
@@ -1013,21 +1018,31 @@ app.get("/api/v1/tts", async (req, res) => {
     });
 
     if (!result || !result.audio) {
+      res.setHeader("Access-Control-Allow-Origin", "*");
       return res
         .status(502)
         .json({ success: false, message: "Failed to generate speech audio" });
     }
 
     // Save generated audio to cache asynchronously
-    fs.writeFile(cachePath, result.audio, (err) => {
-      if (err) console.error("[TTS Cache Error]", err);
-    });
+    try {
+      fs.writeFile(cachePath, result.audio, (err) => {
+        if (err) console.error("[TTS Cache Error]", err);
+      });
+    } catch {
+      // Ignore cache write errors on serverless
+    }
+
+    const audioBuffer = Buffer.isBuffer(result.audio)
+      ? result.audio
+      : Buffer.from(result.audio);
 
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Content-Length", audioBuffer.length);
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    res.send(result.audio);
+    res.send(audioBuffer);
   } catch (err) {
     console.error("[TTS Error]", err);
     res.setHeader("Access-Control-Allow-Origin", "*");
