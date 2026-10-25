@@ -3,7 +3,6 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
-import { EdgeTTS } from "@andresaya/edge-tts";
 
 const app = express();
 const port = 5000;
@@ -975,6 +974,8 @@ try {
   // Gracefully ignored if tmp directory creation fails
 }
 
+import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
+
 // GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural)
 app.get("/api/v1/tts", async (req, res) => {
   try {
@@ -1008,21 +1009,29 @@ app.get("/api/v1/tts", async (req, res) => {
       return fs.createReadStream(cachePath).pipe(res);
     }
 
-    // Generate speech using Microsoft Christopher Neural voice
-    const edgeTts = new EdgeTTS();
-    const result = await edgeTts.generate(rawText, voice, {
-      rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
+    // Generate speech using Microsoft Christopher Neural voice via MsEdgeTTS
+    const tts = new MsEdgeTTS();
+    await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
+
+    const stream = tts.toStream(rawText);
+    const chunks = [];
+
+    await new Promise((resolve, reject) => {
+      stream.audioStream.on("data", (chunk) => {
+        chunks.push(chunk);
+      });
+      stream.audioStream.on("close", resolve);
+      stream.audioStream.on("end", resolve);
+      stream.audioStream.on("error", reject);
     });
 
-    if (!result || !result.audio) {
+    if (chunks.length === 0) {
       return res
         .status(502)
-        .json({ success: false, message: "Failed to generate speech audio" });
+        .json({ success: false, message: "No audio chunks received from Edge TTS service" });
     }
 
-    const audioBuffer = Buffer.isBuffer(result.audio)
-      ? result.audio
-      : Buffer.from(result.audio);
+    const audioBuffer = Buffer.concat(chunks);
 
     // Save generated audio to temp cache asynchronously (safe on serverless)
     try {
