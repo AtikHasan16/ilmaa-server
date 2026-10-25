@@ -3146,5 +3146,895 @@
     "correctAnswer": "premises",
     "explanation": "When referring to property or a building site, the plural-only noun 'premises' is used.",
     "ruleTag": "Plural-Only Nouns"
+  },
+  {
+    "_id": "e98b7a63-45c1-4b2a-8d9e-1f2a3b4c5d6e",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Medium",
+    "questionText": "The sudden economic downturn ____ shortly after the new monetary policy was implemented.",
+    "options": [
+      "occurred",
+      "was occurred",
+      "has been occurred",
+      "was occurring"
+    ],
+    "correctAnswer": "occurred",
+    "explanation": "'Occur' is an intransitive verb; it does not take an object and therefore cannot be used in the passive voice.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "f1a2b3c4-d5e6-47f8-9a0b-1c2d3e4f5a6b",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Medium",
+    "questionText": "Despite careful planning, a significant error ____ during the final stages of the laboratory experiment.",
+    "options": ["happened", "was happened", "has been happened", "is happened"],
+    "correctAnswer": "happened",
+    "explanation": "'Happen' is an intransitive verb and cannot be transformed into a passive construction.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-verbs",
+    "difficulty": "Hard",
+    "questionText": "The newly proposed theoretical framework ____ sufficient empirical evidence to support its ambitious claims.",
+    "options": ["lacks", "is lacked", "is being lacked", "has been lacked"],
+    "correctAnswer": "lacks",
+    "explanation": "Although 'lack' takes a direct object, it is a stative verb expressing a state rather than an action, and is rarely used in the passive voice.",
+    "ruleTag": "Stative Verb Passive Constraint"
+  },
+  {
+    "_id": "b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-verbs",
+    "difficulty": "Medium",
+    "questionText": "The structural design of the modern museum closely ____ that of ancient Greek temples.",
+    "options": [
+      "resembles",
+      "is resembled",
+      "has been resembled",
+      "is resembling"
+    ],
+    "correctAnswer": "resembles",
+    "explanation": "'Resemble' is a stative verb that describes a relational state. It cannot be used in the passive voice or continuous tenses.",
+    "ruleTag": "Stative Verb Passive Constraint"
+  },
+  {
+    "_id": "c3d4e5f6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-verbs",
+    "difficulty": "Medium",
+    "questionText": "A standard research paper typically ____ five main sections, including an introduction and a conclusion.",
+    "options": [
+      "consists of",
+      "is consisted of",
+      "is consisting of",
+      "has been consisted of"
+    ],
+    "correctAnswer": "consists of",
+    "explanation": "'Consist of' is strictly an active-voice, intransitive phrasal verb. It never takes a passive form.",
+    "ruleTag": "Phrasal Verb Passive Constraint"
+  },
+  {
+    "_id": "d4e5f6a7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "The ancient civilization seemingly ____ without leaving any substantial written records behind.",
+    "options": ["vanished", "was vanished", "is vanished", "has been vanished"],
+    "correctAnswer": "vanished",
+    "explanation": "'Vanish' is an intransitive verb meaning to disappear. It cannot take a passive voice construction.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "e5f6a7b8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-verbs",
+    "difficulty": "Medium",
+    "questionText": "The controversial artifact currently housed in the national museum ____ to a private collector.",
+    "options": ["belongs", "is belonged", "has been belonged", "is belonging"],
+    "correctAnswer": "belongs",
+    "explanation": "'Belong' is a stative verb denoting possession and is never used in the passive voice.",
+    "ruleTag": "Stative Verb Passive Constraint"
+  },
+  {
+    "_id": "f6a7b8c9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "Several unforeseen complications ____ during the clinical trials of the new cardiovascular medication.",
+    "options": ["arose", "were arisen", "have been arisen", "are arising"],
+    "correctAnswer": "arose",
+    "explanation": "'Arise' is an intransitive verb meaning 'to happen' or 'to emerge'. It cannot be passive.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "a7b8c9d0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-passives",
+    "difficulty": "Hard",
+    "questionText": "The independent oversight committee ____ seven experts from various scientific disciplines.",
+    "options": [
+      "is composed of",
+      "composes of",
+      "is composing of",
+      "has composed of"
+    ],
+    "correctAnswer": "is composed of",
+    "explanation": "'Compose' requires a passive structure ('is composed of') to mean 'is made up of'. It acts as a stative passive.",
+    "ruleTag": "Stative Passive Construction"
+  },
+  {
+    "_id": "b8c9d0e1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Medium",
+    "questionText": "An extensive longitudinal study ____ to evaluate the long-term effects of the dietary intervention.",
+    "options": [
+      "was conducted",
+      "conducted",
+      "has conducted",
+      "was conducting"
+    ],
+    "correctAnswer": "was conducted",
+    "explanation": "In academic writing, the agent is often omitted. The passive voice ('was conducted') correctly emphasizes the action (the study) rather than the researchers.",
+    "ruleTag": "Agent Omission in Academic Writing"
+  },
+  {
+    "_id": "c9d0e1f2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-passives",
+    "difficulty": "Hard",
+    "questionText": "This rare species of orchid ____ to grow exclusively in the high-altitude regions of the Andes.",
+    "options": ["is known", "knows", "is knowing", "has known"],
+    "correctAnswer": "is known",
+    "explanation": "'Is known' functions as a stative passive followed by an infinitive, a common structure in formal English to report facts.",
+    "ruleTag": "Stative Passive Construction"
+  },
+  {
+    "_id": "d0e1f2a3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Medium",
+    "questionText": "The global unemployment rate ____ dramatically during the first quarter of the fiscal year.",
+    "options": ["fell", "was fallen", "has been fallen", "was being fallen"],
+    "correctAnswer": "fell",
+    "explanation": "'Fall' is an intransitive verb showing movement or change in state; it cannot be rendered in the passive voice.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "e1f2a3b4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "Consumer demand for renewable energy sources ____ significantly over the last decade.",
+    "options": ["has risen", "has been risen", "was risen", "is risen"],
+    "correctAnswer": "has risen",
+    "explanation": "'Rise' is an intransitive verb and takes an active form ('has risen'), unlike the transitive verb 'raise' which can be passive.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "f2a3b4c5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Medium",
+    "questionText": "The updated software algorithm ____ a complex neural network architecture.",
+    "options": ["is based on", "bases on", "is basing on", "has based on"],
+    "correctAnswer": "is based on",
+    "explanation": "'Base' requires a passive structure ('is based on') when referring to the foundation of an idea, system, or object.",
+    "ruleTag": "Stative Passive Construction"
+  },
+  {
+    "_id": "a3b4c5d6-e7f8-4a9b-0c1d-2e3f4a5b6c7d",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "The excessive use of synthetic fertilizers ____ widespread soil degradation in the agricultural sector.",
+    "options": [
+      "resulted in",
+      "was resulted in",
+      "has been resulted in",
+      "is resulted in"
+    ],
+    "correctAnswer": "resulted in",
+    "explanation": "'Result in' is an intransitive phrasal verb and is grammatically incorrect in the passive voice.",
+    "ruleTag": "Phrasal Verb Passive Constraint"
+  },
+  {
+    "_id": "b4c5d6e7-f8a9-4b0c-1d2e-3f4a5b6c7d8e",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Medium",
+    "questionText": "A fundamental flaw in the initial hypothesis ____ when the researchers attempted to replicate the experiment.",
+    "options": ["appeared", "was appeared", "has been appeared", "is appeared"],
+    "correctAnswer": "appeared",
+    "explanation": "'Appear' is an intransitive linking verb. It never takes an object and cannot be passive.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "c5d6e7f8-a9b0-4c1d-2e3f-4a5b6c7d8e9f",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-verbs",
+    "difficulty": "Hard",
+    "questionText": "The proposed urban development plan perfectly ____ the growing infrastructural needs of the metropolitan population.",
+    "options": ["suits", "is suited", "is suiting", "has been suited"],
+    "correctAnswer": "suits",
+    "explanation": "When 'suit' is used as a transitive stative verb meaning 'to be appropriate for', it generally remains in the active voice.",
+    "ruleTag": "Stative Verb Passive Constraint"
+  },
+  {
+    "_id": "d6e7f8a9-b0c1-4d2e-3f4a-5b6c7d8e9f0a",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Medium",
+    "questionText": "Geological evidence suggests that liquid water ____ on the surface of Mars billions of years ago.",
+    "options": ["existed", "was existed", "has been existed", "is existed"],
+    "correctAnswer": "existed",
+    "explanation": "'Exist' is an intransitive verb indicating presence or being; it cannot be used in a passive construction.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "e7f8a9b0-c1d2-4e3f-4a5b-6c7d8e9f0a1b",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Medium",
+    "questionText": "A noticeable increase in average temperatures ____ across all monitored weather stations last summer.",
+    "options": ["was observed", "observed", "has observed", "was observing"],
+    "correctAnswer": "was observed",
+    "explanation": "Academic texts favor the passive 'was observed' to keep the focus on the phenomenon (the increase in temperature) rather than the observers.",
+    "ruleTag": "Agent Omission in Academic Writing"
+  },
+  {
+    "_id": "f8a9b0c1-d2e3-4f4a-5b6c-7d8e9f0a1b2c",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-passives",
+    "difficulty": "Medium",
+    "questionText": "The newly established biological research facility ____ on the outskirts of the industrial district.",
+    "options": ["is located", "locates", "is locating", "has located"],
+    "correctAnswer": "is located",
+    "explanation": "To describe geographical position, English uses the stative passive form 'is located'.",
+    "ruleTag": "Stative Passive Construction"
+  },
+  {
+    "_id": "a9b0c1d2-e3f4-4a5b-6c7d-8e9f0a1b2c3d",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "Despite numerous technological advancements, the core principles of classical thermodynamics ____ unchanged.",
+    "options": [
+      "remain",
+      "are remained",
+      "have been remained",
+      "are remaining"
+    ],
+    "correctAnswer": "remain",
+    "explanation": "'Remain' is a linking verb (intransitive) connecting the subject to its complement. It cannot be passivized.",
+    "ruleTag": "Linking Verb Passive Constraint"
+  },
+  {
+    "_id": "b0c1d2e3-f4a5-4b6c-7d8e-9f0a1b2c3d4e",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Medium",
+    "questionText": "The initial astronomical data ____ to contradict the previously established theories regarding planetary motion.",
+    "options": ["seemed", "was seemed", "has been seemed", "is seemed"],
+    "correctAnswer": "seemed",
+    "explanation": "'Seem' is a linking verb denoting impression or appearance. Like other linking verbs, it has no passive voice.",
+    "ruleTag": "Linking Verb Passive Constraint"
+  },
+  {
+    "_id": "c1d2e3f4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Medium",
+    "questionText": "The groundbreaking findings on genetic mutation ____ in a highly respected peer-reviewed journal last month.",
+    "options": [
+      "were published",
+      "published",
+      "have published",
+      "were publishing"
+    ],
+    "correctAnswer": "were published",
+    "explanation": "The passive 'were published' is standard academic usage, emphasizing the findings and the journal rather than the specific individuals who published them.",
+    "ruleTag": "Agent Omission in Academic Writing"
+  },
+  {
+    "_id": "d2e3f4a5-b6c7-4d8e-9f0a-1b2c3d4e5f6a",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "The tradition of exchanging gifts during the winter solstice ____ in ancient pagan festivals.",
+    "options": [
+      "originated",
+      "was originated",
+      "has been originated",
+      "is originated"
+    ],
+    "correctAnswer": "originated",
+    "explanation": "When referring to where something began, 'originate' is an intransitive verb and must be active ('originated').",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "e3f4a5b6-c7d8-4e9f-0a1b-2c3d4e5f6a7b",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Hard",
+    "questionText": "The unprecedented success of the national marketing campaign ____ to the creative use of social media algorithms.",
+    "options": [
+      "was attributed",
+      "attributed",
+      "has attributed",
+      "was attributing"
+    ],
+    "correctAnswer": "was attributed",
+    "explanation": "The standard academic passive structure 'was attributed to' is required here to link the outcome (success) to its cause.",
+    "ruleTag": "Agent Omission in Academic Writing"
+  },
+  {
+    "_id": "f4a5b6c7-d8e9-4f0a-1b2c-3d4e5f6a7b8c",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "passive-constraints",
+    "difficulty": "Hard",
+    "questionText": "A completely new strain of the virus ____ in the southern hemisphere during the early winter months.",
+    "options": ["emerged", "was emerged", "has been emerged", "is emerged"],
+    "correctAnswer": "emerged",
+    "explanation": "'Emerge' is an intransitive verb meaning to come into view or existence; it cannot be used in a passive form.",
+    "ruleTag": "Intransitive Verb Passive Constraint"
+  },
+  {
+    "_id": "a5b6c7d8-e9f0-4a1b-2c3d-4e5f6a7b8c9d",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Medium",
+    "questionText": "The participants' resting heart rates ____ before, during, and immediately after the cardiovascular exercise.",
+    "options": ["were measured", "measured", "have measured", "were measuring"],
+    "correctAnswer": "were measured",
+    "explanation": "In scientific methodology sections, the passive voice ('were measured') is standard because the focus is on the data collection, not the researcher.",
+    "ruleTag": "Agent Omission in Academic Writing"
+  },
+  {
+    "_id": "b6c7d8e9-f0a1-4b2c-3d4e-5f6a7b8c9d0e",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-passives",
+    "difficulty": "Hard",
+    "questionText": "Chronic exposure to high levels of industrial air pollution ____ a significantly increased risk of respiratory diseases.",
+    "options": [
+      "is associated with",
+      "associates with",
+      "is associating with",
+      "has associated with"
+    ],
+    "correctAnswer": "is associated with",
+    "explanation": "The stative passive construction 'is associated with' is used to demonstrate correlation between two scientific variables.",
+    "ruleTag": "Stative Passive Construction"
+  },
+  {
+    "_id": "c7d8e9f0-a1b2-4c3d-4e5f-6a7b8c9d0e1f",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "academic-passive",
+    "difficulty": "Medium",
+    "questionText": "The innovative teaching methodology ____ by a collaborative team of educational psychologists in the late 1990s.",
+    "options": [
+      "was developed",
+      "developed",
+      "has developed",
+      "was developing"
+    ],
+    "correctAnswer": "was developed",
+    "explanation": "Because the object of the action (methodology) is the subject of the sentence, the passive voice ('was developed') must be used.",
+    "ruleTag": "Passive Voice Structure"
+  },
+  {
+    "_id": "d8e9f0a1-b2c3-4d4e-5f6a-7b8c9d0e1f2a",
+    "module": "voice-change",
+    "topicTitle": "Voice Change & Passive Constraints",
+    "category": "stative-verbs",
+    "difficulty": "Medium",
+    "questionText": "The extensive university library ____ over two million distinct academic publications and historical manuscripts.",
+    "options": [
+      "contains",
+      "is contained",
+      "is containing",
+      "has been contained"
+    ],
+    "correctAnswer": "contains",
+    "explanation": "'Contain' is a stative verb indicating possession or inclusion. In this context, it remains active and does not take a continuous or passive form.",
+    "ruleTag": "Stative Verb Passive Constraint"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440001",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "To completely understand the underlying mathematical theorem, ____.",
+    "options": [
+      "the student must review the foundational principles",
+      "the foundational principles must be reviewed",
+      "a review of the foundational principles is necessary",
+      "it is required to review the foundational principles"
+    ],
+    "correctAnswer": "the student must review the foundational principles",
+    "explanation": "The infinitive phrase 'To completely understand...' requires a logical subject immediately following it. 'The student' is the only noun capable of understanding the theorem.",
+    "ruleTag": "Infinitive Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440002",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "While conducting the field research in the Amazon basin, ____.",
+    "options": [
+      "a rare species of tree frog was discovered by the biologists",
+      "the biologists discovered a rare species of tree frog",
+      "the discovery of a rare tree frog was made",
+      "a rare tree frog appeared to the biologists"
+    ],
+    "correctAnswer": "the biologists discovered a rare species of tree frog",
+    "explanation": "The modifier 'While conducting the field research' must logically apply to the subject of the main clause. The biologists conducted the research, not the frog or the discovery.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440003",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Having been universally recognized for her outstanding contributions to genetics, ____.",
+    "options": [
+      "the Nobel Prize was awarded to Dr. Harrison",
+      "Dr. Harrison received the prestigious Nobel Prize",
+      "the committee awarded Dr. Harrison the Nobel Prize",
+      "a prestigious Nobel Prize was given to Dr. Harrison"
+    ],
+    "correctAnswer": "Dr. Harrison received the prestigious Nobel Prize",
+    "explanation": "The participial phrase describes someone who was 'recognized for her outstanding contributions'. That person (Dr. Harrison) must be the subject of the sentence.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440004",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "Buried under thick layers of sedimentary rock for millions of years, ____.",
+    "options": [
+      "the archaeologists carefully excavated the fossilized remains",
+      "the fossilized remains were carefully excavated by archaeologists",
+      "excavation of the fossilized remains was conducted carefully",
+      "the team of archaeologists made a careful excavation of the fossils"
+    ],
+    "correctAnswer": "the fossilized remains were carefully excavated by archaeologists",
+    "explanation": "The phrase 'Buried under thick layers...' must modify the subject. The fossilized remains were buried, not the archaeologists or the excavation.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440005",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Without knowing the exact geographical coordinates, ____.",
+    "options": [
+      "the remote research station was impossible to locate",
+      "locating the remote research station was impossible",
+      "the rescue pilots could not locate the remote research station",
+      "the location of the remote research station remained hidden"
+    ],
+    "correctAnswer": "the rescue pilots could not locate the remote research station",
+    "explanation": "The phrase 'Without knowing...' describes a person or entity capable of knowing. Only 'the rescue pilots' fits logically as the subject.",
+    "ruleTag": "Prepositional Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440006",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "To successfully navigate the complexities of international trade law, ____.",
+    "options": [
+      "a specialized legal consultant should be retained",
+      "retaining a specialized legal consultant is highly advisable",
+      "a multinational corporation must retain a specialized legal consultant",
+      "consultation with a specialized legal expert is mandatory"
+    ],
+    "correctAnswer": "a multinational corporation must retain a specialized legal consultant",
+    "explanation": "The infinitive phrase 'To successfully navigate...' requires an agent capable of navigating. 'A multinational corporation' is the only logical agent.",
+    "ruleTag": "Infinitive Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440007",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Facing a massive budget deficit and declining enrollment, ____.",
+    "options": [
+      "the university was forced to cancel several humanities programs",
+      "the cancellation of several humanities programs was inevitable",
+      "several humanities programs had to be cancelled",
+      "the administration's decision was to cancel several programs"
+    ],
+    "correctAnswer": "the university was forced to cancel several humanities programs",
+    "explanation": "The university is the entity facing the budget deficit. It must be placed immediately after the comma as the subject of the main clause.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440008",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "Upon entering the abandoned Victorian mansion, ____.",
+    "options": [
+      "an inexplicable cold draft startled the paranormal investigators",
+      "the paranormal investigators were startled by an inexplicable cold draft",
+      "the atmosphere felt incredibly eerie to the investigators",
+      "dust and cobwebs covered every visible surface inside"
+    ],
+    "correctAnswer": "the paranormal investigators were startled by an inexplicable cold draft",
+    "explanation": "The prepositional phrase 'Upon entering...' requires a logical subject. The investigators entered the mansion, not the cold draft, atmosphere, or dust.",
+    "ruleTag": "Prepositional Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440009",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Fascinated by the intricate mechanical clockwork, ____.",
+    "options": [
+      "the antique pocket watch was immediately purchased at the auction",
+      "the wealthy collector immediately purchased the antique pocket watch",
+      "the purchase of the pocket watch happened without hesitation",
+      "it was immediately bought by the wealthy collector"
+    ],
+    "correctAnswer": "the wealthy collector immediately purchased the antique pocket watch",
+    "explanation": "The wealthy collector is the one who is fascinated, therefore 'the wealthy collector' must be the subject of the main clause.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440010",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Being a complete novice in the highly specialized field of quantum mechanics, ____.",
+    "options": [
+      "the dense academic paper was utterly confusing to read",
+      "confusion was inevitable while reading the dense academic paper",
+      "the ambitious student found the dense academic paper incomprehensible",
+      "the complex theories presented seemed completely illogical"
+    ],
+    "correctAnswer": "the ambitious student found the dense academic paper incomprehensible",
+    "explanation": "The phrase 'Being a complete novice...' modifies a person. The student must act as the subject of the main clause to avoid a dangling modifier.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440011",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "Hidden beneath the rotting floorboards of the attic, ____.",
+    "options": [
+      "the detective finally uncovered the stolen diamond necklace",
+      "the stolen diamond necklace remained undiscovered for decades",
+      "the discovery of the diamond necklace was finally made",
+      "they found the stolen diamond necklace after a long search"
+    ],
+    "correctAnswer": "the stolen diamond necklace remained undiscovered for decades",
+    "explanation": "The diamond necklace is the item hidden beneath the floorboards, so it must serve as the subject of the sentence.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440012",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Hoping to alleviate the chronic urban traffic congestion, ____.",
+    "options": [
+      "a comprehensive subterranean transit system was proposed",
+      "the municipal city council proposed a comprehensive subterranean transit system",
+      "the proposal for a subterranean transit system was unanimously approved",
+      "the subterranean transit system's construction began immediately"
+    ],
+    "correctAnswer": "the municipal city council proposed a comprehensive subterranean transit system",
+    "explanation": "The phrase 'Hoping to alleviate...' describes the city council, the entity capable of hoping and taking action.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440013",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "Before implementing the newly updated cybersecurity protocol, ____.",
+    "options": [
+      "a rigorous system-wide vulnerability audit must be conducted",
+      "the IT department must conduct a rigorous system-wide vulnerability audit",
+      "vulnerabilities must be thoroughly audited across the entire system",
+      "an audit of the system vulnerabilities is strictly required"
+    ],
+    "correctAnswer": "the IT department must conduct a rigorous system-wide vulnerability audit",
+    "explanation": "The IT department is the agent implementing the protocol, so it must be the subject of the main clause.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440014",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Overwhelmed by the sheer volume of contradictory empirical data, ____.",
+    "options": [
+      "the primary evolutionary hypothesis was ultimately abandoned",
+      "the research team ultimately abandoned their primary evolutionary hypothesis",
+      "abandonment of the evolutionary hypothesis was deemed necessary",
+      "the final conclusion of the study remained entirely ambiguous"
+    ],
+    "correctAnswer": "the research team ultimately abandoned their primary evolutionary hypothesis",
+    "explanation": "The research team is 'overwhelmed', so they must immediately follow the introductory participial phrase as the subject.",
+    "ruleTag": "Participial Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440015",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "To completely avoid further irreversible environmental degradation, ____.",
+    "options": [
+      "strict industrial emission regulations must be uniformly enforced",
+      "the federal government must enforce strict industrial emission regulations",
+      "uniform enforcement of strict regulations is absolutely critical",
+      "industrial greenhouse gas emissions need to be heavily regulated"
+    ],
+    "correctAnswer": "the federal government must enforce strict industrial emission regulations",
+    "explanation": "The infinitive phrase needs an active agent to perform the action of avoiding degradation. Only 'the federal government' makes logical sense.",
+    "ruleTag": "Infinitive Phrase Dangling Subject"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440016",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "The CEO announced her sudden resignation____ the company's stock price immediately plummeted.",
+    "options": [",", ";", ", however", ", consequently"],
+    "correctAnswer": ";",
+    "explanation": "Two independent clauses must be joined by a semicolon or a comma and a coordinating conjunction. Using only a comma (or a comma with a conjunctive adverb like 'consequently') creates a comma splice.",
+    "ruleTag": "Comma Splice Correction"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440017",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "The novel offers a profound critique of modern society____ it ultimately delivers a message of hope.",
+    "options": [",", ", but", "; but", ", however"],
+    "correctAnswer": ", but",
+    "explanation": "A comma followed by the coordinating conjunction 'but' properly joins two independent clauses. ', however' creates a comma splice.",
+    "ruleTag": "Coordinating Conjunction Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440018",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Solar energy is becoming increasingly cost-effective____ many homeowners remain reluctant to install panels.",
+    "options": [
+      ", nevertheless",
+      "; nevertheless,",
+      ", however",
+      "nevertheless,"
+    ],
+    "correctAnswer": "; nevertheless,",
+    "explanation": "To join two independent clauses with a conjunctive adverb ('nevertheless'), a semicolon must precede the adverb and a comma typically follows it.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440019",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "The chemical reaction produced a substantial amount of toxic gas____ the laboratory technicians were forced to evacuate.",
+    "options": [", so", ", therefore", "; so", ", thus"],
+    "correctAnswer": ", so",
+    "explanation": "'So' is a coordinating conjunction and can correctly join independent clauses with just a comma. 'Therefore' and 'thus' are conjunctive adverbs and would require semicolons.",
+    "ruleTag": "Coordinating Conjunction Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440020",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Urban sprawl contributes significantly to habitat loss____ it increases the region's overall carbon footprint.",
+    "options": [
+      ", furthermore",
+      "; furthermore,",
+      ", moreover",
+      "furthermore,"
+    ],
+    "correctAnswer": "; furthermore,",
+    "explanation": "When joining two independent sentences with the conjunctive adverb 'furthermore', you must use a semicolon before it and a comma after it.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440021",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Exposure to extreme cold can cause severe frostbite____ it can rapidly lead to fatal hypothermia.",
+    "options": [", moreover", ", moreover,", "; moreover,", "moreover,"],
+    "correctAnswer": "; moreover,",
+    "explanation": "Two independent clauses linked by 'moreover' must be separated by a semicolon, not just a comma, to avoid a comma splice.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440022",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "The initial archaeological excavation yielded no significant artifacts____ the research team decided to expand the search perimeter.",
+    "options": [
+      ", consequently,",
+      "; consequently,",
+      ", consequently",
+      "consequently,"
+    ],
+    "correctAnswer": "; consequently,",
+    "explanation": "'Consequently' is a conjunctive adverb linking two independent clauses, necessitating a preceding semicolon.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440023",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "Mastering a complex musical instrument requires consistent daily practice____ passive listening alone is entirely insufficient.",
+    "options": [",", ";", ", however", ", nevertheless"],
+    "correctAnswer": ";",
+    "explanation": "A semicolon correctly joins two closely related independent clauses. Using a comma here creates a comma splice.",
+    "ruleTag": "Semicolon Usage"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440024",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "The executive committee failed to reach a unanimous consensus____ the controversial policy amendment was officially tabled.",
+    "options": [",", ", therefore", "; therefore,", ", so,"],
+    "correctAnswer": "; therefore,",
+    "explanation": "'Therefore' is a conjunctive adverb, so a semicolon is required to fix the boundary between these two independent clauses.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440025",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "Regular cardiovascular exercise strengthens the heart muscle____ it significantly reduces the risk of chronic hypertension.",
+    "options": [
+      ", in addition,",
+      "; in addition,",
+      ", in addition",
+      "in addition,"
+    ],
+    "correctAnswer": "; in addition,",
+    "explanation": "Transitional phrases like 'in addition' require a semicolon when they connect two independent clauses.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440026",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "The advanced algorithm efficiently processes vast numerical datasets____ it struggles to interpret subjective human emotions.",
+    "options": [", yet", ", nevertheless", ", however", "yet"],
+    "correctAnswer": ", yet",
+    "explanation": "'Yet' acts as a coordinating conjunction (like 'but') and correctly joins independent clauses with a comma.",
+    "ruleTag": "Coordinating Conjunction Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440027",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Stringent cybersecurity measures were promptly implemented across the network____ several critical data breaches still occurred.",
+    "options": [
+      ", nevertheless,",
+      "; nevertheless,",
+      ", nevertheless",
+      "nevertheless,"
+    ],
+    "correctAnswer": "; nevertheless,",
+    "explanation": "Because 'nevertheless' is a conjunctive adverb, not a coordinating conjunction, it must follow a semicolon when linking two independent clauses.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440028",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Medium",
+    "questionText": "The investigative documentary exposes the harsh realities of industrial farming____ it advocates for sustainable agricultural practices.",
+    "options": [",", ", and", ", furthermore", "and"],
+    "correctAnswer": ", and",
+    "explanation": "The coordinating conjunction 'and' correctly joins the two independent clauses when preceded by a comma.",
+    "ruleTag": "Coordinating Conjunction Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440029",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "Historical linguists study the evolution of language over time____ they attempt to reconstruct ancient proto-languages.",
+    "options": [", similarly,", "; similarly,", ", similarly", "similarly,"],
+    "correctAnswer": "; similarly,",
+    "explanation": "'Similarly' is a conjunctive adverb. A semicolon is the proper punctuation to avoid a comma splice here.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
+  },
+  {
+    "_id": "550e8400-e29b-41d4-a716-446655440030",
+    "module": "modifiers-and-splices",
+    "topicTitle": "Dangling Modifiers & Comma Splices",
+    "category": "sentence-structure",
+    "difficulty": "Hard",
+    "questionText": "The architectural design was highly innovative and visually striking____ the construction costs far exceeded the initial budgetary estimates.",
+    "options": [
+      ", unfortunately",
+      ", unfortunately,",
+      "; unfortunately,",
+      "unfortunately,"
+    ],
+    "correctAnswer": "; unfortunately,",
+    "explanation": "A semicolon correctly separates two complete sentences, while the conjunctive adverb 'unfortunately' is set off by a comma.",
+    "ruleTag": "Conjunctive Adverb Punctuation"
   }
 ]
