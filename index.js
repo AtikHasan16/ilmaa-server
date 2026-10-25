@@ -52,7 +52,7 @@ app.get("/api/v1/health", async (req, res) => {
   const vocabCount = await vocabularyCollection.countDocuments();
   res.json({
     success: true,
-    status: "healthy (local JSON store)",
+    status: "healthy (Supabase cloud store)",
     usersCount,
     vocabCount,
   });
