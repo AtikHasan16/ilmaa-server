@@ -1029,8 +1029,6 @@ app.get("/api/v1/tts", async (req, res) => {
     res.setHeader("Content-Type", "audio/mpeg");
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
     res.send(result.audio);
-    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    res.send(result.audio);
   } catch (err) {
     console.error("[TTS Error]", err);
     res.status(500).json({ success: false, message: err.message });
