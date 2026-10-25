@@ -1,152 +1,1802 @@
 [
   {
-    "word": "Fastidious",
-    "pos": "Adjective",
-    "banglaMeaning": "খুঁতখুঁতে / সহজে সন্তুষ্ট হয় না এমন",
-    "synonyms": [
-      "Meticulous",
-      "Punctilious",
-      "Scrupulous"
-    ],
-    "exampleUsage": "He was fastidious about his appearance, always immaculate in pressed linen.",
-    "topic": "Part 1: Basics",
-    "uploadedBy": null
-  },
-  {
-    "word": "Ubiquitous",
-    "pos": "Adjective",
-    "banglaMeaning": "সর্বব্যাপী / যা সর্বত্র বিদ্যমান",
-    "synonyms": [
-      "Omnipresent",
-      "Pervasive",
-      "Universal"
-    ],
-    "exampleUsage": "Smartphones have become ubiquitous in modern academic life.",
-    "topic": "Part 1: Basics",
-    "uploadedBy": null
-  },
-  {
-    "word": "Ephemeral",
-    "pos": "Adjective",
-    "banglaMeaning": "ক্ষণস্থায়ী",
-    "synonyms": [
-      "Transient",
-      "Fleeting",
-      "Short-lived"
-    ],
-    "exampleUsage": "Fashions are ephemeral, but true style endures.",
-    "topic": "Part 1: Basics",
-    "uploadedBy": null
-  },
-  {
-    "_id": "8d6f5f0c-843d-4d18-b720-e196f4f4b28c",
-    "word": "Commuter",
+    "_id": "e2a1b9f4-1234-4b56-8a7c-9d0e1f2a3b40",
+    "word": "Analysis",
     "pos": "Noun",
-    "banglaMeaning": "যে ব্যক্তি নিয়মিত দূরপাল্লার যাতায়াত করে",
-    "synonyms": [
-      "traveler",
-      "passenger"
-    ],
-    "exampleUsage": "The train was packed with commuters reading the morning paper.",
-    "topic": "Part 1: Basics",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "banglaMeaning": "বিশ্লেষণ",
+    "synonyms": ["Examination", "Investigation", "Evaluation"],
+    "exampleUsage": "A comprehensive analysis of the data revealed a significant correlation between the two demographic variables.",
+    "topic": "Academic Word List: Sublist A"
   },
   {
-    "_id": "6544093f-50a4-4b5a-bf64-583c2db57d4b",
-    "word": "Mitigate",
+    "_id": "b3c4d5e6-2345-4c67-9b8d-0e1f2a3b4c51",
+    "word": "Approach",
+    "pos": "Noun",
+    "banglaMeaning": "পদ্ধতি / দৃষ্টিভঙ্গি",
+    "synonyms": ["Method", "Strategy", "Perspective"],
+    "exampleUsage": "The researchers adopted a novel multidisciplinary approach to mitigate the effects of climate change on agriculture.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c4d5e6f7-3456-4d78-0c9e-1f2a3b4c5d62",
+    "word": "Area",
+    "pos": "Noun",
+    "banglaMeaning": "এলাকা / ক্ষেত্র",
+    "synonyms": ["Region", "Domain", "Sector"],
+    "exampleUsage": "Further investigation is urgently required in the area of renewable energy technologies to ensure global sustainability.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d5e6f7a8-4567-4e89-1d0f-2a3b4c5d6e73",
+    "word": "Assessment",
+    "pos": "Noun",
+    "banglaMeaning": "মূল্যায়ন",
+    "synonyms": ["Evaluation", "Appraisal", "Estimation"],
+    "exampleUsage": "A rigorous environmental assessment must be conducted prior to the commencement of the large-scale construction project.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e6f7a8b9-5678-4f90-2e1a-3b4c5d6e7f84",
+    "word": "Assume",
     "pos": "Verb",
-    "banglaMeaning": "তীব্রতা বা কষ্ট লাঘব করা / কমানো",
-    "synonyms": [
-      "alleviate",
-      "reduce",
-      "lessen"
-    ],
-    "exampleUsage": "The government implemented new policies to mitigate the effects of climate change.",
-    "topic": "Part 3: Advanced",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "banglaMeaning": "অনুমান করা / ধরে নেওয়া",
+    "synonyms": ["Presume", "Hypothesize", "Postulate"],
+    "exampleUsage": "It is erroneous to blindly assume that technological advancement inevitably leads to enhanced societal well-being.",
+    "topic": "Academic Word List: Sublist A"
   },
   {
-    "_id": "dcb98fbb-47e2-4d11-a78e-92074bf9c26d",
-    "word": "Ubiquitous",
+    "_id": "f7a8b9c0-6789-4a01-3f2b-4c5d6e7f8a95",
+    "word": "Authority",
+    "pos": "Noun",
+    "banglaMeaning": "কর্তৃপক্ষ / ক্ষমতা",
+    "synonyms": ["Jurisdiction", "Supremacy", "Command"],
+    "exampleUsage": "The municipal authority implemented stringent regulations to effectively curb industrial pollution in the regional waterways.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a8b9c0d1-7890-4b12-4a3c-5d6e7f8a9b06",
+    "word": "Available",
     "pos": "Adjective",
-    "banglaMeaning": "সর্বব্যাপী / সর্বত্র বিদ্যমান",
-    "synonyms": [
-      "omnipresent",
-      "universal",
-      "everywhere"
-    ],
-    "exampleUsage": "Mobile phones have become ubiquitous in modern society.",
-    "topic": "Part 3: Advanced",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "banglaMeaning": "সহজলভ্য / প্রাপ্তিসাধ্য",
+    "synonyms": ["Accessible", "Obtainable", "Attainable"],
+    "exampleUsage": "The comprehensive dataset is readily available for rigorous peer review on the university's central academic portal.",
+    "topic": "Academic Word List: Sublist A"
   },
   {
-    "_id": "3fb8694e-442d-40c7-9b79-87307cfccd4e",
-    "word": "Fluctuate",
+    "_id": "b9c0d1e2-8901-4c23-5b4d-6e7f8a9b0c17",
+    "word": "Benefit",
+    "pos": "Noun",
+    "banglaMeaning": "সুবিধা / উপকার",
+    "synonyms": ["Advantage", "Asset", "Merit"],
+    "exampleUsage": "The primary benefit of the proposed infrastructural policy is a substantial and measurable reduction in urban traffic congestion.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c0d1e2f3-9012-4d34-6c5e-7f8a9b0c1d28",
+    "word": "Concept",
+    "pos": "Noun",
+    "banglaMeaning": "ধারণা / মূলভাব",
+    "synonyms": ["Notion", "Conception", "Abstraction"],
+    "exampleUsage": "The abstract concept of absolute zero is fundamentally indispensable to the advanced study of thermodynamics.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d1e2f3a4-0123-4e45-7d6f-8a9b0c1d2e39",
+    "word": "Consistent",
+    "pos": "Adjective",
+    "banglaMeaning": "সামঞ্জস্যপূর্ণ / ধারাবাহিক",
+    "synonyms": ["Coherent", "Constant", "Uniform"],
+    "exampleUsage": "The empirical findings are entirely consistent with the prevailing hypothesis that a sedentary lifestyle severely exacerbates cardiovascular disease.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e2f3a4b5-1234-4f56-8e7a-9b0c1d2e3f40",
+    "word": "Constitutional",
+    "pos": "Adjective",
+    "banglaMeaning": "সাংবিধানিক",
+    "synonyms": ["Statutory", "Lawful", "Legitimate"],
+    "exampleUsage": "The supreme court deliberated extensively on the constitutional validity of the newly enacted privacy legislation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f3a4b5c6-2345-4a67-9f8b-0c1d2e3f4a51",
+    "word": "Context",
+    "pos": "Noun",
+    "banglaMeaning": "প্রেক্ষাপট / প্রসঙ্গ",
+    "synonyms": ["Background", "Circumstance", "Framework"],
+    "exampleUsage": "Historical events must inherently be analyzed within their specific socio-political context to be comprehensively understood.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a4b5c6d7-3456-4b78-0a9c-1d2e3f4a5b62",
+    "word": "Contract",
+    "pos": "Noun",
+    "banglaMeaning": "চুক্তি",
+    "synonyms": ["Agreement", "Pact", "Treaty"],
+    "exampleUsage": "The multinational corporation successfully secured a highly lucrative government contract to systematically overhaul the city's aging infrastructure.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b5c6d7e8-4567-4c89-1b0d-2e3f4a5b6c73",
+    "word": "Create",
     "pos": "Verb",
-    "banglaMeaning": "ওঠা-নামা করা / পরিবর্তনশীল হওয়া",
-    "synonyms": [
-      "vary",
-      "shift",
-      "alter"
-    ],
-    "exampleUsage": "The prices of fresh vegetables fluctuate according to the season.",
-    "topic": "Part 2: Intermediate",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "banglaMeaning": "সৃষ্টি করা / তৈরি করা",
+    "synonyms": ["Generate", "Formulate", "Establish"],
+    "exampleUsage": "The overarching objective of the economic initiative is to create sustainable, long-term employment opportunities for historically marginalized communities.",
+    "topic": "Academic Word List: Sublist A"
   },
   {
-    "_id": "cd5f3e9f-67a0-41e8-bea5-2d1d93a75f0c",
-    "word": "Detrimental",
-    "pos": "Adjective",
-    "banglaMeaning": "ক্ষতিকর",
-    "synonyms": [
-      "harmful",
-      "damaging",
-      "negative"
-    ],
-    "exampleUsage": "Lack of sleep can be highly detrimental to your physical health.",
-    "topic": "Part 2: Intermediate",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "_id": "c6d7e8f9-5678-4d90-2c1e-3f4a5b6c7d84",
+    "word": "Data",
+    "pos": "Noun",
+    "banglaMeaning": "উপাত্ত / তথ্য",
+    "synonyms": ["Information", "Statistics", "Figures"],
+    "exampleUsage": "The meticulously compiled quantitative data gathered during the clinical trials definitively demonstrated the pharmaceutical's unprecedented efficacy.",
+    "topic": "Academic Word List: Sublist A"
   },
   {
-    "_id": "97793a8f-ec0c-41c4-bbdf-07d1f9fe34ae",
-    "word": "Abundant",
-    "pos": "Adjective",
-    "banglaMeaning": "প্রচুর / প্রচুর পরিমাণে বিদ্যমান",
-    "synonyms": [
-      "plentiful",
-      "ample",
-      "copious"
-    ],
-    "exampleUsage": "The country has an abundant supply of natural resources.",
-    "topic": "Part 2: Intermediate",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "_id": "d7e8f9a0-6789-4e01-3d2f-4a5b6c7d8e95",
+    "word": "Definition",
+    "pos": "Noun",
+    "banglaMeaning": "সংজ্ঞা / নির্দিষ্টকরণ",
+    "synonyms": ["Explanation", "Description", "Clarification"],
+    "exampleUsage": "Rigorous academic discourse inherently requires a highly precise definition of complex theoretical terminology before proceeding to analytical arguments.",
+    "topic": "Academic Word List: Sublist A"
   },
   {
-    "_id": "e34e3d2c-b7ad-44a7-82c6-1173c6c34d36",
-    "word": "Deteriorate",
+    "_id": "e8f9a0b1-7890-4f12-4e3a-5b6c7d8e9f06",
+    "word": "Derive",
     "pos": "Verb",
-    "banglaMeaning": "অবনতি হওয়া / খারাপ হওয়া",
-    "synonyms": [
-      "worsen",
-      "decline",
-      "degrade"
-    ],
-    "exampleUsage": "If not treated immediately, the patient's condition will deteriorate rapidly.",
-    "topic": "Part 3: Advanced",
-    "uploadedBy": "bulk-sheet-import",
-    "createdAt": "2026-10-25T02:02:38.583Z",
-    "updatedAt": "2026-10-25T02:02:38.583Z"
+    "banglaMeaning": "আহরণ করা / উদ্ভূত হওয়া",
+    "synonyms": ["Obtain", "Extract", "Deduce"],
+    "exampleUsage": "Many foundational modern democratic principles effectively derive from classical Greek political and ethical philosophy.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f9a0b1c2-8901-4a23-5f4b-6c7d8e9f0a17",
+    "word": "Distribution",
+    "pos": "Noun",
+    "banglaMeaning": "বন্টন / বিতরণ",
+    "synonyms": ["Allocation", "Dispersion", "Circulation"],
+    "exampleUsage": "The highly inequitable distribution of global wealth undeniably remains one of the most pressing socio-economic challenges of the twenty-first century.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a0b1c2d3-9012-4b34-6a5c-7d8e9f0a1b28",
+    "word": "Economic",
+    "pos": "Adjective",
+    "banglaMeaning": "অর্থনৈতিক",
+    "synonyms": ["Financial", "Fiscal", "Monetary"],
+    "exampleUsage": "The unprecedented rapid economic expansion in the region was predominantly fueled by foreign direct investment and digital innovation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b1c2d3e4-0123-4c45-7b6d-8e9f0a1b2c39",
+    "word": "Environment",
+    "pos": "Noun",
+    "banglaMeaning": "পরিবেশ",
+    "synonyms": ["Surroundings", "Habitat", "Ecosystem"],
+    "exampleUsage": "Preserving the fragile natural environment is absolutely paramount for ensuring the long-term survival of numerous endangered biological species.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c2d3e4f5-1234-4d56-8c7e-9f0a1b2c3d40",
+    "word": "Established",
+    "pos": "Adjective",
+    "banglaMeaning": "প্রতিষ্ঠিত",
+    "synonyms": ["Entrenched", "Rooted", "Recognized"],
+    "exampleUsage": "The daring young professor directly challenged the established scientific paradigms by introducing a highly controversial, yet revolutionary, new theory.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d3e4f5a6-2345-4e67-9d8f-0a1b2c3d4e51",
+    "word": "Estimate",
+    "pos": "Verb",
+    "banglaMeaning": "অনুমান করা / হিসাব করা",
+    "synonyms": ["Calculate", "Evaluate", "Approximate"],
+    "exampleUsage": "Climatologists estimate that average global sea levels could devastatingly rise by over a meter before the turn of the century.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e4f5a6b7-3456-4f78-0e9a-1b2c3d4e5f62",
+    "word": "Evidence",
+    "pos": "Noun",
+    "banglaMeaning": "প্রমাণ / সাক্ষ্য",
+    "synonyms": ["Proof", "Testimony", "Substantiation"],
+    "exampleUsage": "There is rapidly mounting empirical evidence strongly suggesting a direct causal link between prolonged screen time and severe sleep deprivation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f5a6b7c8-4567-4a89-1f0b-2c3d4e5f6a73",
+    "word": "Export",
+    "pos": "Noun",
+    "banglaMeaning": "রপ্তানি",
+    "synonyms": ["Shipment", "Trade", "Outflow"],
+    "exampleUsage": "The developing nation's economy regrettably relies entirely too heavily on the export of unrefined agricultural commodities to volatile international markets.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a6b7c8d9-5678-4b90-2a1c-3d4e5f6a7b84",
+    "word": "Factor",
+    "pos": "Noun",
+    "banglaMeaning": "কারণ / প্রভাবক",
+    "synonyms": ["Element", "Determinant", "Component"],
+    "exampleUsage": "Socioeconomic status remains a profoundly major determining factor in an individual's fundamental access to quality tertiary education.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b7c8d9e0-6789-4c01-3b2d-4e5f6a7b8c95",
+    "word": "Financial",
+    "pos": "Adjective",
+    "banglaMeaning": "আর্থিক",
+    "synonyms": ["Economic", "Fiscal", "Monetary"],
+    "exampleUsage": "The severe global financial crisis of 2008 had undeniably profound and remarkably long-lasting impacts on international trade dynamics.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c8d9e0f1-7890-4d12-4c3e-5f6a7b8c9d06",
+    "word": "Formula",
+    "pos": "Noun",
+    "banglaMeaning": "সূত্র",
+    "synonyms": ["Equation", "Methodology", "Blueprint"],
+    "exampleUsage": "Developing a medically successful vaccine practically requires a highly precise biochemical formula alongside years of rigorous clinical testing.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d9e0f1a2-8901-4e23-5d4f-6a7b8c9d0e17",
+    "word": "Function",
+    "pos": "Noun",
+    "banglaMeaning": "কাজ / ভূমিকা",
+    "synonyms": ["Role", "Purpose", "Operation"],
+    "exampleUsage": "The primary physiological function of the complex cardiovascular system is to continuously circulate oxygenated blood throughout the human body.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e0f1a2b3-9012-4f34-6e5a-7b8c9d0e1f28",
+    "word": "Identify",
+    "pos": "Verb",
+    "banglaMeaning": "চিহ্নিত করা / শনাক্ত করা",
+    "synonyms": ["Determine", "Recognize", "Ascertain"],
+    "exampleUsage": "Advanced early diagnostic tests can reliably identify specific genetic markers that are strongly associated with an elevated risk of disease.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f1a2b3c4-0123-4a45-7f6b-8c9d0e1f2a39",
+    "word": "Income",
+    "pos": "Noun",
+    "banglaMeaning": "আয়",
+    "synonyms": ["Earnings", "Revenue", "Remuneration"],
+    "exampleUsage": "Governments worldwide frequently implement progressive taxation systems in an attempt to effectively redistribute income and reduce societal inequality.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a2b3c4d5-1234-4b56-8a7c-9d0e1f2a3b40",
+    "word": "Indicate",
+    "pos": "Verb",
+    "banglaMeaning": "নির্দেশ করা",
+    "synonyms": ["Demonstrate", "Signify", "Reveal"],
+    "exampleUsage": "Extensive preliminary survey results strongly indicate a rapidly growing public preference for sustainable and plant-based dietary alternatives.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b3c4d5e6-2345-4c67-9b8d-0e1f2a3b4c51",
+    "word": "Individual",
+    "pos": "Noun",
+    "banglaMeaning": "ব্যক্তি",
+    "synonyms": ["Person", "Entity", "Being"],
+    "exampleUsage": "The foundational constitution explicitly guarantees the fundamental rights and civil liberties of every single individual residing within the state.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c4d5e6f7-3456-4d78-0c9e-1f2a3b4c5d62",
+    "word": "Interpretation",
+    "pos": "Noun",
+    "banglaMeaning": "ব্যাখ্যা",
+    "synonyms": ["Analysis", "Explanation", "Understanding"],
+    "exampleUsage": "The inherent linguistic ambiguity of the ancient manuscript practically allows for a wide and fascinating variety of scholarly interpretations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d5e6f7a8-4567-4e89-1d0f-2a3b4c5d6e73",
+    "word": "Involved",
+    "pos": "Adjective",
+    "banglaMeaning": "জড়িত",
+    "synonyms": ["Implicated", "Engaged", "Associated"],
+    "exampleUsage": "The highly complex biological and chemical processes involved in cellular regeneration are unfortunately still not entirely understood by modern science.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e6f7a8b9-5678-4f90-2e1a-3b4c5d6e7f84",
+    "word": "Issue",
+    "pos": "Noun",
+    "banglaMeaning": "সমস্যা / বিষয়",
+    "synonyms": ["Matter", "Problem", "Concern"],
+    "exampleUsage": "Unmitigated anthropogenic climate change is unequivocally the most pressing environmental issue currently confronting modern civilization.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f7a8b9c0-6789-4a01-3f2b-4c5d6e7f8a95",
+    "word": "Labour",
+    "pos": "Noun",
+    "banglaMeaning": "শ্রম",
+    "synonyms": ["Workforce", "Toil", "Employment"],
+    "exampleUsage": "The monumental industrial revolution fundamentally transformed the global economy by drastically shifting from manual labour to mechanized, mass production.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a8b9c0d1-7890-4b12-4a3c-5d6e7f8a9b06",
+    "word": "Legal",
+    "pos": "Adjective",
+    "banglaMeaning": "আইনি / বৈধ",
+    "synonyms": ["Lawful", "Statutory", "Legitimate"],
+    "exampleUsage": "Multinational corporations must carefully navigate an incredibly complex web of disparate legal frameworks when aggressively expanding operations into foreign jurisdictions.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b9c0d1e2-8901-4c23-5b4d-6e7f8a9b0c17",
+    "word": "Legislation",
+    "pos": "Noun",
+    "banglaMeaning": "আইন প্রণয়ন / আইন",
+    "synonyms": ["Law", "Statute", "Regulation"],
+    "exampleUsage": "The ruling government swiftly enacted stringent new legislation specifically designed to heavily combat the rising, unprecedented tide of international cybercrime.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c0d1e2f3-9012-4d34-6c5e-7f8a9b0c1d28",
+    "word": "Major",
+    "pos": "Adjective",
+    "banglaMeaning": "প্রধান / গুরুত্বপূর্ণ",
+    "synonyms": ["Significant", "Primary", "Crucial"],
+    "exampleUsage": "Rampant, unchecked deforestation occurring in the Amazon basin remains a major and catastrophic contributor to the rapid acceleration of global warming.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d1e2f3a4-0123-4e45-7d6f-8a9b0c1d2e39",
+    "word": "Method",
+    "pos": "Noun",
+    "banglaMeaning": "পদ্ধতি",
+    "synonyms": ["Procedure", "Technique", "Approach"],
+    "exampleUsage": "The rigorous double-blind clinical trial unequivocally remains the most reliable and scientifically sound method for adequately assessing the genuine efficacy of new pharmaceuticals.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e2f3a4b5-1234-4f56-8e7a-9b0c1d2e3f40",
+    "word": "Occur",
+    "pos": "Verb",
+    "banglaMeaning": "ঘটা / সংঘটিত হওয়া",
+    "synonyms": ["Happen", "Transpire", "Materialize"],
+    "exampleUsage": "Significant and often destructive seismic shifts practically and frequently occur along the highly volatile tectonic plate boundaries of the Pacific Ring of Fire.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f3a4b5c6-2345-4a67-9f8b-0c1d2e3f4a51",
+    "word": "Percent",
+    "pos": "Noun",
+    "banglaMeaning": "শতাংশ",
+    "synonyms": ["Percentage", "Proportion", "Fraction"],
+    "exampleUsage": "Recent predictive statistical models alarmingly project that well over sixty percent of the entire global population will predominantly reside in sprawling urban centers by 2050.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a4b5c6d7-3456-4b78-0a9c-1d2e3f4a5b62",
+    "word": "Period",
+    "pos": "Noun",
+    "banglaMeaning": "সময়কাল / যুগ",
+    "synonyms": ["Duration", "Era", "Epoch"],
+    "exampleUsage": "The European Renaissance was a transformative historical period deeply characterized by profound, revolutionary advancements in classical art, emerging science, and humanist philosophy.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b5c6d7e8-4567-4c89-1b0d-2e3f4a5b6c73",
+    "word": "Policy",
+    "pos": "Noun",
+    "banglaMeaning": "নীতি",
+    "synonyms": ["Strategy", "Guideline", "Protocol"],
+    "exampleUsage": "The esteemed university's unwavering zero-tolerance policy regarding intentional academic plagiarism is strictly and uniformly enforced across all academic departments.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "c6d7e8f9-5678-4d90-2c1e-3f4a5b6c7d84",
+    "word": "Principle",
+    "pos": "Noun",
+    "banglaMeaning": "নীতি / মূলসূত্র",
+    "synonyms": ["Doctrine", "Tenet", "Rule"],
+    "exampleUsage": "The underlying, fundamental principle of sustainable economic development is to adequately meet current societal needs without irreversibly compromising the resources of future generations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "d7e8f9a0-6789-4e01-3d2f-4a5b6c7d8e95",
+    "word": "Procedure",
+    "pos": "Noun",
+    "banglaMeaning": "কার্যপ্রণালী / পদ্ধতি",
+    "synonyms": ["Process", "Routine", "Methodology"],
+    "exampleUsage": "The highly strict and unforgiving sterilization procedure must be followed absolutely meticulously by all surgical staff to successfully prevent hospital-acquired bacterial infections.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "e8f9a0b1-7890-4f12-4e3a-5b6c7d8e9f06",
+    "word": "Process",
+    "pos": "Noun",
+    "banglaMeaning": "প্রক্রিয়া",
+    "synonyms": ["Operation", "Mechanism", "Development"],
+    "exampleUsage": "The remarkably intricate biological process of photosynthesis beautifully allows flora to efficiently convert abundant solar energy into absolutely essential chemical sustenance.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "f9a0b1c2-8901-4a23-5f4b-6c7d8e9f0a17",
+    "word": "Require",
+    "pos": "Verb",
+    "banglaMeaning": "প্রয়োজন হওয়া / দাবি করা",
+    "synonyms": ["Demand", "Necessitate", "Mandate"],
+    "exampleUsage": "Conducting genuinely advanced scientific research fundamentally and undeniably requires reliable access to state-of-the-art laboratory equipment and tremendously substantial institutional funding.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "a0b1c2d3-9012-4b34-6a5c-7d8e9f0a1b28",
+    "word": "Research",
+    "pos": "Noun",
+    "banglaMeaning": "গবেষণা",
+    "synonyms": ["Investigation", "Study", "Exploration"],
+    "exampleUsage": "Extensive, peer-reviewed academic research overwhelmingly demonstrates that comprehensive early childhood education is incredibly pivotal for ensuring long-term, optimal cognitive development.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "b1c2d3e4-0123-4c45-7b6d-8e9f0a1b2c39",
+    "word": "Response",
+    "pos": "Noun",
+    "banglaMeaning": "প্রতিক্রিয়া / উত্তর",
+    "synonyms": ["Reaction", "Reply", "Feedback"],
+    "exampleUsage": "The swift and highly coordinated international response to the devastating humanitarian crisis was undeniably crucial in successfully mitigating widespread and immediate civilian starvation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6a7b8c9d-1234-4e5f-8a9b-0c1d2e3f4a5b",
+    "word": "Role",
+    "pos": "Noun",
+    "banglaMeaning": "ভূমিকা",
+    "synonyms": ["Function", "Part", "Capacity"],
+    "exampleUsage": "Accessible tertiary education plays a fundamentally indispensable role in systematically fostering social mobility and significantly reducing economic disparity.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7b8c9d0e-2345-4f6a-9b0c-1d2e3f4a5b6c",
+    "word": "Section",
+    "pos": "Noun",
+    "banglaMeaning": "অংশ / বিভাগ",
+    "synonyms": ["Division", "Segment", "Portion"],
+    "exampleUsage": "The exhaustive methodology section of the published research paper outlines the highly precise quantitative techniques rigorously employed during field data collection.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8c9d0e1f-3456-4a7b-0c1d-2e3f4a5b6c7d",
+    "word": "Sector",
+    "pos": "Noun",
+    "banglaMeaning": "খাত / বিভাগ",
+    "synonyms": ["Industry", "Domain", "Sphere"],
+    "exampleUsage": "The remarkably rapid global expansion of the renewable energy sector is absolutely vital for successfully achieving long-term environmental sustainability.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9d0e1f2a-4567-4b8c-1d2e-3f4a5b6c7d8e",
+    "word": "Significant",
+    "pos": "Adjective",
+    "banglaMeaning": "তাৎপর্যপূর্ণ / গুরুত্বপূর্ণ",
+    "synonyms": ["Notable", "Considerable", "Substantial"],
+    "exampleUsage": "Empirical evidence demonstrates a statistically significant correlation between adequate early childhood nutrition and lifelong cognitive and physiological development.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0e1f2a3b-5678-4c9d-2e3f-4a5b6c7d8e9f",
+    "word": "Similar",
+    "pos": "Adjective",
+    "banglaMeaning": "অনুরূপ / সদৃশ",
+    "synonyms": ["Alike", "Comparable", "Analogous"],
+    "exampleUsage": "The two entirely independent sociological studies ultimately yielded strikingly similar results, thereby powerfully reinforcing the validity of the original academic hypothesis.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1f2a3b4c-6789-4d0e-3f4a-5b6c7d8e9f0a",
+    "word": "Source",
+    "pos": "Noun",
+    "banglaMeaning": "উৎস",
+    "synonyms": ["Origin", "Derivation", "Provenance"],
+    "exampleUsage": "Identifying a consistently reliable and ethical source of institutional funding is often the most formidable challenge faced by independent scientific researchers today.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2a3b4c5d-7890-4e1f-4a5b-6c7d8e9f0a1b",
+    "word": "Specific",
+    "pos": "Adjective",
+    "banglaMeaning": "নির্দিষ্ট / সুনির্দিষ্ট",
+    "synonyms": ["Particular", "Distinct", "Explicit"],
+    "exampleUsage": "The highly specific and intricate nature of the rare genetic mutation unfortunately makes it exceedingly difficult to target with conventional pharmacological treatments.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3b4c5d6e-8901-4f2a-5b6c-7d8e9f0a1b2c",
+    "word": "Structure",
+    "pos": "Noun",
+    "banglaMeaning": "গঠন / কাঠামো",
+    "synonyms": ["Framework", "Architecture", "Configuration"],
+    "exampleUsage": "The deeply entrenched hierarchical structure of the massive multinational corporation heavily influences its internal communication protocols and severely limits decision-making speed.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4c5d6e7f-9012-4a3b-6c7d-8e9f0a1b2c3d",
+    "word": "Theory",
+    "pos": "Noun",
+    "banglaMeaning": "তত্ত্ব",
+    "synonyms": ["Hypothesis", "Postulate", "Doctrine"],
+    "exampleUsage": "Albert Einstein’s revolutionary and paradigm-shifting theory of relativity fundamentally and irreversibly altered humanity's understanding of space, time, and gravitational forces.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5d6e7f8a-0123-4b4c-7d8e-9f0a1b2c3d4e",
+    "word": "Variable",
+    "pos": "Noun",
+    "banglaMeaning": "চলক / পরিবর্তনশীল বস্তু",
+    "synonyms": ["Factor", "Parameter", "Variant"],
+    "exampleUsage": "In any rigorously controlled sociological experiment, it is absolutely crucial to successfully isolate the independent variable to accurately and definitively determine strict causation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6e7f8a9b-1234-4c5d-8e9f-0a1b2c3d4e5f",
+    "word": "Achieve",
+    "pos": "Verb",
+    "banglaMeaning": "অর্জন করা",
+    "synonyms": ["Attain", "Accomplish", "Realize"],
+    "exampleUsage": "To successfully achieve sustainable, long-term economic growth, developing nations must heavily and strategically invest in modernizing their domestic infrastructural networks.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7f8a9b0c-2345-4d6e-9f0a-1b2c3d4e5f6a",
+    "word": "Acquisition",
+    "pos": "Noun",
+    "banglaMeaning": "অধিগ্রহণ / অর্জন",
+    "synonyms": ["Attainment", "Procurement", "Possession"],
+    "exampleUsage": "The remarkably rapid acquisition of a second language during early childhood development is profoundly facilitated by the brain's inherent and highly adaptable neuroplasticity.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8a9b0c1d-3456-4e7f-0a1b-2c3d4e5f6a7b",
+    "word": "Administration",
+    "pos": "Noun",
+    "banglaMeaning": "প্রশাসন / পরিচালনা",
+    "synonyms": ["Management", "Governance", "Oversight"],
+    "exampleUsage": "Highly transparent and fundamentally effective public administration is absolutely indispensable for ensuring the equitable and just distribution of vital social welfare resources.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9b0c1d2e-4567-4f8a-1b2c-3d4e5f6a7b8c",
+    "word": "Affect",
+    "pos": "Verb",
+    "banglaMeaning": "প্রভাবিত করা",
+    "synonyms": ["Influence", "Impact", "Alter"],
+    "exampleUsage": "Prolonged and inescapable exposure to pervasive urban noise pollution can severely and detrimentally affect an individual's psychological well-being and baseline stress levels.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0c1d2e3f-5678-4a9b-2c3d-4e5f6a7b8c9d",
+    "word": "Appropriate",
+    "pos": "Adjective",
+    "banglaMeaning": "যথাযথ / উপযুক্ত",
+    "synonyms": ["Suitable", "Apt", "Fitting"],
+    "exampleUsage": "Designing and rigorously implementing culturally appropriate educational interventions is strictly essential for successfully engaging historically marginalized and systematically disenfranchised indigenous communities.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1d2e3f4a-6789-4b0c-3d4e-5f6a7b8c9d0e",
+    "word": "Aspect",
+    "pos": "Noun",
+    "banglaMeaning": "দিক / দৃষ্টিভঙ্গি",
+    "synonyms": ["Facet", "Feature", "Dimension"],
+    "exampleUsage": "Arguably the most immensely challenging aspect of global climate mitigation strategy is securing unanimous, legally binding cooperation from heavily industrialized, resource-dependent nations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2e3f4a5b-7890-4c1d-4e5f-6a7b8c9d0e1f",
+    "word": "Assistance",
+    "pos": "Noun",
+    "banglaMeaning": "সহায়তা / সাহায্য",
+    "synonyms": ["Aid", "Support", "Backing"],
+    "exampleUsage": "Chronically impoverished developing countries frequently and heavily rely on emergency international financial assistance to effectively recover from increasingly catastrophic natural disasters.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3f4a5b6c-8901-4d2e-5f6a-7b8c9d0e1f2a",
+    "word": "Category",
+    "pos": "Noun",
+    "banglaMeaning": "শ্রেণী / বিভাগ",
+    "synonyms": ["Classification", "Class", "Grouping"],
+    "exampleUsage": "The newly discovered, highly unusual deep-sea biological organism clearly does not fit neatly or logically into any previously established taxonomic category.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4a5b6c7d-9012-4e3f-6a7b-8c9d0e1f2a3b",
+    "word": "Chapter",
+    "pos": "Noun",
+    "banglaMeaning": "অধ্যায় / পর্যায়",
+    "synonyms": ["Section", "Phase", "Period"],
+    "exampleUsage": "The highly anticipated ratification of the groundbreaking international human rights treaty unequivocally marked a remarkably progressive new chapter in modern global diplomacy.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5b6c7d8e-0123-4f4a-7b8c-9d0e1f2a3b4c",
+    "word": "Commission",
+    "pos": "Noun",
+    "banglaMeaning": "কমিশন / দায়িত্বার্পণ",
+    "synonyms": ["Committee", "Board", "Delegation"],
+    "exampleUsage": "An entirely independent, bipartisan investigative commission was swiftly established to meticulously and transparently examine the deeply rooted systemic causes of the sudden catastrophic financial collapse.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6c7d8e9f-1234-4a5b-8c9d-0e1f2a3b4c5d",
+    "word": "Community",
+    "pos": "Noun",
+    "banglaMeaning": "সম্প্রদায়",
+    "synonyms": ["Society", "Populace", "Fellowship"],
+    "exampleUsage": "Strong, deeply rooted community engagement is fundamentally crucial and practically irreplaceable for ensuring the long-term, sustainable success of vital grassroots public health initiatives.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7d8e9f0a-2345-4b6c-9d0e-1f2a3b4c5d6e",
+    "word": "Complex",
+    "pos": "Adjective",
+    "banglaMeaning": "জটিল",
+    "synonyms": ["Intricate", "Complicated", "Multifaceted"],
+    "exampleUsage": "The human autoimmune system operates as an incredibly complex, highly integrated network of highly specialized defensive cells and intricate signaling proteins.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8e9f0a1b-3456-4c7d-0e1f-2a3b4c5d6e7f",
+    "word": "Computer",
+    "pos": "Noun",
+    "banglaMeaning": "কম্পিউটার / গণকযন্ত্র",
+    "synonyms": ["Processor", "Machine", "System"],
+    "exampleUsage": "Extraordinarily advanced computer simulations and algorithmic models are now routinely utilized by researchers to accurately predict the highly erratic trajectories of severe meteorological phenomena.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9f0a1b2c-4567-4d8e-1f2a-3b4c5d6e7f8a",
+    "word": "Conclusion",
+    "pos": "Noun",
+    "banglaMeaning": "উপসংহার / সিদ্ধান্ত",
+    "synonyms": ["Deduction", "Resolution", "Verdict"],
+    "exampleUsage": "The grim but inescapable conclusion drawn from the exhaustive, peer-reviewed empirical data is that immediate, drastic global carbon emission reductions are strictly necessary for survival.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0a1b2c3d-5678-4e9f-2a3b-4c5d6e7f8a9b",
+    "word": "Conduct",
+    "pos": "Verb",
+    "banglaMeaning": "পরিচালনা করা / আচরণ করা",
+    "synonyms": ["Perform", "Execute", "Administer"],
+    "exampleUsage": "Academic researchers must adhere absolutely strictly to rigidly established ethical guidelines when they conduct psychological or physiological experiments involving highly vulnerable human subjects.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1b2c3d4e-6789-4f0a-3b4c-5d6e7f8a9b0c",
+    "word": "Consequence",
+    "pos": "Noun",
+    "banglaMeaning": "ফলাফল / পরিণতি",
+    "synonyms": ["Outcome", "Result", "Repercussion"],
+    "exampleUsage": "A direct, profoundly devastating consequence of historically uncontrolled, rapid urban sprawl is the completely irreversible destruction of vital, biodiverse natural wildlife habitats.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2c3d4e5f-7890-4a1b-4c5d-6e7f8a9b0c1d",
+    "word": "Construction",
+    "pos": "Noun",
+    "banglaMeaning": "নির্মাণ / গঠন",
+    "synonyms": ["Building", "Creation", "Fabrication"],
+    "exampleUsage": "The massive, large-scale construction of highly controversial mega-hydroelectric dams tragically and frequently leads to the forced, uncompensated displacement of numerous indigenous populations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3d4e5f6a-8901-4b2c-5d6e-7f8a9b0c1d2e",
+    "word": "Consumer",
+    "pos": "Noun",
+    "banglaMeaning": "ভোক্তা",
+    "synonyms": ["Buyer", "Purchaser", "Customer"],
+    "exampleUsage": "Dramatically shifting consumer preferences toward heavily verified, ethically sourced sustainable products have forcefully compelled many multinational corporations to rapidly overhaul their global supply chains.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4e5f6a7b-9012-4c3d-6e7f-8a9b0c1d2e3f",
+    "word": "Credit",
+    "pos": "Noun",
+    "banglaMeaning": "স্বীকৃতি / ঋণ",
+    "synonyms": ["Recognition", "Acclaim", "Acknowledgment"],
+    "exampleUsage": "The brilliant, tirelessly dedicated lead scientist rightfully and universally received full international credit for the completely revolutionary discovery of the life-saving synthetic antibiotic compound.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5f6a7b8c-0123-4d4e-7f8a-9b0c1d2e3f4a",
+    "word": "Cultural",
+    "pos": "Adjective",
+    "banglaMeaning": "সাংস্কৃতিক",
+    "synonyms": ["Societal", "Ethnic", "Traditional"],
+    "exampleUsage": "Rapid, unchecked economic globalization has significantly and undeniably accelerated cultural homogenization, severely threatening to gradually erase highly unique and ancient regional traditions forever.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6a7b8c9d-1234-4e5f-8a9b-0c1d2e3f4a5b",
+    "word": "Design",
+    "pos": "Noun",
+    "banglaMeaning": "নকশা / পরিকল্পনা",
+    "synonyms": ["Blueprint", "Layout", "Architecture"],
+    "exampleUsage": "The astonishingly innovative architectural design of the newly constructed municipal library seamlessly maximizes natural sunlight exposure to drastically and efficiently reduce overall energy consumption.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7b8c9d0e-2345-4f6a-9b0c-1d2e3f4a5b6c",
+    "word": "Distinction",
+    "pos": "Noun",
+    "banglaMeaning": "পার্থক্য / স্বাতন্ত্র্য",
+    "synonyms": ["Difference", "Separation", "Contrast"],
+    "exampleUsage": "In any rigorous academic thesis, a perfectly clear and definitively robust distinction must invariably be made between mere casual statistical correlation and strict scientific causation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8c9d0e1f-3456-4a7b-0c1d-2e3f4a5b6c7d",
+    "word": "Element",
+    "pos": "Noun",
+    "banglaMeaning": "উপাদান / অংশ",
+    "synonyms": ["Component", "Constituent", "Factor"],
+    "exampleUsage": "An absolutely essential, foundational element of highly effective international conflict resolution is consistently demonstrating genuine, deeply empathetic active listening during incredibly tense diplomatic negotiations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9d0e1f2a-4567-4b8c-1d2e-3f4a5b6c7d8e",
+    "word": "Equation",
+    "pos": "Noun",
+    "banglaMeaning": "সমীকরণ",
+    "synonyms": ["Formula", "Calculation", "Expression"],
+    "exampleUsage": "The extraordinarily complex, multi-variable mathematical equation published by the physicist definitively proved the theoretical existence of entirely new, highly unstable subatomic particles.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0e1f2a3b-5678-4c9d-2e3f-4a5b6c7d8e9f",
+    "word": "Evaluation",
+    "pos": "Noun",
+    "banglaMeaning": "মূল্যায়ন",
+    "synonyms": ["Assessment", "Appraisal", "Analysis"],
+    "exampleUsage": "A highly rigorous, entirely independent empirical evaluation of the controversial governmental educational policy shockingly revealed glaring, historically entrenched, and completely unacceptable systemic socio-economic inequalities.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1f2a3b4c-6789-4d0e-3f4a-5b6c7d8e9f0a",
+    "word": "Feature",
+    "pos": "Noun",
+    "banglaMeaning": "বৈশিষ্ট্য",
+    "synonyms": ["Characteristic", "Attribute", "Trait"],
+    "exampleUsage": "Undoubtedly, the most visually prominent and geographically significant feature of the isolated, desolate region is the towering, permanently snow-capped volcanic mountain range decisively dividing the continent.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2a3b4c5d-7890-4e1f-4a5b-6c7d8e9f0a1b",
+    "word": "Final",
+    "pos": "Adjective",
+    "banglaMeaning": "চূড়ান্ত / শেষ",
+    "synonyms": ["Ultimate", "Concluding", "Definitive"],
+    "exampleUsage": "After several long years of grueling, highly publicized litigation, the supreme court ultimately delivered its final, absolutely legally binding verdict on the controversial corporate monopoly case.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3b4c5d6e-8901-4f2a-5b6c-7d8e9f0a1b2c",
+    "word": "Focus",
+    "pos": "Noun",
+    "banglaMeaning": "কেন্দ্রবিন্দু / মনোযোগ",
+    "synonyms": ["Center", "Core", "Emphasis"],
+    "exampleUsage": "The primary, unyielding strategic focus of the newly launched comprehensive socioeconomic initiative is rapidly and sustainably alleviating widespread, deeply rooted poverty in chronically underdeveloped rural areas.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4c5d6e7f-9012-4a3b-6c7d-8e9f0a1b2c3d",
+    "word": "Impact",
+    "pos": "Noun",
+    "banglaMeaning": "প্রভাব / প্রতিক্রিয়া",
+    "synonyms": ["Effect", "Influence", "Consequence"],
+    "exampleUsage": "The severely catastrophic, entirely unprecedented long-term environmental impact of frequent, massive commercial offshore oil spills on incredibly fragile, highly biodiverse marine ecosystems simply cannot be overstated.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5d6e7f8a-0123-4b4c-7d8e-9f0a1b2c3d4e",
+    "word": "Injury",
+    "pos": "Noun",
+    "banglaMeaning": "আঘাত / জখম",
+    "synonyms": ["Harm", "Damage", "Trauma"],
+    "exampleUsage": "Meticulously implementing highly stringent, legally mandated workplace safety protocols has successfully and dramatically minimized the once-frequent incidence of severe, life-altering physical injury among industrial manual laborers.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6e7f8a9b-1234-4c5d-8e9f-0a1b2c3d4e5f",
+    "word": "Institute",
+    "pos": "Verb",
+    "banglaMeaning": "প্রবর্তন করা / স্থাপন করা",
+    "synonyms": ["Establish", "Initiate", "Found"],
+    "exampleUsage": "The newly elected, highly progressive national government intends to swiftly institute sweeping, comprehensive legislative reforms across the entirety of the currently dilapidated and profoundly underfunded public healthcare sector.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7f8a9b0c-2345-4d6e-9f0a-1b2c3d4e5f6a",
+    "word": "Investment",
+    "pos": "Noun",
+    "banglaMeaning": "বিনিয়োগ",
+    "synonyms": ["Funding", "Capital", "Endowment"],
+    "exampleUsage": "Guaranteeing substantial, highly targeted, and long-term institutional financial investment in modern renewable energy infrastructure is an absolute, non-negotiable prerequisite for successfully combatting catastrophic global climate change.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8a9b0c1d-3456-4e7f-0a1b-2c3d4e5f6a7b",
+    "word": "Item",
+    "pos": "Noun",
+    "banglaMeaning": "দফা / জিনিস",
+    "synonyms": ["Object", "Article", "Component"],
+    "exampleUsage": "Every single individual, culturally priceless item meticulously documented and preserved on the extensive archaeological inventory definitively dates back to the highly prosperous early Bronze Age.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9b0c1d2e-4567-4f8a-1b2c-3d4e5f6a7b8c",
+    "word": "Journal",
+    "pos": "Noun",
+    "banglaMeaning": "সাময়িকী / পত্রিকা",
+    "synonyms": ["Publication", "Periodical", "Magazine"],
+    "exampleUsage": "The undeniably groundbreaking and highly controversial genetic sequencing research was formally and prominently published in a highly prestigious, rigorously double-blind peer-reviewed international scientific journal.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0c1d2e3f-5678-4a9b-2c3d-4e5f6a7b8c9d",
+    "word": "Maintenance",
+    "pos": "Noun",
+    "banglaMeaning": "রক্ষণাবেক্ষণ",
+    "synonyms": ["Upkeep", "Preservation", "Conservation"],
+    "exampleUsage": "The strictly routine, incredibly meticulous, and adequately funded maintenance of crucial public transportation infrastructure is absolutely essential for consistently ensuring widespread civilian safety and uninterrupted macroeconomic productivity.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1d2e3f4a-6789-4b0c-3d4e-5f6a7b8c9d0e",
+    "word": "Normal",
+    "pos": "Adjective",
+    "banglaMeaning": "স্বাভাবিক / সাধারণ",
+    "synonyms": ["Standard", "Typical", "Routine"],
+    "exampleUsage": "In the highly nuanced field of modern clinical psychological diagnosis, firmly and universally defining what strictly constitutes definitively normal human behavioral patterns remains an immensely controversial and deeply subjective challenge.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2e3f4a5b-7890-4c1d-4e5f-6a7b8c9d0e1f",
+    "word": "Obtain",
+    "pos": "Verb",
+    "banglaMeaning": "অর্জন করা / পাওয়া",
+    "synonyms": ["Acquire", "Procure", "Secure"],
+    "exampleUsage": "To legally and legitimately conduct genuinely advanced clinical pharmaceutical trials, medical researchers must first rigorously obtain completely informed, strictly documented, and utterly voluntary consent from all potentially participating human subjects.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3f4a5b6c-8901-4d2e-5f6a-7b8c9d0e1f2a",
+    "word": "Participation",
+    "pos": "Noun",
+    "banglaMeaning": "অংশগ্রহণ",
+    "synonyms": ["Involvement", "Engagement", "Contribution"],
+    "exampleUsage": "Highly active, politically informed, and genuinely enthusiastic civic participation in vital local democratic governance drastically strengthens overall community resilience and successfully fosters widespread, deeply rooted societal cohesion.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4a5b6c7d-9012-4e3f-6a7b-8c9d0e1f2a3b",
+    "word": "Perceive",
+    "pos": "Verb",
+    "banglaMeaning": "উপলব্ধি করা / বুঝতে পারা",
+    "synonyms": ["Discern", "Recognize", "Comprehend"],
+    "exampleUsage": "It is profoundly fascinating and sociologically significant how distinctly different cultural groups subconsciously perceive, instantly process, and subsequently interpret completely identical nonverbal social and emotional cues.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5b6c7d8e-0123-4f4a-7b8c-9d0e1f2a3b4c",
+    "word": "Positive",
+    "pos": "Adjective",
+    "banglaMeaning": "ইতিবাচক",
+    "synonyms": ["Favorable", "Beneficial", "Constructive"],
+    "exampleUsage": "The district-wide, rigorously monitored implementation of the novel, highly interactive pedagogical teaching strategy yielded an overwhelmingly positive, statistically measurable impact on overall student academic retention and long-term classroom engagement.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6a7b8c9d-1234-4e5f-8a9b-0c1d2e3f4a01",
+    "word": "Potential",
+    "pos": "Adjective",
+    "banglaMeaning": "সম্ভাব্য",
+    "synonyms": ["Probable", "Possible", "Promising"],
+    "exampleUsage": "Renewable energy sources hold massive potential to completely eradicate our dangerous reliance on heavily polluting fossil fuels.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7b8c9d0e-2345-4f6a-9b0c-1d2e3f4a5b02",
+    "word": "Previous",
+    "pos": "Adjective",
+    "banglaMeaning": "পূর্ববর্তী",
+    "synonyms": ["Prior", "Preceding", "Earlier"],
+    "exampleUsage": "The current sociological study directly builds upon the foundational research unequivocally established in previous peer-reviewed academic publications.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8c9d0e1f-3456-4a7b-0c1d-2e3f4a5b6c03",
+    "word": "Primary",
+    "pos": "Adjective",
+    "banglaMeaning": "প্রাথমিক / প্রধান",
+    "synonyms": ["Principal", "Main", "Fundamental"],
+    "exampleUsage": "The primary objective of the aggressive macroeconomic policy is to substantially reduce national unemployment and rapidly stimulate sustainable growth.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9d0e1f2a-4567-4b8c-1d2e-3f4a5b6c7d04",
+    "word": "Purchase",
+    "pos": "Verb",
+    "banglaMeaning": "ক্রয় করা",
+    "synonyms": ["Buy", "Acquire", "Procure"],
+    "exampleUsage": "The university administration decided to strategically purchase incredibly expensive, state-of-the-art laboratory equipment to continually support advanced scientific research.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0e1f2a3b-5678-4c9d-2e3f-4a5b6c7d8e05",
+    "word": "Range",
+    "pos": "Noun",
+    "banglaMeaning": "পরিসর / সীমা",
+    "synonyms": ["Spectrum", "Scope", "Extent"],
+    "exampleUsage": "The incredibly diverse, highly protected ecosystem successfully supports a remarkably wide range of highly specialized and critically endangered flora and fauna.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1f2a3b4c-6789-4d0e-3f4a-5b6c7d8e9f06",
+    "word": "Region",
+    "pos": "Noun",
+    "banglaMeaning": "অঞ্চল",
+    "synonyms": ["Area", "District", "Territory"],
+    "exampleUsage": "The increasingly arid, severely drought-prone region desperately requires immediate, incredibly substantial infrastructural investment in modern water conservation technologies.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2a3b4c5d-7890-4e1f-4a5b-6c7d8e9f0a07",
+    "word": "Regulation",
+    "pos": "Noun",
+    "banglaMeaning": "প্রবিধান / নিয়ন্ত্রণ",
+    "synonyms": ["Rule", "Law", "Directive"],
+    "exampleUsage": "Strict, heavily enforced governmental regulation is absolutely essential to effectively prevent monopolistic corporate practices and definitively ensure fair, open market competition.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3b4c5d6e-8901-4f2a-5b6c-7d8e9f0a1b08",
+    "word": "Relevant",
+    "pos": "Adjective",
+    "banglaMeaning": "প্রাসঙ্গিক",
+    "synonyms": ["Pertinent", "Applicable", "Germane"],
+    "exampleUsage": "Prospective candidates must proactively provide highly relevant professional experience clearly demonstrating their distinct, proven capability to expertly handle complex managerial responsibilities.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4c5d6e7f-9012-4a3b-6c7d-8e9f0a1b2c09",
+    "word": "Resident",
+    "pos": "Noun",
+    "banglaMeaning": "বাসিন্দা",
+    "synonyms": ["Inhabitant", "Citizen", "Dweller"],
+    "exampleUsage": "Every single permanent resident of the progressively governed municipality is strictly legally entitled to heavily subsidized, incredibly high-quality public healthcare services.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5d6e7f8a-0123-4b4c-7d8e-9f0a1b2c3d10",
+    "word": "Resource",
+    "pos": "Noun",
+    "banglaMeaning": "সম্পদ",
+    "synonyms": ["Asset", "Reserve", "Wealth"],
+    "exampleUsage": "Clean, easily accessible freshwater is arguably the most critically vital, entirely indispensable natural resource for successfully sustaining modern global human civilization.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6e7f8a9b-1234-4c5d-8e9f-0a1b2c3d4e11",
+    "word": "Restrict",
+    "pos": "Verb",
+    "banglaMeaning": "সীমাবদ্ধ করা",
+    "synonyms": ["Limit", "Confine", "Regulate"],
+    "exampleUsage": "The newly proposed, highly controversial environmental legislation aggressively aims to severely restrict the currently unchecked industrial emission of profoundly toxic greenhouse gases.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7f8a9b0c-2345-4d6e-9f0a-1b2c3d4e5f12",
+    "word": "Security",
+    "pos": "Noun",
+    "banglaMeaning": "নিরাপত্তা",
+    "synonyms": ["Protection", "Safety", "Defense"],
+    "exampleUsage": "Ensuring exceptionally robust, entirely impenetrable national cybersecurity has unequivocally become an absolutely paramount strategic priority for highly developed modern governments globally.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8a9b0c1d-3456-4e7f-0a1b-2c3d4e5f6a13",
+    "word": "Seek",
+    "pos": "Verb",
+    "banglaMeaning": "চাওয়া / অনুসন্ধান করা",
+    "synonyms": ["Pursue", "Search", "Request"],
+    "exampleUsage": "Thousands of tragically displaced, highly vulnerable refugees desperately seek immediate political asylum in substantially more economically developed and profoundly stable neighboring countries.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9b0c1d2e-4567-4f8a-1b2c-3d4e5f6a7b14",
+    "word": "Select",
+    "pos": "Verb",
+    "banglaMeaning": "নির্বাচন করা",
+    "synonyms": ["Choose", "Pick", "Elect"],
+    "exampleUsage": "The notoriously rigorous, highly exclusive admissions committee will meticulously select only the absolutely most exceptionally qualified, profoundly brilliant candidates for the prestigious scholarship.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0c1d2e3f-5678-4a9b-2c3d-4e5f6a7b8c15",
+    "word": "Site",
+    "pos": "Noun",
+    "banglaMeaning": "স্থান / অবস্থান",
+    "synonyms": ["Location", "Place", "Spot"],
+    "exampleUsage": "The heavily guarded, extensively excavated archaeological site ultimately yielded profoundly significant, remarkably intact historical artifacts definitively dating back to the early Neolithic period.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1d2e3f4a-6789-4b0c-3d4e-5f6a7b8c9d16",
+    "word": "Strategy",
+    "pos": "Noun",
+    "banglaMeaning": "কৌশল",
+    "synonyms": ["Plan", "Approach", "Tactic"],
+    "exampleUsage": "The rapidly expanding multinational corporation successfully developed a highly aggressive, remarkably sophisticated marketing strategy to rapidly penetrate the fiercely competitive global digital market.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2e3f4a5b-7890-4c1d-4e5f-6a7b8c9d0e17",
+    "word": "Survey",
+    "pos": "Noun",
+    "banglaMeaning": "জরিপ",
+    "synonyms": ["Poll", "Questionnaire", "Study"],
+    "exampleUsage": "A highly comprehensive, rigorously conducted nationwide demographic survey shockingly revealed a dramatically unprecedented, profoundly massive generational shift in the overall population's voting patterns.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3f4a5b6c-8901-4d2e-5f6a-7b8c9d0e1f18",
+    "word": "Text",
+    "pos": "Noun",
+    "banglaMeaning": "পাঠ্য",
+    "synonyms": ["Document", "Book", "Writing"],
+    "exampleUsage": "The immensely dense, highly complex academic text rigorously and exhaustively explores the profoundly intricate philosophical foundations fundamentally underpinning modern representative democratic theory.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4a5b6c7d-9012-4e3f-6a7b-8c9d0e1f2a19",
+    "word": "Traditional",
+    "pos": "Adjective",
+    "banglaMeaning": "ঐতিহ্যবাহী / প্রথাগত",
+    "synonyms": ["Conventional", "Customary", "Classic"],
+    "exampleUsage": "The rapidly industrializing, highly modernizing society is currently experiencing intense, deeply divisive friction between deeply held traditional cultural values and contemporary progressive socio-political ideologies.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5b6c7d8e-0123-4f4a-7b8c-9d0e1f2a3b20",
+    "word": "Transfer",
+    "pos": "Verb",
+    "banglaMeaning": "স্থানান্তর করা",
+    "synonyms": ["Relocate", "Move", "Convey"],
+    "exampleUsage": "The decisive executive board ultimately decided to permanently transfer the company's incredibly massive primary manufacturing operations to a significantly more cost-effective, lightly regulated overseas location.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6c7d8e9f-1234-4a5b-8c9d-0e1f2a3b4c21",
+    "word": "Alternative",
+    "pos": "Noun",
+    "banglaMeaning": "বিকল্প",
+    "synonyms": ["Option", "Substitute", "Choice"],
+    "exampleUsage": "Aggressively developing highly viable, extremely cost-effective alternative energy sources is strictly and undeniably imperative to successfully combat the rapidly impending, catastrophic global climate crisis.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7d8e9f0a-2345-4b6c-9d0e-1f2a3b4c5d22",
+    "word": "Circumstance",
+    "pos": "Noun",
+    "banglaMeaning": "পরিস্থিতি",
+    "synonyms": ["Situation", "Condition", "State"],
+    "exampleUsage": "Under absolutely no conceivable circumstance should a genuinely ethical researcher ever intentionally falsify precisely gathered empirical data to artificially support a highly questionable scientific hypothesis.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8e9f0a1b-3456-4c7d-0e1f-2a3b4c5d6e23",
+    "word": "Comment",
+    "pos": "Noun",
+    "banglaMeaning": "মন্তব্য",
+    "synonyms": ["Remark", "Observation", "Statement"],
+    "exampleUsage": "The highly renowned, deeply respected professor firmly declined to provide any official, heavily publicized comment regarding the incredibly controversial and deeply divisive university political scandal.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9f0a1b2c-4567-4d8e-1f2a-3b4c5d6e7f24",
+    "word": "Compensation",
+    "pos": "Noun",
+    "banglaMeaning": "ক্ষতিপূরণ",
+    "synonyms": ["Remuneration", "Recompense", "Indemnity"],
+    "exampleUsage": "The highly aggrieved, unfairly dismissed employees rightfully and aggressively demanded fully adequate financial compensation for their astonishingly sudden and entirely legally unjustified corporate termination.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0a1b2c3d-5678-4e9f-2a3b-4c5d6e7f8a25",
+    "word": "Component",
+    "pos": "Noun",
+    "banglaMeaning": "উপাদান / অংশ",
+    "synonyms": ["Element", "Part", "Constituent"],
+    "exampleUsage": "A remarkably robust, highly integrated, and extremely heavily subsidized public transportation network is a fundamentally crucial component of successful, deeply sustainable modern urban development.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1b2c3d4e-6789-4f0a-3b4c-5d6e7f8a9b26",
+    "word": "Consent",
+    "pos": "Noun",
+    "banglaMeaning": "সম্মতি",
+    "synonyms": ["Agreement", "Permission", "Approval"],
+    "exampleUsage": "Ethical medical practitioners must strictly, legally, and unequivocally obtain fully informed, deeply comprehensive written consent prior to confidently performing any heavily invasive, high-risk surgical procedures.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2c3d4e5f-7890-4a1b-4c5d-6e7f8a9b0c27",
+    "word": "Considerable",
+    "pos": "Adjective",
+    "banglaMeaning": "উল্লেখযোগ্য / প্রচুর",
+    "synonyms": ["Significant", "Substantial", "Sizeable"],
+    "exampleUsage": "The undeniably groundbreaking, totally unprecedented medical research definitively required a remarkably considerable amount of dedicated institutional funding and several long decades of highly rigorous clinical trials.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3d4e5f6a-8901-4b2c-5d6e-7f8a9b0c1d28",
+    "word": "Constant",
+    "pos": "Adjective",
+    "banglaMeaning": "ধ্রুবক / স্থির / অবিরত",
+    "synonyms": ["Continuous", "Perpetual", "Incessant"],
+    "exampleUsage": "The incredibly fragile, highly biodiverse coastal ecosystem is regrettably under shockingly constant, extremely severe threat from rampant, unchecked industrial pollution and massively aggressive corporate deforestation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4e5f6a7b-9012-4c3d-6e7f-8a9b0c1d2e29",
+    "word": "Constraint",
+    "pos": "Noun",
+    "banglaMeaning": "সীমাবদ্ধতা / বাধা",
+    "synonyms": ["Restriction", "Limitation", "Restraint"],
+    "exampleUsage": "Incredibly severe, entirely unexpected budgetary constraints ultimately and decisively forced the highly ambitious university administration to indefinitely postpone the heavily anticipated, extremely costly structural campus expansion.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5f6a7b8c-0123-4d4e-7f8a-9b0c1d2e3f30",
+    "word": "Contribution",
+    "pos": "Noun",
+    "banglaMeaning": "অবদান",
+    "synonyms": ["Input", "Donation", "Offering"],
+    "exampleUsage": "Marie Curie's remarkably uniquely pioneering, profoundly historic contribution to the incredibly complex field of radioactivity fundamentally and permanently revolutionized both modern diagnostic chemistry and theoretical physics.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6a7b8c9d-1234-4e5f-8a9b-0c1d2e3f4a31",
+    "word": "Convention",
+    "pos": "Noun",
+    "banglaMeaning": "প্রথা / সম্মেলন",
+    "synonyms": ["Custom", "Tradition", "Conference"],
+    "exampleUsage": "The deeply historic, highly publicized international diplomatic convention firmly established remarkably rigorous, universally legally binding protocols regarding the strictly ethical, deeply humane treatment of all international prisoners of war.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7b8c9d0e-2345-4f6a-9b0c-1d2e3f4a5b32",
+    "word": "Coordination",
+    "pos": "Noun",
+    "banglaMeaning": "সমন্বয়",
+    "synonyms": ["Organization", "Synchronization", "Cooperation"],
+    "exampleUsage": "The incredibly massive, profoundly complex international disaster relief effort necessarily required totally unprecedented, absolutely seamless, and highly efficient logistical coordination between remarkably numerous and remarkably diverse global humanitarian agencies.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8c9d0e1f-3456-4a7b-0c1d-2e3f4a5b6c33",
+    "word": "Core",
+    "pos": "Noun",
+    "banglaMeaning": "মূল / কেন্দ্র",
+    "synonyms": ["Center", "Heart", "Essence"],
+    "exampleUsage": "The absolute, profoundly undeniable core of the highly debated philosophical argument heavily rests entirely on the deeply complex, totally inherent tension between unbridled individual liberty and strictly mandated societal responsibility.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9d0e1f2a-4567-4b8c-1d2e-3f4a5b6c7d34",
+    "word": "Corporate",
+    "pos": "Adjective",
+    "banglaMeaning": "কর্পোরেট / যৌথ",
+    "synonyms": ["Business", "Commercial", "Enterprise"],
+    "exampleUsage": "Shockingly widespread, entirely unchecked corporate malfeasance and incredibly deeply unethical, massively leveraged financial practices very directly and tragically precipitated the devastatingly catastrophic, globally reaching economic recession.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0e1f2a3b-5678-4c9d-2e3f-4a5b6c7d8e35",
+    "word": "Correspond",
+    "pos": "Verb",
+    "banglaMeaning": "মিল থাকা / পত্রবিনিময় করা",
+    "synonyms": ["Match", "Correlate", "Align"],
+    "exampleUsage": "The unexpectedly highly positive, remarkably definitive experimental results perfectly and precisely correspond with the heavily detailed, mathematically complex theoretical predictions explicitly outlined in the initial academic research proposal.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1f2a3b4c-6789-4d0e-3f4a-5b6c7d8e9f36",
+    "word": "Criteria",
+    "pos": "Noun",
+    "banglaMeaning": "মানদণ্ড",
+    "synonyms": ["Standards", "Measures", "Benchmarks"],
+    "exampleUsage": "The incredibly strict, highly uncompromising evaluative criteria for the fiercely historically competitive academic scientific grant heavily emphasize both profound, paradigm-shifting theoretical innovation and remarkably high-impact, immediate practical societal applicability.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2a3b4c5d-7890-4e1f-4a5b-6c7d8e9f0a37",
+    "word": "Deduction",
+    "pos": "Noun",
+    "banglaMeaning": "সিদ্ধান্ত / কর্তন / অবরোহন",
+    "synonyms": ["Conclusion", "Inference", "Reduction"],
+    "exampleUsage": "Based entirely on the meticulously, exhaustively gathered and heavily analyzed forensic evidence, the highly experienced lead investigator rapidly made a totally logical, completely undeniable deduction regarding the remarkably elusive suspect's true identity.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3b4c5d6e-8901-4f2a-5b6c-7d8e9f0a1b38",
+    "word": "Demonstrate",
+    "pos": "Verb",
+    "banglaMeaning": "প্রদর্শন করা / প্রমাণ করা",
+    "synonyms": ["Show", "Prove", "Exhibit"],
+    "exampleUsage": "The highly comprehensive, remarkably flawlessly gathered empirical socio-economic data unequivocally, totally demonstrate a profoundly statistically significant, deeply entrenched correlation between incredibly severe systemic poverty and notably elevated, highly violent crime rates.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4c5d6e7f-9012-4a3b-6c7d-8e9f0a1b2c39",
+    "word": "Document",
+    "pos": "Noun",
+    "banglaMeaning": "দলিল / নথি",
+    "synonyms": ["Record", "File", "Text"],
+    "exampleUsage": "The amazingly ancient, incredibly delicate, and remarkably highly preserved historical document finally provides absolutely invaluable, totally unprecedented, and incredibly vivid insight into the remarkably complex daily lives of the very early Roman aristocracy.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5d6e7f8a-0123-4b4c-7d8e-9f0a1b2c3d40",
+    "word": "Dominant",
+    "pos": "Adjective",
+    "banglaMeaning": "আধিপত্যশীল / প্রভাবশালী",
+    "synonyms": ["Prevailing", "Ruling", "Supreme"],
+    "exampleUsage": "The incredibly massive, highly aggressive multinational technology conglomerate shockingly and rapidly achieved a highly lucrative, entirely dominant, heavily monopolistic position within the remarkably fiercely competitive, highly volatile global digital consumer market.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "6e7f8a9b-1234-4c5d-8e9f-0a1b2c3d4e41",
+    "word": "Emphasis",
+    "pos": "Noun",
+    "banglaMeaning": "জোর / গুরুত্ব",
+    "synonyms": ["Importance", "Stress", "Weight"],
+    "exampleUsage": "The radically revised, highly controversial public educational curriculum now explicitly places a profoundly, historically heavy emphasis on heavily and aggressively developing students' incredibly crucial, highly advanced critical thinking and incredibly complex analytical skills.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "7f8a9b0c-2345-4d6e-9f0a-1b2c3d4e5f42",
+    "word": "Ensure",
+    "pos": "Verb",
+    "banglaMeaning": "নিশ্চিত করা",
+    "synonyms": ["Guarantee", "Secure", "Certify"],
+    "exampleUsage": "The highly proactive local government must absolutely swiftly and decisively implement remarkably highly stringent, totally uncompromising safety regulations to heavily and consistently ensure the absolute physical well-being of all highly vulnerable industrial manual workers.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "8a9b0c1d-3456-4e7f-0a1b-2c3d4e5f6a43",
+    "word": "Exclude",
+    "pos": "Verb",
+    "banglaMeaning": "বাদ দেওয়া",
+    "synonyms": ["Omit", "Eliminate", "Reject"],
+    "exampleUsage": "The remarkably flawed, highly heavily criticized sociological study unbelievably and intentionally chose to entirely exclude amazingly highly relevant, incredibly crucial demographic data, thereby extremely severely and irreparably compromising its ultimate scientific validity.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "9b0c1d2e-4567-4f8a-1b2c-3d4e5f6a7b44",
+    "word": "Framework",
+    "pos": "Noun",
+    "banglaMeaning": "কাঠামো",
+    "synonyms": ["Structure", "System", "Foundation"],
+    "exampleUsage": "The incredibly newly ratified, heavily highly anticipated international diplomatic treaty finally provides a remarkably highly robust, strictly and universally legally binding structural framework for systematically, highly efficiently resolving remarkably complex, deeply entrenched cross-border economic trade disputes.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "0c1d2e3f-5678-4a9b-2c3d-4e5f6a7b8c45",
+    "word": "Fund",
+    "pos": "Noun",
+    "banglaMeaning": "তহবিল",
+    "synonyms": ["Capital", "Endowment", "Reserve"],
+    "exampleUsage": "The deeply esteemed, historically highly prestigious private university remarkably rapidly established a massively substantial, completely dedicated, highly specialized scholarship fund explicitly designed to incredibly heavily financially assist remarkably underprivileged, amazingly high-achieving minority students.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "1d2e3f4a-6789-4b0c-3d4e-5f6a7b8c9d46",
+    "word": "Illustrate",
+    "pos": "Verb",
+    "banglaMeaning": "উদাহরণ দিয়ে বোঝানো / চিত্রিত করা",
+    "synonyms": ["Demonstrate", "Exemplify", "Depict"],
+    "exampleUsage": "The remarkably highly eloquent, incredibly deeply knowledgeable professor amazingly skillfully used several highly incredibly detailed, perfectly profoundly real-world historical case studies to totally perfectly illustrate the remarkably incredibly complex, deeply nuanced macroeconomic theory.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "2e3f4a5b-7890-4c1d-4e5f-6a7b8c9d0e47",
+    "word": "Immigration",
+    "pos": "Noun",
+    "banglaMeaning": "অভিবাসন",
+    "synonyms": ["Migration", "Relocation", "Resettlement"],
+    "exampleUsage": "The fiercely, incredibly hotly debated, remarkably highly divisive national governmental policy regarding incredibly strict border security and totally unprecedented large-scale illegal immigration incredibly deeply and irreparably divided the historically heavily polarized national political electorate.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "3f4a5b6c-8901-4d2e-5f6a-7b8c9d0e1f48",
+    "word": "Imply",
+    "pos": "Verb",
+    "banglaMeaning": "ইঙ্গিত করা / অর্থ প্রকাশ করা",
+    "synonyms": ["Suggest", "Insinuate", "Hint"],
+    "exampleUsage": "The incredibly unexpectedly sudden, totally remarkably entirely unexplainable, amazingly highly publicized resignation of the incredibly successful CEO absolutely strongly seemed to heavily imply severe, totally deeply undisclosed, intensely incredibly damaging internal corporate turmoil.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "4a5b6c7d-9012-4e3f-6a7b-8c9d0e1f2a49",
+    "word": "Initial",
+    "pos": "Adjective",
+    "banglaMeaning": "প্রাথমিক",
+    "synonyms": ["Primary", "First", "Introductory"],
+    "exampleUsage": "Despite regrettably experiencing several highly incredibly discouraging, totally massive initial logistical setbacks, the amazingly dedicated, remarkably highly resilient scientific research team incredibly ultimately achieved a profoundly, totally historically revolutionary medical scientific breakthrough.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "5b6c7d8e-0123-4f4a-7b8c-9d0e1f2a3b50",
+    "word": "Instance",
+    "pos": "Noun",
+    "banglaMeaning": "দৃষ্টান্ত / উদাহরণ",
+    "synonyms": ["Example", "Occurrence", "Case"],
+    "exampleUsage": "The unbelievably devastating, totally historically unprecedented, and remarkably highly coordinated global cyberattack effectively serves as a particularly incredibly terrifying, profoundly stark instance of our highly modernized society's truly profound, totally systemic global technological vulnerability.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "01b2c3d4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+    "word": "Interaction",
+    "pos": "Noun",
+    "banglaMeaning": "মিথস্ক্রিয়া / পারস্পরিক প্রভাব",
+    "synonyms": ["Communication", "Interplay", "Synergy"],
+    "exampleUsage": "The complex interaction between environmental factors and genetic predispositions significantly influences human behavioral development.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "12c3d4e5-b6c7-4d8e-9f0a-1b2c3d4e5f6a",
+    "word": "Justification",
+    "pos": "Noun",
+    "banglaMeaning": "যৌক্তিকতা / সমর্থন",
+    "synonyms": ["Rationale", "Vindication", "Reason"],
+    "exampleUsage": "The researchers provided compelling justification for their unconventional methodology by demonstrating its superior predictive accuracy.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "23d4e5f6-c7d8-4e9f-0a1b-2c3d4e5f6a7b",
+    "word": "Layer",
+    "pos": "Noun",
+    "banglaMeaning": "স্তর",
+    "synonyms": ["Stratum", "Tier", "Level"],
+    "exampleUsage": "The earth's ozone layer plays an absolutely indispensable role in shielding terrestrial ecosystems from harmful ultraviolet radiation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "34e5f6a7-d8e9-4f0a-1b2c-3d4e5f6a7b8c",
+    "word": "Link",
+    "pos": "Noun",
+    "banglaMeaning": "সংযোগ / সম্পর্ক",
+    "synonyms": ["Connection", "Association", "Correlation"],
+    "exampleUsage": "Epidemiological studies have unequivocally established a direct causal link between persistent air pollution and chronic respiratory illnesses.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "45f6a7b8-e9f0-4a1b-2c3d-4e5f6a7b8c9d",
+    "word": "Location",
+    "pos": "Noun",
+    "banglaMeaning": "অবস্থান",
+    "synonyms": ["Position", "Site", "Venue"],
+    "exampleUsage": "The strategic geographical location of the port city historically facilitated unprecedented levels of lucrative international maritime trade.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "56a7b8c9-f0a1-4b2c-3d4e-5f6a7b8c9d0e",
+    "word": "Maximum",
+    "pos": "Adjective",
+    "banglaMeaning": "সর্বোচ্চ",
+    "synonyms": ["Peak", "Utmost", "Highest"],
+    "exampleUsage": "To ensure maximum structural integrity, the engineers rigorously tested the innovative building materials under extreme stress conditions.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "67b8c9d0-a1b2-4c3d-4e5f-6a7b8c9d0e1f",
+    "word": "Minority",
+    "pos": "Noun",
+    "banglaMeaning": "সংখ্যালঘু",
+    "synonyms": ["Subgroup", "Marginalized group", "Fraction"],
+    "exampleUsage": "Legislative policies must be actively implemented to protect the fundamental civil rights and cultural heritage of marginalized ethnic minority populations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "78c9d0e1-b2c3-4d4e-5f6a-7b8c9d0e1f2a",
+    "word": "Negative",
+    "pos": "Adjective",
+    "banglaMeaning": "নেতিবাচক",
+    "synonyms": ["Adverse", "Detrimental", "Pessimistic"],
+    "exampleUsage": "The rapid implementation of the new corporate taxation policy had an unexpectedly negative impact on the growth of small domestic enterprises.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "89d0e1f2-c3d4-4e5f-6a7b-8c9d0e1f2a3b",
+    "word": "Outcome",
+    "pos": "Noun",
+    "banglaMeaning": "ফলাফল",
+    "synonyms": ["Result", "Consequence", "Repercussion"],
+    "exampleUsage": "The ultimate outcome of the protracted diplomatic negotiations was a mutually beneficial bilateral trade agreement that stabilized regional markets.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "90e1f2a3-d4e5-4f6a-7b8c-9d0e1f2a3b4c",
+    "word": "Partnership",
+    "pos": "Noun",
+    "banglaMeaning": "অংশীদারিত্ব",
+    "synonyms": ["Collaboration", "Alliance", "Coalition"],
+    "exampleUsage": "The unprecedented public-private partnership successfully accelerated the widespread distribution of vital medical supplies during the global health crisis.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "01f2a3b4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "word": "Philosophy",
+    "pos": "Noun",
+    "banglaMeaning": "দর্শন",
+    "synonyms": ["Ideology", "Doctrine", "Beliefs"],
+    "exampleUsage": "The foundational philosophy underlying modern democratic governance heavily emphasizes the inviolable protection of individual civil liberties and universal suffrage.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "12a3b4c5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "word": "Physical",
+    "pos": "Adjective",
+    "banglaMeaning": "শারীরিক / ভৌত",
+    "synonyms": ["Bodily", "Tangible", "Material"],
+    "exampleUsage": "Prolonged periods of intense psychological stress can eventually manifest as severe, debilitating physical ailments that require comprehensive medical intervention.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "23b4c5d6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "word": "Proportion",
+    "pos": "Noun",
+    "banglaMeaning": "অনুপাত / অংশ",
+    "synonyms": ["Ratio", "Fraction", "Percentage"],
+    "exampleUsage": "A highly significant proportion of the national budget is strategically allocated to advancing renewable energy infrastructure to combat climate change.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "34c5d6e7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+    "word": "Publish",
+    "pos": "Verb",
+    "banglaMeaning": "প্রকাশ করা",
+    "synonyms": ["Issue", "Print", "Disseminate"],
+    "exampleUsage": "The esteemed research institute plans to officially publish its groundbreaking astronomical findings in a globally recognized, peer-reviewed academic journal.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "45d6e7f8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "word": "Reaction",
+    "pos": "Noun",
+    "banglaMeaning": "প্রতিক্রিয়া",
+    "synonyms": ["Response", "Backlash", "Repercussion"],
+    "exampleUsage": "The sudden, unexpected economic downturn triggered a remarkably swift and aggressive policy reaction from the international central banking authority.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "56e7f8a9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+    "word": "Register",
+    "pos": "Verb",
+    "banglaMeaning": "নিবন্ধন করা",
+    "synonyms": ["Enroll", "Record", "Log"],
+    "exampleUsage": "All newly arriving international students must officially register with the local municipal authorities within a strict two-week timeframe of their initial entry.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "67f8a9b0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+    "word": "Reliance",
+    "pos": "Noun",
+    "banglaMeaning": "নির্ভরতা",
+    "synonyms": ["Dependence", "Trust", "Confidence"],
+    "exampleUsage": "The developing nation's heavy economic reliance on imported fossil fuels makes its domestic market profoundly vulnerable to volatile global price fluctuations.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "78a9b0c1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
+    "word": "Remove",
+    "pos": "Verb",
+    "banglaMeaning": "অপসারণ করা",
+    "synonyms": ["Eliminate", "Eradicate", "Extract"],
+    "exampleUsage": "Advanced municipal water filtration systems can efficiently and reliably remove highly toxic chemical contaminants from vulnerable public drinking supplies.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "89b0c1d2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
+    "word": "Scheme",
+    "pos": "Noun",
+    "banglaMeaning": "পরিকল্পনা / প্রকল্প",
+    "synonyms": ["Plan", "Strategy", "Blueprint"],
+    "exampleUsage": "The progressive government introduced a comprehensive new pension scheme specifically designed to drastically alleviate financial insecurity among the rapidly aging elderly population.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "90c1d2e3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
+    "word": "Sequence",
+    "pos": "Noun",
+    "banglaMeaning": "পর্যায়ক্রম / ক্রম",
+    "synonyms": ["Succession", "Progression", "Series"],
+    "exampleUsage": "The remarkably intricate sequence of biological events occurring during cellular division is meticulously regulated by highly specific and incredibly complex genetic mechanisms.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "01d2e3f4-c5d6-4e7f-8a9b-0c1d2e3f4a5b",
+    "word": "Sex",
+    "pos": "Noun",
+    "banglaMeaning": "লিঙ্গ",
+    "synonyms": ["Gender", "Biological identity", "Classification"],
+    "exampleUsage": "Sociological researchers meticulously analyzed the vast demographic data to definitively identify any statistically significant wage disparities based purely on race, age, and sex.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "12e3f4a5-d6e7-4f8a-9b0c-1d2e3f4a5b6c",
+    "word": "Shift",
+    "pos": "Noun",
+    "banglaMeaning": "পরিবর্তন / স্থানান্তর",
+    "synonyms": ["Alteration", "Transition", "Modification"],
+    "exampleUsage": "The recent, monumental cultural paradigm shift towards prioritizing environmental sustainability has significantly and permanently altered global consumer purchasing habits.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "23f4a5b6-e7f8-4a9b-0c1d-2e3f4a5b6c7d",
+    "word": "Specify",
+    "pos": "Verb",
+    "banglaMeaning": "নির্দিষ্ট করে বলা",
+    "synonyms": ["Detail", "State", "Stipulate"],
+    "exampleUsage": "The incredibly strict architectural guidelines explicitly specify the exact structural dimensions and ecologically acceptable materials required for all new urban development projects.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "34a5b6c7-f8a9-4b0c-1d2e-3f4a5b6c7d8e",
+    "word": "Sufficient",
+    "pos": "Adjective",
+    "banglaMeaning": "পর্যাপ্ত",
+    "synonyms": ["Adequate", "Ample", "Enough"],
+    "exampleUsage": "The prosecution completely failed to provide sufficient empirical evidence to definitively prove the high-profile defendant's direct involvement in the complex corporate fraud.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "45b6c7d8-a9b0-4c1d-2e3f-4a5b6c7d8e9f",
+    "word": "Task",
+    "pos": "Noun",
+    "banglaMeaning": "কাজ / দায়িত্ব",
+    "synonyms": ["Assignment", "Duty", "Undertaking"],
+    "exampleUsage": "The primary, overwhelmingly complex task of the newly appointed investigative commission is to thoroughly audit the multinational corporation's notoriously convoluted financial records.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "56c7d8e9-b0c1-4d2e-3f4a-5b6c7d8e9f0a",
+    "word": "Technical",
+    "pos": "Adjective",
+    "banglaMeaning": "কারিগরি / প্রযুক্তিগত",
+    "synonyms": ["Specialized", "Technological", "Mechanical"],
+    "exampleUsage": "The remarkably ambitious aerospace engineering project strictly requires incredibly advanced technical expertise and remarkably sophisticated diagnostic manufacturing equipment.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "67d8e9f0-c1d2-4e3f-4a5b-6c7d8e9f0a1b",
+    "word": "Technique",
+    "pos": "Noun",
+    "banglaMeaning": "কৌশল / পদ্ধতি",
+    "synonyms": ["Method", "Approach", "Procedure"],
+    "exampleUsage": "The remarkably innovative, minimally invasive surgical technique significantly reduces overall patient recovery time and drastically minimizes the risk of severe postoperative complications.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "78e9f0a1-d2e3-4f4a-5b6c-7d8e9f0a1b2c",
+    "word": "Technology",
+    "pos": "Noun",
+    "banglaMeaning": "প্রযুক্তি",
+    "synonyms": ["Automation", "Machinery", "Applied science"],
+    "exampleUsage": "The unprecedentedly rapid evolution of advanced artificial intelligence technology is fundamentally and irreversibly reshaping the core structural dynamics of the modern global workforce.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "89f0a1b2-e3f4-4a5b-6c7d-8e9f0a1b2c3d",
+    "word": "Validity",
+    "pos": "Noun",
+    "banglaMeaning": "বৈধতা / সত্যতা",
+    "synonyms": ["Authenticity", "Legitimacy", "Soundness"],
+    "exampleUsage": "Rigorous, independent peer review is absolutely essential to objectively verify the unquestionable scientific validity and overall statistical reliability of the published experimental results.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "90a1b2c3-f4a5-4b6c-7d8e-9f0a1b2c3d4e",
+    "word": "Volume",
+    "pos": "Noun",
+    "banglaMeaning": "পরিমাণ / আয়তন",
+    "synonyms": ["Capacity", "Quantity", "Amount"],
+    "exampleUsage": "The sheer, astronomical volume of raw quantitative data continuously generated by the orbital observatory requires massively powerful supercomputers for any adequate scientific analysis.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "01b2c3d4-a5b6-4c7d-8e9f-0a1b2c3d4e5f",
+    "word": "Access",
+    "pos": "Noun",
+    "banglaMeaning": "প্রবেশাধিকার / সুযোগ",
+    "synonyms": ["Admission", "Entry", "Availability"],
+    "exampleUsage": "Ensuring completely equitable, nationwide access to high-quality tertiary education is a fundamental, non-negotiable prerequisite for deeply sustainable, long-term societal and economic advancement.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "12c3d4e5-b6c7-4d8e-9f0a-1b2c3d4e5f6a",
+    "word": "Adequate",
+    "pos": "Adjective",
+    "banglaMeaning": "পর্যাপ্ত / উপযুক্ত",
+    "synonyms": ["Sufficient", "Suitable", "Acceptable"],
+    "exampleUsage": "The highly rudimentary, chronically underfunded healthcare facilities in the isolated rural province are unfortunately nowhere near adequate to successfully handle a large-scale viral epidemic.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "23d4e5f6-c7d8-4e9f-0a1b-2c3d4e5f6a7b",
+    "word": "Annual",
+    "pos": "Adjective",
+    "banglaMeaning": "বার্ষিক",
+    "synonyms": ["Yearly", "Per annum", "Anniversary"],
+    "exampleUsage": "The massive multinational corporation's highly anticipated annual financial report revealed a strikingly significant, completely unexpected increase in overall global export revenue.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "34e5f6a7-d8e9-4f0a-1b2c-3d4e5f6a7b8c",
+    "word": "Apparent",
+    "pos": "Adjective",
+    "banglaMeaning": "স্পষ্ট / দৃশ্যমান",
+    "synonyms": ["Obvious", "Evident", "Visible"],
+    "exampleUsage": "It quickly became glaringly apparent to the frustrated lead researchers that their original theoretical hypothesis was fundamentally flawed and required immediate, drastic revision.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "45f6a7b8-e9f0-4a1b-2c3d-4e5f6a7b8c9d",
+    "word": "Approximate",
+    "pos": "Adjective",
+    "banglaMeaning": "আনুমানিক",
+    "synonyms": ["Estimated", "Rough", "Near"],
+    "exampleUsage": "The remarkably skilled archaeologists managed to accurately determine the approximate chronological age of the ancient pottery shards using highly advanced radiocarbon dating methodologies.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "56a7b8c9-f0a1-4b2c-3d4e-5f6a7b8c9d0e",
+    "word": "Attention",
+    "pos": "Noun",
+    "banglaMeaning": "মনোযোগ",
+    "synonyms": ["Concentration", "Focus", "Awareness"],
+    "exampleUsage": "The rapidly escalating, increasingly catastrophic global freshwater scarcity crisis urgently demands incredibly immediate, heavily concentrated attention from highly prominent international policymakers.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "67b8c9d0-a1b2-4c3d-4e5f-6a7b8c9d0e1f",
+    "word": "Attitude",
+    "pos": "Noun",
+    "banglaMeaning": "দৃষ্টিভঙ্গি / মনোভাব",
+    "synonyms": ["Perspective", "Mindset", "Disposition"],
+    "exampleUsage": "There has recently been a remarkably profound, undeniable generational shift in the overall public attitude towards purchasing heavily sustainable and stringently ethically sourced consumer products.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "78c9d0e1-b2c3-4d4e-5f6a-7b8c9d0e1f2a",
+    "word": "Attribute",
+    "pos": "Verb",
+    "banglaMeaning": "আরোপ করা / দায়ী করা",
+    "synonyms": ["Ascribe", "Credit", "Assign"],
+    "exampleUsage": "Leading international climatologists confidently and unanimously attribute the recent, alarming increase in devastating extreme weather events directly to accelerating, unchecked anthropogenic global warming.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "89d0e1f2-c3d4-4e5f-6a7b-8c9d0e1f2a3b",
+    "word": "Civil",
+    "pos": "Adjective",
+    "banglaMeaning": "নাগরিক / অসামরিক",
+    "synonyms": ["Civic", "Public", "Domestic"],
+    "exampleUsage": "The incredibly protracted, tremendously devastating civil war completely and utterly dismantled the impoverished nation's vital agricultural infrastructure and rapidly precipitated widespread, catastrophic famine.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "90e1f2a3-d4e5-4f6a-7b8c-9d0e1f2a3b4c",
+    "word": "Code",
+    "pos": "Noun",
+    "banglaMeaning": "নিয়মাবলী / আচরণবিধি",
+    "synonyms": ["Regulations", "Protocol", "Guidelines"],
+    "exampleUsage": "All currently practicing, fully licensed medical professionals are strictly, legally, and profoundly ethically bound by a remarkably uncompromising, highly rigorous code of professional conduct.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "01f2a3b4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+    "word": "Commitment",
+    "pos": "Noun",
+    "banglaMeaning": "প্রতিশ্রুতি / দায়বদ্ধতা",
+    "synonyms": ["Dedication", "Devotion", "Obligation"],
+    "exampleUsage": "The newly formed international environmental coalition forcefully demonstrated an absolutely unwavering commitment to drastically and permanently reducing global greenhouse gas emissions by the upcoming decade.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "12a3b4c5-f6a7-4b8c-9d0e-1f2a3b4c5d6e",
+    "word": "Communication",
+    "pos": "Noun",
+    "banglaMeaning": "যোগাযোগ",
+    "synonyms": ["Interaction", "Transmission", "Correspondence"],
+    "exampleUsage": "Highly effective, remarkably transparent intercultural communication is absolutely, fundamentally indispensable for successfully and peacefully resolving incredibly complex, deeply entrenched international diplomatic border disputes.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "23b4c5d6-a7b8-4c9d-0e1f-2a3b4c5d6e7f",
+    "word": "Concentration",
+    "pos": "Noun",
+    "banglaMeaning": "ঘনত্ব / একাগ্রতা",
+    "synonyms": ["Density", "Focus", "Accumulation"],
+    "exampleUsage": "The unusually, highly alarmingly high concentration of lethally toxic heavy metals discovered in the local river system currently poses a severe, utterly immediate threat to all aquatic biodiversity.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "34c5d6e7-b8c9-4d0e-1f2a-3b4c5d6e7f8a",
+    "word": "Conference",
+    "pos": "Noun",
+    "banglaMeaning": "সম্মেলন",
+    "synonyms": ["Symposium", "Convention", "Seminar"],
+    "exampleUsage": "The highly prestigious, annually held international academic conference consistently provided an incredibly invaluable, dynamic platform for pioneering theoretical scholars to aggressively exchange revolutionary scientific ideas.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "45d6e7f8-c9d0-4e1f-2a3b-4c5d6e7f8a9b",
+    "word": "Contrast",
+    "pos": "Noun",
+    "banglaMeaning": "বৈসাদৃশ্য",
+    "synonyms": ["Difference", "Disparity", "Distinction"],
+    "exampleUsage": "In incredibly stark, profoundly disturbing contrast to the rapidly expanding, highly affluent urban centers, many remote rural communities are currently experiencing severe, inescapable economic stagnation and rapid population decline.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "56e7f8a9-d0e1-4f2a-3b4c-5d6e7f8a9b0c",
+    "word": "Cycle",
+    "pos": "Noun",
+    "banglaMeaning": "চক্র",
+    "synonyms": ["Sequence", "Loop", "Rotation"],
+    "exampleUsage": "The remarkably complex, continuously functioning global hydrological cycle is fundamentally, entirely responsible for successfully maintaining the incredibly delicate, absolutely essential distribution of life-sustaining fresh water on Earth.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "67f8a9b0-e1f2-4a3b-4c5d-6e7f8a9b0c1d",
+    "word": "Debate",
+    "pos": "Noun",
+    "banglaMeaning": "বিতর্ক",
+    "synonyms": ["Discussion", "Argument", "Dispute"],
+    "exampleUsage": "The highly controversial, remarkably aggressively pushed legislative proposal instantly sparked a fiercely intense, deeply emotionally polarizing political debate across the entirety of the deeply divided nation.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "78a9b0c1-f2a3-4b4c-5d6e-7f8a9b0c1d2e",
+    "word": "Despite",
+    "pos": "Preposition",
+    "banglaMeaning": "তা সত্ত্বেও",
+    "synonyms": ["In spite of", "Notwithstanding", "Regardless of"],
+    "exampleUsage": "Despite continually facing incredibly severe, totally historically unprecedented global logistical challenges, the highly dedicated humanitarian relief team incredibly successfully delivered the absolutely vital emergency medical supplies.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "89b0c1d2-a3b4-4c5d-6e7f-8a9b0c1d2e3f",
+    "word": "Dimension",
+    "pos": "Noun",
+    "banglaMeaning": "মাত্রা / পরিমাপ",
+    "synonyms": ["Aspect", "Proportion", "Feature"],
+    "exampleUsage": "The remarkably insightful, newly published sociological study successfully adds an entirely new, profoundly complex analytical dimension to our collective theoretical understanding of modern urban poverty dynamics.",
+    "topic": "Academic Word List: Sublist A"
+  },
+  {
+    "_id": "90c1d2e3-b4c5-4d6e-7f8a-9b0c1d2e3f4a",
+    "word": "Domestic",
+    "pos": "Adjective",
+    "banglaMeaning": "দেশীয় / অভ্যন্তরীণ",
+    "synonyms": ["Internal", "National", "Household"],
+    "exampleUsage": "The impressively rapidly growing, highly resilient national economy is currently being heavily, aggressively propelled by incredibly robust domestic consumption rather than volatile, unpredictable international export revenue.",
+    "topic": "Academic Word List: Sublist A"
   }
 ]
