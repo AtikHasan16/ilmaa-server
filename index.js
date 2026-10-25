@@ -966,8 +966,12 @@ app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
 // Initialize EdgeTTS service and audio cache folder
 const ttsService = new EdgeTTS();
 const AUDIO_CACHE_DIR = path.resolve("./data/audio_cache");
-if (!fs.existsSync(AUDIO_CACHE_DIR)) {
-  fs.mkdirSync(AUDIO_CACHE_DIR, { recursive: true });
+try {
+  if (!fs.existsSync(AUDIO_CACHE_DIR)) {
+    fs.mkdirSync(AUDIO_CACHE_DIR, { recursive: true });
+  }
+} catch (e) {
+  // Harmless in serverless/read-only environments like Vercel
 }
 
 // GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural)
