@@ -3,6 +3,7 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
+import { EdgeTTS } from "@andresaya/edge-tts";
 
 const app = express();
 const port = 5000;
@@ -962,19 +963,16 @@ app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
   }
 });
 
-// Initialize EdgeTTS service and audio cache folder (uses os.tmpdir for serverless compatibility)
-import os from "os";
+// Initialize EdgeTTS service and audio cache folder
 const ttsService = new EdgeTTS();
-const AUDIO_CACHE_DIR = path.join(os.tmpdir(), "imlaa_audio_cache");
+const AUDIO_CACHE_DIR = path.resolve("./data/audio_cache");
 try {
   if (!fs.existsSync(AUDIO_CACHE_DIR)) {
     fs.mkdirSync(AUDIO_CACHE_DIR, { recursive: true });
   }
 } catch (e) {
-  // Gracefully ignored if tmp directory creation fails
+  // Harmless in serverless/read-only environments like Vercel
 }
-
-import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 
 // GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural)
 app.get("/api/v1/tts", async (req, res) => {
@@ -1009,49 +1007,31 @@ app.get("/api/v1/tts", async (req, res) => {
       return fs.createReadStream(cachePath).pipe(res);
     }
 
-    // Generate speech using Microsoft Christopher Neural voice via MsEdgeTTS
-    const tts = new MsEdgeTTS();
-    await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
-
-    const stream = tts.toStream(rawText);
-    const chunks = [];
-
-    await new Promise((resolve, reject) => {
-      stream.audioStream.on("data", (chunk) => {
-        chunks.push(chunk);
-      });
-      stream.audioStream.on("close", resolve);
-      stream.audioStream.on("end", resolve);
-      stream.audioStream.on("error", reject);
+    // Generate speech using Microsoft Christopher Neural voice
+    const result = await ttsService.generate(rawText, voice, {
+      rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
     });
 
-    if (chunks.length === 0) {
+    if (!result || !result.audio) {
       return res
         .status(502)
-        .json({ success: false, message: "No audio chunks received from Edge TTS service" });
+        .json({ success: false, message: "Failed to generate speech audio" });
     }
 
-    const audioBuffer = Buffer.concat(chunks);
+    // Save generated audio to cache asynchronously
+    fs.writeFile(cachePath, result.audio, (err) => {
+      if (err) console.error("[TTS Cache Error]", err);
+    });
 
-    // Save generated audio to temp cache asynchronously (safe on serverless)
-    try {
-      fs.writeFile(cachePath, audioBuffer, () => {});
-    } catch {
-      // Ignore cache write errors on serverless
-    }
-
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Content-Length", audioBuffer.length);
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    return res.end(audioBuffer);
+    res.send(result.audio);
   } catch (err) {
     console.error("[TTS Error]", err);
-    return res.status(500).json({
-      success: false,
-      errorName: err.name,
-      message: err.message,
-      stack: err.stack,
-    });
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.status(500).json({ success: false, message: err.message });
   }
 });
 
