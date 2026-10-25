@@ -1009,7 +1009,8 @@ app.get("/api/v1/tts", async (req, res) => {
     }
 
     // Generate speech using Microsoft Christopher Neural voice
-    const result = await ttsService.generate(rawText, voice, {
+    const edgeTts = new EdgeTTS();
+    const result = await edgeTts.generate(rawText, voice, {
       rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
     });
 
@@ -1019,19 +1020,29 @@ app.get("/api/v1/tts", async (req, res) => {
         .json({ success: false, message: "Failed to generate speech audio" });
     }
 
+    const audioBuffer = Buffer.isBuffer(result.audio)
+      ? result.audio
+      : Buffer.from(result.audio);
+
     // Save generated audio to temp cache asynchronously (safe on serverless)
     try {
-      fs.writeFile(cachePath, result.audio, () => {});
+      fs.writeFile(cachePath, audioBuffer, () => {});
     } catch {
       // Ignore cache write errors on serverless
     }
 
     res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Content-Length", audioBuffer.length);
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    res.send(result.audio);
+    return res.end(audioBuffer);
   } catch (err) {
     console.error("[TTS Error]", err);
-    res.status(500).json({ success: false, message: err.message });
+    return res.status(500).json({
+      success: false,
+      errorName: err.name,
+      message: err.message,
+      stack: err.stack,
+    });
   }
 });
 
