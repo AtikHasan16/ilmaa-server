@@ -4,7 +4,6 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { EdgeTTS } from "@andresaya/edge-tts";
-import { JsonCollection } from "./db.js";
 
 const app = express();
 const port = 5000;
@@ -18,80 +17,14 @@ app.use(
 );
 app.use(express.json());
 
-// Initialize Local Collections
-const usersCollection = new JsonCollection("users", [
-  {
-    name: "Admin",
-    accessId: "1234567890",
-    role: "admin",
-    status: "approved",
-    deviceToken: null,
-    requestedDeviceToken: null,
-    createdAt: new Date().toISOString(),
-  },
-]);
+// Initialize Supabase Collections (Persistent cloud database over HTTPS port 443)
+import { SupabaseCollection } from "./db.js";
 
-const vocabularyCollection = new JsonCollection("vocabularies", [
-  {
-    word: "Fastidious",
-    pos: "Adjective",
-    banglaMeaning: "খুঁতখুঁতে / সহজে সন্তুষ্ট হয় না এমন",
-    synonyms: ["Meticulous", "Punctilious", "Scrupulous"],
-    exampleUsage:
-      "He was fastidious about his appearance, always immaculate in pressed linen.",
-    topic: "Part 1: Basics",
-    uploadedBy: null,
-  },
-  {
-    word: "Ubiquitous",
-    pos: "Adjective",
-    banglaMeaning: "সর্বব্যাপী / যা সর্বত্র বিদ্যমান",
-    synonyms: ["Omnipresent", "Pervasive", "Universal"],
-    exampleUsage: "Smartphones have become ubiquitous in modern academic life.",
-    topic: "Part 1: Basics",
-    uploadedBy: null,
-  },
-  {
-    word: "Ephemeral",
-    pos: "Adjective",
-    banglaMeaning: "ক্ষণস্থায়ী",
-    synonyms: ["Transient", "Fleeting", "Short-lived"],
-    exampleUsage: "Fashions are ephemeral, but true style endures.",
-    topic: "Part 1: Basics",
-    uploadedBy: null,
-  },
-]);
-
-const grammarCollection = new JsonCollection("grammar_questions", [
-  {
-    module: "subject-verb-agreement",
-    questionText:
-      "Neither the teacher nor the students ____ present at yesterday's seminar.",
-    options: ["was", "were", "is", "are"],
-    correctAnswer: "were",
-    explanation:
-      "When subjects are connected by 'neither... nor', the verb agrees with the closer subject ('students').",
-  },
-  {
-    module: "appropriate-prepositions",
-    questionText:
-      "She has always been deeply devoted ____ her scientific research.",
-    options: ["to", "for", "with", "at"],
-    correctAnswer: "to",
-    explanation: "'Devoted' takes the preposition 'to'.",
-  },
-]);
-
-const progressCollection = new JsonCollection("vocabulary_progress", []);
-const auditLogsCollection = new JsonCollection("audit_logs", [
-  {
-    action: "SYSTEM_INIT",
-    userName: "Admin User",
-    accessId: "1234567890",
-    details: "System initialized with baseline admin access",
-    timestamp: new Date().toISOString(),
-  },
-]);
+const usersCollection = new SupabaseCollection("users");
+const vocabularyCollection = new SupabaseCollection("vocabularies");
+const grammarCollection = new SupabaseCollection("grammar_questions");
+const progressCollection = new SupabaseCollection("vocabulary_progress");
+const auditLogsCollection = new SupabaseCollection("audit_logs");
 
 // Activity tracking middleware via x-device-token header
 app.use(async (req, res, next) => {

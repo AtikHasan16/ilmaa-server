@@ -1,140 +1,200 @@
-import fs from "fs";
-import path from "path";
-import { fileURLToPath } from "url";
-import { v4 as uuidv4 } from "uuid";
+import { createClient } from "@supabase/supabase-js";
+import dotenv from "dotenv";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const DATA_DIR = path.join(__dirname, "data");
+dotenv.config();
 
-if (!fs.existsSync(DATA_DIR)) {
-  fs.mkdirSync(DATA_DIR, { recursive: true });
+const supabaseUrl = process.env.SUPABASE_URL || "https://evjvqrxrevycnjxsnjdt.supabase.co";
+const supabaseKey = process.env.SUPABASE_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseKey, {
+  auth: { persistSession: false },
+});
+
+// Helper to convert snake_case (Postgres/Supabase) to camelCase (Frontend JavaScript)
+function toCamel(obj) {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(toCamel);
+
+  const newObj = {};
+  for (const [key, val] of Object.entries(obj)) {
+    // Map id to _id for compatibility
+    if (key === "id") newObj["_id"] = val;
+
+    const camelKey = key.replace(/_([a-z])/g, (_, letter) => letter.toUpperCase());
+    newObj[camelKey] = val;
+  }
+  return newObj;
 }
 
-export class JsonCollection {
-  constructor(name, defaultData = []) {
-    this.name = name;
-    this.filePath = path.join(DATA_DIR, `${name}.json`);
-    if (!fs.existsSync(this.filePath)) {
-      this._save(defaultData);
-    }
-  }
+// Helper to convert camelCase to snake_case
+function toSnake(obj) {
+  if (!obj || typeof obj !== "object") return obj;
+  if (Array.isArray(obj)) return obj.map(toSnake);
 
-  _read() {
-    try {
-      const content = fs.readFileSync(this.filePath, "utf-8");
-      return JSON.parse(content || "[]");
-    } catch {
-      return [];
+  const newObj = {};
+  for (const [key, val] of Object.entries(obj)) {
+    if (key === "_id") {
+      newObj["id"] = val;
+      continue;
     }
+    const snakeKey = key.replace(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`);
+    newObj[snakeKey] = val;
   }
+  return newObj;
+}
 
-  _save(data) {
-    fs.writeFileSync(this.filePath, JSON.stringify(data, null, 2), "utf-8");
+/**
+ * SupabaseCollection adapter that implements the exact same API as JsonCollection
+ * (.find, .findOne, .insertOne, .insertMany, .updateOne, .deleteOne, .deleteMany, .countDocuments)
+ */
+export class SupabaseCollection {
+  constructor(tableName) {
+    this.table = tableName;
   }
 
   async find(filter = {}) {
-    const items = this._read();
-    if (Object.keys(filter).length === 0) return items;
-    return items.filter((item) => {
-      for (const [key, val] of Object.entries(filter)) {
-        if (val && typeof val === "object" && val.$ne !== undefined) {
-          if (item[key] === val.$ne) return false;
-        } else if (item[key] !== val) {
-          return false;
-        }
+    let query = supabase.from(this.table).select("*");
+
+    for (const [key, val] of Object.entries(filter)) {
+      if (key === "$or" && Array.isArray(val)) {
+        // e.g. [{ module: 'modifiers-dangling' }, { module: 'modifiers-and-splices' }]
+        const conditions = val
+          .map((cond) => {
+            const [k, v] = Object.entries(cond)[0];
+            return `${k.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`)}.eq.${v}`;
+          })
+          .join(",");
+        query = query.or(conditions);
+        continue;
       }
-      return true;
-    });
+
+      const snakeKey = key.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`);
+      if (val && typeof val === "object" && val.$ne !== undefined) {
+        if (val.$ne === null) {
+          query = query.not(snakeKey, "is", null);
+        } else {
+          query = query.neq(snakeKey, val.$ne);
+        }
+      } else {
+        query = query.eq(snakeKey, val);
+      }
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.find]:`, error.message);
+      return [];
+    }
+    return toCamel(data || []);
   }
 
   async findOne(filter = {}) {
-    const items = await this.find(filter);
-    return items[0] || null;
+    let query = supabase.from(this.table).select("*");
+
+    for (const [key, val] of Object.entries(filter)) {
+      const snakeKey = key.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`);
+      if (val && typeof val === "object" && val.$ne !== undefined) {
+        if (val.$ne === null) {
+          query = query.not(snakeKey, "is", null);
+        } else {
+          query = query.neq(snakeKey, val.$ne);
+        }
+      } else {
+        query = query.eq(snakeKey, val);
+      }
+    }
+
+    const { data, error } = await query.limit(1);
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.findOne]:`, error.message);
+      return null;
+    }
+    return data && data.length > 0 ? toCamel(data[0]) : null;
   }
 
   async insertOne(doc) {
-    const items = this._read();
-    const newDoc = {
-      _id: uuidv4(),
-      ...doc,
-      createdAt: doc.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    items.push(newDoc);
-    this._save(items);
-    return { insertedId: newDoc._id, acknowledged: true };
+    const snakeDoc = toSnake(doc);
+    const { data, error } = await supabase.from(this.table).insert(snakeDoc).select();
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.insertOne]:`, error.message);
+      throw error;
+    }
+    const inserted = data && data[0] ? toCamel(data[0]) : {};
+    return { insertedId: inserted._id || inserted.id, acknowledged: true };
   }
 
   async insertMany(docs) {
-    const items = this._read();
-    const inserted = docs.map((doc) => ({
-      _id: uuidv4(),
-      ...doc,
-      createdAt: doc.createdAt || new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    }));
-    items.push(...inserted);
-    this._save(items);
-    return { insertedCount: inserted.length };
+    const snakeDocs = docs.map(toSnake);
+    const { data, error } = await supabase.from(this.table).insert(snakeDocs).select();
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.insertMany]:`, error.message);
+      throw error;
+    }
+    return { insertedCount: (data || []).length };
   }
 
   async updateOne(filter, update) {
-    const items = this._read();
-    const index = items.findIndex((item) => {
-      for (const [key, val] of Object.entries(filter)) {
-        if (item[key] !== val) return false;
-      }
-      return true;
-    });
+    const snakeUpdate = toSnake(update.$set || update);
+    let query = supabase.from(this.table).update(snakeUpdate);
 
-    if (index === -1) return { matchedCount: 0, modifiedCount: 0 };
-
-    if (update.$set) {
-      items[index] = {
-        ...items[index],
-        ...update.$set,
-        updatedAt: new Date().toISOString(),
-      };
+    for (const [key, val] of Object.entries(filter)) {
+      const snakeKey = key.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`);
+      query = query.eq(snakeKey, val);
     }
-    this._save(items);
-    return { matchedCount: 1, modifiedCount: 1 };
+
+    const { data, error } = await query.select();
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.updateOne]:`, error.message);
+      throw error;
+    }
+    return { matchedCount: (data || []).length, modifiedCount: (data || []).length };
   }
 
   async deleteOne(filter) {
-    const items = this._read();
-    const index = items.findIndex((item) => {
-      for (const [key, val] of Object.entries(filter)) {
-        if (item[key] !== val) return false;
-      }
-      return true;
-    });
-
-    if (index === -1) return { deletedCount: 0 };
-    items.splice(index, 1);
-    this._save(items);
-    return { deletedCount: 1 };
+    let query = supabase.from(this.table).delete();
+    for (const [key, val] of Object.entries(filter)) {
+      const snakeKey = key.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`);
+      query = query.eq(snakeKey, val);
+    }
+    const { data, error } = await query.select();
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.deleteOne]:`, error.message);
+      throw error;
+    }
+    return { deletedCount: (data || []).length };
   }
 
   async deleteMany(filter = {}) {
-    const items = this._read();
-    if (Object.keys(filter).length === 0) {
-      this._save([]);
-      return { deletedCount: items.length };
-    }
-    const remaining = items.filter((item) => {
+    let query = supabase.from(this.table).delete();
+    if (Object.keys(filter).length > 0) {
       for (const [key, val] of Object.entries(filter)) {
-        if (item[key] !== val) return true;
+        const snakeKey = key.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`);
+        query = query.eq(snakeKey, val);
       }
-      return false;
-    });
-    const deletedCount = items.length - remaining.length;
-    this._save(remaining);
-    return { deletedCount };
+    } else {
+      // Delete all (neq dummy id)
+      query = query.neq("id", "00000000-0000-0000-0000-000000000000");
+    }
+
+    const { data, error } = await query.select();
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.deleteMany]:`, error.message);
+      throw error;
+    }
+    return { deletedCount: (data || []).length };
   }
 
   async countDocuments(filter = {}) {
-    const items = await this.find(filter);
-    return items.length;
+    let query = supabase.from(this.table).select("*", { count: "exact", head: true });
+    for (const [key, val] of Object.entries(filter)) {
+      const snakeKey = key.replace(/[A-Z]/g, (l) => `_${l.toLowerCase()}`);
+      query = query.eq(snakeKey, val);
+    }
+    const { count, error } = await query;
+    if (error) {
+      console.error(`[Supabase error on ${this.table}.countDocuments]:`, error.message);
+      return 0;
+    }
+    return count || 0;
   }
 }
