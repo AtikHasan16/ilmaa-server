@@ -269,13 +269,53 @@ app.post("/api/v1/auth/heartbeat", async (req, res) => {
   }
 });
 
+// GET /api/v1/vocabulary/stats (Topic counts for dynamic dashboard and cards)
+app.get("/api/v1/vocabulary/stats", async (req, res) => {
+  try {
+    const allWords = await vocabularyCollection.find({});
+    const stats = {};
+    const uploadedTopicsMap = {};
+    let totalUploaded = 0;
+
+    for (const item of allWords) {
+      const topicName = item.topic || "Uploaded";
+      stats[topicName] = (stats[topicName] || 0) + 1;
+
+      // Words uploaded by users (not part of the fixed Academic Word List)
+      if (item.uploadedBy && item.topic !== "Academic Word List: Sublist A") {
+        totalUploaded += 1;
+        uploadedTopicsMap[topicName] = (uploadedTopicsMap[topicName] || 0) + 1;
+      }
+    }
+
+    const uploadedTopics = Object.keys(uploadedTopicsMap).map((topicName) => ({
+      title: topicName,
+      count: uploadedTopicsMap[topicName],
+    }));
+
+    res.json({
+      success: true,
+      totalCount: allWords.length,
+      uploadedCount: totalUploaded,
+      byTopic: stats,
+      uploadedTopics,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // GET /api/v1/vocabulary
 app.get("/api/v1/vocabulary", async (req, res) => {
   try {
     const { topic, uploadedOnly } = req.query;
     const filter = {};
-    if (topic) filter.topic = topic;
-    if (uploadedOnly === "true") filter.uploadedBy = { $ne: null };
+    if (topic && topic !== "all") {
+      filter.topic = topic;
+    }
+    if (uploadedOnly === "true") {
+      filter.uploadedBy = { $ne: null };
+    }
 
     const words = await vocabularyCollection.find(filter);
     res.json({ success: true, count: words.length, data: words });
@@ -415,11 +455,53 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
 // 3. GRAMMAR ENDPOINTS
 // ==========================================
 
+// GET /api/v1/grammar/stats (Module counts for dynamic topic cards)
+app.get("/api/v1/grammar/stats", async (req, res) => {
+  try {
+    const allQuestions = await grammarCollection.find({});
+    const stats = {};
+
+    for (const q of allQuestions) {
+      const mod = q.module || "general";
+      stats[mod] = (stats[mod] || 0) + 1;
+    }
+
+    res.json({
+      success: true,
+      totalCount: allQuestions.length,
+      byModule: stats,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 app.get("/api/v1/grammar/questions", async (req, res) => {
   try {
-    const { module } = req.query;
-    const filter = module ? { module } : {};
-    const questions = await grammarCollection.find(filter);
+    const { module: modParam } = req.query;
+    let filter = {};
+
+    if (modParam && modParam !== "all" && modParam !== "mixed") {
+      // Map frontend topic IDs to module slugs in grammar_questions.json
+      if (modParam === "modifiers-dangling" || modParam === "run-on-comma-splices") {
+        filter = {
+          $or: [
+            { module: modParam },
+            { module: "modifiers-and-splices" },
+          ],
+        };
+      } else {
+        filter = { module: modParam };
+      }
+    }
+
+    let questions = await grammarCollection.find(filter);
+
+    // If a specific module returned 0 (e.g. subject-verb-agreement), provide sample fallback from all questions
+    if (questions.length === 0 && modParam) {
+      questions = await grammarCollection.find({});
+    }
+
     res.json({ success: true, count: questions.length, data: questions });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
