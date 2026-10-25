@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import crypto from "crypto";
-import { EdgeTTS } from "@andresaya/edge-tts";
+import { EdgeTTS } from "node-edge-tts";
 
 const app = express();
 const port = 5000;
@@ -964,8 +964,7 @@ app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
   }
 });
 
-// Initialize EdgeTTS service and audio cache folder
-const ttsService = new EdgeTTS();
+// Initialize audio cache folder (uses OS temp dir for serverless compatibility)
 const AUDIO_CACHE_DIR = path.join(os.tmpdir(), "ilmaa_audio_cache");
 try {
   if (!fs.existsSync(AUDIO_CACHE_DIR)) {
@@ -975,7 +974,7 @@ try {
   // Harmless in serverless
 }
 
-// GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural)
+// GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural via node-edge-tts)
 app.get("/api/v1/tts", async (req, res) => {
   try {
     const rawText = (req.query.text || "").trim();
@@ -1012,37 +1011,28 @@ app.get("/api/v1/tts", async (req, res) => {
       return fs.createReadStream(cachePath).pipe(res);
     }
 
-    // Generate speech using Microsoft Christopher Neural voice
-    const result = await ttsService.generate(rawText, voice, {
+    // Generate speech using node-edge-tts directly into cachePath
+    const tts = new EdgeTTS({
+      voice,
+      lang: "en-US",
+      outputFormat: "audio-24khz-48kbitrate-mono-mp3",
       rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
     });
 
-    if (!result || !result.audio) {
+    await tts.ttsPromise(rawText, cachePath);
+
+    if (!fs.existsSync(cachePath)) {
       res.setHeader("Access-Control-Allow-Origin", "*");
       return res
         .status(502)
         .json({ success: false, message: "Failed to generate speech audio" });
     }
 
-    // Save generated audio to cache asynchronously
-    try {
-      fs.writeFile(cachePath, result.audio, (err) => {
-        if (err) console.error("[TTS Cache Error]", err);
-      });
-    } catch {
-      // Ignore cache write errors on serverless
-    }
-
-    const audioBuffer = Buffer.isBuffer(result.audio)
-      ? result.audio
-      : Buffer.from(result.audio);
-
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
     res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Content-Length", audioBuffer.length);
     res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    res.send(audioBuffer);
+    fs.createReadStream(cachePath).pipe(res);
   } catch (err) {
     console.error("[TTS Error]", err);
     res.setHeader("Access-Control-Allow-Origin", "*");

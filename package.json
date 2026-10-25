@@ -10,13 +10,12 @@
     "build": "node -e 'console.log(\"Build step ready\")'"
   },
   "dependencies": {
-    "@andresaya/edge-tts": "^1.9.1",
     "@supabase/supabase-js": "^2.118.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-validator": "^7.2.1",
-    "msedge-tts": "^2.1.1",
+    "node-edge-tts": "^1.2.11",
     "uuid": "^14.0.3"
   }
 }
