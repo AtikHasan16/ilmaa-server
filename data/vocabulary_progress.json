@@ -8,8 +8,38 @@
       "Area"
     ],
     "incorrectWords": [],
+    "progressByTopic": {
+      "Academic Word List: Sublist A": {
+        "mastered": 3,
+        "incorrect": 0
+      }
+    },
+    "updatedAt": "2026-10-25T08:00:17.097Z",
+    "createdAt": "2026-10-25T05:30:00.793Z",
+    "totalSessions": 7,
+    "totalStudySeconds": 141,
+    "highestGrammarScore": {
+      "score": 0,
+      "total": 1,
+      "percent": 0,
+      "achievedAt": "2026-10-25T06:39:22.859Z"
+    }
+  },
+  {
+    "_id": "bb842ab6-8838-4ccc-8d84-a1e80603f9b3",
+    "accessId": "9742291866",
+    "masteredWords": [],
+    "incorrectWords": [],
     "progressByTopic": {},
-    "updatedAt": "2026-10-25T05:58:53.603Z",
-    "createdAt": "2026-10-25T05:30:00.793Z"
+    "totalStudySeconds": 26,
+    "totalSessions": 4,
+    "highestGrammarScore": {
+      "score": 0,
+      "total": 1,
+      "percent": 0,
+      "achievedAt": "2026-10-25T09:27:46.106Z"
+    },
+    "updatedAt": "2026-10-25T09:30:14.047Z",
+    "createdAt": "2026-10-25T09:27:46.106Z"
   }
 ]

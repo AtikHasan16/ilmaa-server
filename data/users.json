@@ -7,8 +7,8 @@
     "deviceToken": "dc0274bf-46df-4dfd-a8c4-484c0be45a52",
     "requestedDeviceToken": null,
     "createdAt": "2026-10-24T12:48:41.854Z",
-    "updatedAt": "2026-10-25T06:05:25.654Z",
-    "lastActiveAt": "2026-10-25T06:05:25.653Z"
+    "updatedAt": "2026-10-25T09:37:35.505Z",
+    "lastActiveAt": "2026-10-25T09:37:35.504Z"
   },
   {
     "_id": "3b2dd583-e3ea-4ccd-ada0-befea2e8cecc",
@@ -20,5 +20,17 @@
     "requestedDeviceToken": "dc0274bf-46df-4dfd-a8c4-484c0be45a52",
     "createdAt": "2026-10-24T14:19:43.666Z",
     "updatedAt": "2026-10-24T14:20:58.194Z"
+  },
+  {
+    "_id": "ae3e6ad1-8e94-4ca9-a7d6-77d40f5d9a8f",
+    "name": "Black",
+    "accessId": "9742291866",
+    "role": "general",
+    "status": "approved",
+    "deviceToken": "dc0274bf-46df-4dfd-a8c4-484c0be45a52",
+    "requestedDeviceToken": null,
+    "createdAt": "2026-10-25T06:52:41.794Z",
+    "updatedAt": "2026-10-25T09:27:22.113Z",
+    "lastActiveAt": "2026-10-25T06:54:02.343Z"
   }
 ]

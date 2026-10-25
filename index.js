@@ -378,7 +378,11 @@ app.post("/api/v1/vocabulary", async (req, res) => {
 // POST /api/v1/vocabulary/bulk (Bulk Import TSV/CSV)
 app.post("/api/v1/vocabulary/bulk", async (req, res) => {
   try {
-    const { items, defaultTopic = "Uploaded", uploadedBy = "bulk-upload" } = req.body;
+    const {
+      items,
+      defaultTopic = "Uploaded",
+      uploadedBy = "bulk-upload",
+    } = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
@@ -396,18 +400,21 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
       const banglaMeaning = (row.banglaMeaning || "").trim();
 
       if (!word || !banglaMeaning) {
-        skipped.push({ rowNumber: idx + 1, reason: "Missing word or banglaMeaning" });
+        skipped.push({
+          rowNumber: idx + 1,
+          reason: "Missing word or banglaMeaning",
+        });
         continue;
       }
 
       const synList = Array.isArray(row.synonyms)
         ? row.synonyms
         : typeof row.synonyms === "string"
-        ? row.synonyms
-            .split(/[,|;]/)
-            .map((s) => s.trim())
-            .filter(Boolean)
-        : [];
+          ? row.synonyms
+              .split(/[,|;]/)
+              .map((s) => s.trim())
+              .filter(Boolean)
+          : [];
 
       validatedDocs.push({
         word,
@@ -460,7 +467,9 @@ app.get("/api/v1/vocabulary/progress", async (req, res) => {
   try {
     const accessId = req.query.accessId || req.headers["x-access-id"];
     if (!accessId) {
-      return res.status(400).json({ success: false, message: "Missing accessId" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing accessId" });
     }
 
     const cleanId = String(accessId).trim();
@@ -485,9 +494,16 @@ app.get("/api/v1/vocabulary/progress", async (req, res) => {
 // POST /api/v1/vocabulary/progress - Record an answer (correct or incorrect)
 app.post("/api/v1/vocabulary/progress", async (req, res) => {
   try {
-    const { accessId, word, isCorrect, topic = "Academic Word List: Sublist A" } = req.body;
+    const {
+      accessId,
+      word,
+      isCorrect,
+      topic = "Academic Word List: Sublist A",
+    } = req.body;
     if (!accessId || !word) {
-      return res.status(400).json({ success: false, message: "accessId and word are required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "accessId and word are required" });
     }
 
     const cleanId = String(accessId).trim();
@@ -505,8 +521,12 @@ app.post("/api/v1/vocabulary/progress", async (req, res) => {
       await progressCollection.insertOne(record);
     }
 
-    let mastered = Array.isArray(record.masteredWords) ? [...record.masteredWords] : [];
-    let incorrect = Array.isArray(record.incorrectWords) ? [...record.incorrectWords] : [];
+    let mastered = Array.isArray(record.masteredWords)
+      ? [...record.masteredWords]
+      : [];
+    let incorrect = Array.isArray(record.incorrectWords)
+      ? [...record.incorrectWords]
+      : [];
     const topicStats = record.progressByTopic || {};
     const currTopic = topicStats[topic] || { mastered: 0, incorrect: 0 };
 
@@ -558,7 +578,9 @@ app.post("/api/v1/vocabulary/progress/reset", async (req, res) => {
   try {
     const { accessId, topic } = req.body;
     if (!accessId) {
-      return res.status(400).json({ success: false, message: "Missing accessId" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing accessId" });
     }
 
     const cleanId = String(accessId).trim();
@@ -582,8 +604,129 @@ app.post("/api/v1/vocabulary/progress/reset", async (req, res) => {
         },
       );
     }
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
-    res.json({ success: true, message: "Progress reset successfully" });
+// POST /api/v1/user/study-session - Record study session duration & grammar drill scores
+app.post("/api/v1/user/study-session", async (req, res) => {
+  try {
+    const {
+      accessId,
+      durationSeconds = 0,
+      grammarScore = null,
+      totalQuestions = null,
+    } = req.body;
+    if (!accessId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing accessId" });
+    }
+
+    const cleanId = String(accessId).trim();
+    let record = await progressCollection.findOne({ accessId: cleanId });
+
+    if (!record) {
+      record = {
+        accessId: cleanId,
+        masteredWords: [],
+        incorrectWords: [],
+        progressByTopic: {},
+        totalStudySeconds: 0,
+        totalSessions: 0,
+        highestGrammarScore: null,
+        updatedAt: new Date().toISOString(),
+      };
+      await progressCollection.insertOne(record);
+    }
+
+    const newSessions = (record.totalSessions || 0) + 1;
+    const newSeconds =
+      (record.totalStudySeconds || 0) +
+      Math.max(0, parseInt(durationSeconds, 10) || 0);
+
+    let highestScore = record.highestGrammarScore || null;
+    if (
+      grammarScore !== null &&
+      totalQuestions !== null &&
+      totalQuestions > 0
+    ) {
+      const currentPct = Math.round((grammarScore / totalQuestions) * 100);
+      const prevPct = highestScore
+        ? Math.round((highestScore.score / highestScore.total) * 100)
+        : -1;
+      if (currentPct > prevPct) {
+        highestScore = {
+          score: grammarScore,
+          total: totalQuestions,
+          percent: currentPct,
+          achievedAt: new Date().toISOString(),
+        };
+      }
+    }
+
+    await progressCollection.updateOne(
+      { accessId: cleanId },
+      {
+        $set: {
+          totalSessions: newSessions,
+          totalStudySeconds: newSeconds,
+          highestGrammarScore: highestScore,
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    );
+
+    res.json({
+      success: true,
+      data: {
+        totalSessions: newSessions,
+        totalStudySeconds: newSeconds,
+        highestGrammarScore: highestScore,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/v1/user/profile-metrics - Comprehensive study stats for candidate
+app.get("/api/v1/user/profile-metrics", async (req, res) => {
+  try {
+    const accessId = req.query.accessId || req.headers["x-access-id"];
+    if (!accessId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing accessId" });
+    }
+
+    const cleanId = String(accessId).trim();
+    const [progress, totalVocab] = await Promise.all([
+      progressCollection.findOne({ accessId: cleanId }),
+      vocabularyCollection.countDocuments(),
+    ]);
+
+    const masteredCount = progress?.masteredWords?.length || 0;
+    const inProgressCount = progress?.incorrectWords?.length || 0;
+    const totalSessions =
+      progress?.totalSessions || (masteredCount > 0 ? 1 : 0);
+    // Baseline duration estimate: if sessions exist, at least session count * 2 mins or recorded duration
+    const totalStudySeconds =
+      progress?.totalStudySeconds || masteredCount * 30 + inProgressCount * 20;
+    const highestGrammarScore = progress?.highestGrammarScore || null;
+
+    res.json({
+      success: true,
+      data: {
+        totalVocabInCorpus: totalVocab,
+        masteredCount,
+        inProgressCount,
+        totalSessions,
+        totalStudySeconds,
+        highestGrammarScore,
+      },
+    });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -621,12 +764,12 @@ app.get("/api/v1/grammar/questions", async (req, res) => {
 
     if (modParam && modParam !== "all" && modParam !== "mixed") {
       // Map frontend topic IDs to module slugs in grammar_questions.json
-      if (modParam === "modifiers-dangling" || modParam === "run-on-comma-splices") {
+      if (
+        modParam === "modifiers-dangling" ||
+        modParam === "run-on-comma-splices"
+      ) {
         filter = {
-          $or: [
-            { module: modParam },
-            { module: "modifiers-and-splices" },
-          ],
+          $or: [{ module: modParam }, { module: "modifiers-and-splices" }],
         };
       } else {
         filter = { module: modParam };
@@ -789,7 +932,8 @@ app.get("/api/v1/admin/users-audit", async (req, res) => {
 
     const users = allUsers.map((u) => {
       const lastSeen = u.lastActiveAt ? new Date(u.lastActiveAt).getTime() : 0;
-      const isOnline = u.status === "approved" && Date.now() - lastSeen < 5 * 60 * 1000;
+      const isOnline =
+        u.status === "approved" && Date.now() - lastSeen < 5 * 60 * 1000;
 
       return {
         id: u._id || u.accessId,
@@ -859,7 +1003,9 @@ app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
     const { accessId } = req.params;
     const user = await usersCollection.findOne({ accessId });
     if (!user) {
-      return res.status(404).json({ success: false, message: "User not found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found" });
     }
 
     await usersCollection.updateOne(
@@ -898,15 +1044,25 @@ app.get("/api/v1/tts", async (req, res) => {
     const voice = req.query.voice || "en-US-ChristopherNeural";
 
     if (!rawText) {
-      return res.status(400).json({ success: false, message: "Text parameter is required" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Text parameter is required" });
     }
 
     if (rawText.length > 500) {
-      return res.status(400).json({ success: false, message: "Text is too long (max 500 characters)" });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Text is too long (max 500 characters)",
+        });
     }
 
     // Cache key based on voice and text
-    const hash = crypto.createHash("md5").update(`${voice}:${rawText.toLowerCase()}`).digest("hex");
+    const hash = crypto
+      .createHash("md5")
+      .update(`${voice}:${rawText.toLowerCase()}`)
+      .digest("hex");
     const cachePath = path.join(AUDIO_CACHE_DIR, `${hash}.mp3`);
 
     // Check if audio file is already cached locally
@@ -922,7 +1078,9 @@ app.get("/api/v1/tts", async (req, res) => {
     });
 
     if (!result || !result.audio) {
-      return res.status(502).json({ success: false, message: "Failed to generate speech audio" });
+      return res
+        .status(502)
+        .json({ success: false, message: "Failed to generate speech audio" });
     }
 
     // Save generated audio to cache asynchronously
