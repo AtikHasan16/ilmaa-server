@@ -11,7 +11,7 @@ const port = 5000;
 // Middleware
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: true,
     credentials: true,
   }),
 );
@@ -983,12 +983,10 @@ app.get("/api/v1/tts", async (req, res) => {
     }
 
     if (rawText.length > 500) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          message: "Text is too long (max 500 characters)",
-        });
+      return res.status(400).json({
+        success: false,
+        message: "Text is too long (max 500 characters)",
+      });
     }
 
     // Cache key based on voice and text
@@ -1031,9 +1029,10 @@ app.get("/api/v1/tts", async (req, res) => {
 });
 
 // Start Server
-app.listen(port, () => {
-  console.log(`[Imlaa Backend] Running smoothly on http://localhost:${port}`);
-  console.log(
-    `[Imlaa Backend] Local JSON database loaded. Zero network dependency.`,
-  );
-});
+if (process.env.NODE_ENV !== "production") {
+  app.listen(port, () => {
+    console.log(`[Imlaa Backend] Running smoothly on http://localhost:${port}`);
+  });
+}
+
+export default app;
