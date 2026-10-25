@@ -331,6 +331,82 @@ app.post("/api/v1/vocabulary", async (req, res) => {
   }
 });
 
+// POST /api/v1/vocabulary/bulk (Bulk Import TSV/CSV)
+app.post("/api/v1/vocabulary/bulk", async (req, res) => {
+  try {
+    const { items, defaultTopic = "Uploaded", uploadedBy = "bulk-upload" } = req.body;
+
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Payload must include an array of items.",
+      });
+    }
+
+    const validatedDocs = [];
+    const skipped = [];
+
+    for (const [idx, row] of items.entries()) {
+      const word = (row.word || "").trim();
+      const pos = (row.pos || "Adjective").trim();
+      const banglaMeaning = (row.banglaMeaning || "").trim();
+
+      if (!word || !banglaMeaning) {
+        skipped.push({ rowNumber: idx + 1, reason: "Missing word or banglaMeaning" });
+        continue;
+      }
+
+      const synList = Array.isArray(row.synonyms)
+        ? row.synonyms
+        : typeof row.synonyms === "string"
+        ? row.synonyms
+            .split(/[,|;]/)
+            .map((s) => s.trim())
+            .filter(Boolean)
+        : [];
+
+      validatedDocs.push({
+        word,
+        pos,
+        banglaMeaning,
+        synonyms: synList,
+        exampleUsage: (row.exampleUsage || "").trim(),
+        topic: (row.topic || defaultTopic || "Uploaded").trim(),
+        uploadedBy: row.uploadedBy || uploadedBy,
+      });
+    }
+
+    if (validatedDocs.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No valid rows found to import.",
+        skipped,
+      });
+    }
+
+    const result = await vocabularyCollection.insertMany(validatedDocs);
+
+    // Audit log
+    await auditLogsCollection.insertOne({
+      action: "VOCAB_BULK_UPLOAD",
+      userName: uploadedBy,
+      accessId: "SYSTEM",
+      details: `Bulk imported ${validatedDocs.length} words (skipped: ${skipped.length})`,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.status(201).json({
+      success: true,
+      message: `Successfully imported ${validatedDocs.length} vocabulary words.`,
+      insertedCount: result.insertedCount,
+      skippedCount: skipped.length,
+      skipped,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // ==========================================
 // 3. GRAMMAR ENDPOINTS
 // ==========================================

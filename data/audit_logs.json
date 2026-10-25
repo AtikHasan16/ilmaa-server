@@ -5,5 +5,15 @@
     "accessId": "1234567890",
     "details": "System initialized with baseline admin access",
     "timestamp": "2026-10-25T01:35:02.607Z"
+  },
+  {
+    "_id": "e8a5d992-ab30-4d7d-a679-1b6bed8a12eb",
+    "action": "VOCAB_BULK_UPLOAD",
+    "userName": "bulk-sheet-import",
+    "accessId": "SYSTEM",
+    "details": "Bulk imported 7 words (skipped: 0)",
+    "timestamp": "2026-10-25T02:02:38.583Z",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
   }
 ]

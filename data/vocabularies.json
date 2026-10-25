@@ -37,5 +37,116 @@
     "exampleUsage": "Fashions are ephemeral, but true style endures.",
     "topic": "Part 1: Basics",
     "uploadedBy": null
+  },
+  {
+    "_id": "8d6f5f0c-843d-4d18-b720-e196f4f4b28c",
+    "word": "Commuter",
+    "pos": "Noun",
+    "banglaMeaning": "যে ব্যক্তি নিয়মিত দূরপাল্লার যাতায়াত করে",
+    "synonyms": [
+      "traveler",
+      "passenger"
+    ],
+    "exampleUsage": "The train was packed with commuters reading the morning paper.",
+    "topic": "Part 1: Basics",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
+  },
+  {
+    "_id": "6544093f-50a4-4b5a-bf64-583c2db57d4b",
+    "word": "Mitigate",
+    "pos": "Verb",
+    "banglaMeaning": "তীব্রতা বা কষ্ট লাঘব করা / কমানো",
+    "synonyms": [
+      "alleviate",
+      "reduce",
+      "lessen"
+    ],
+    "exampleUsage": "The government implemented new policies to mitigate the effects of climate change.",
+    "topic": "Part 3: Advanced",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
+  },
+  {
+    "_id": "dcb98fbb-47e2-4d11-a78e-92074bf9c26d",
+    "word": "Ubiquitous",
+    "pos": "Adjective",
+    "banglaMeaning": "সর্বব্যাপী / সর্বত্র বিদ্যমান",
+    "synonyms": [
+      "omnipresent",
+      "universal",
+      "everywhere"
+    ],
+    "exampleUsage": "Mobile phones have become ubiquitous in modern society.",
+    "topic": "Part 3: Advanced",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
+  },
+  {
+    "_id": "3fb8694e-442d-40c7-9b79-87307cfccd4e",
+    "word": "Fluctuate",
+    "pos": "Verb",
+    "banglaMeaning": "ওঠা-নামা করা / পরিবর্তনশীল হওয়া",
+    "synonyms": [
+      "vary",
+      "shift",
+      "alter"
+    ],
+    "exampleUsage": "The prices of fresh vegetables fluctuate according to the season.",
+    "topic": "Part 2: Intermediate",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
+  },
+  {
+    "_id": "cd5f3e9f-67a0-41e8-bea5-2d1d93a75f0c",
+    "word": "Detrimental",
+    "pos": "Adjective",
+    "banglaMeaning": "ক্ষতিকর",
+    "synonyms": [
+      "harmful",
+      "damaging",
+      "negative"
+    ],
+    "exampleUsage": "Lack of sleep can be highly detrimental to your physical health.",
+    "topic": "Part 2: Intermediate",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
+  },
+  {
+    "_id": "97793a8f-ec0c-41c4-bbdf-07d1f9fe34ae",
+    "word": "Abundant",
+    "pos": "Adjective",
+    "banglaMeaning": "প্রচুর / প্রচুর পরিমাণে বিদ্যমান",
+    "synonyms": [
+      "plentiful",
+      "ample",
+      "copious"
+    ],
+    "exampleUsage": "The country has an abundant supply of natural resources.",
+    "topic": "Part 2: Intermediate",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
+  },
+  {
+    "_id": "e34e3d2c-b7ad-44a7-82c6-1173c6c34d36",
+    "word": "Deteriorate",
+    "pos": "Verb",
+    "banglaMeaning": "অবনতি হওয়া / খারাপ হওয়া",
+    "synonyms": [
+      "worsen",
+      "decline",
+      "degrade"
+    ],
+    "exampleUsage": "If not treated immediately, the patient's condition will deteriorate rapidly.",
+    "topic": "Part 3: Advanced",
+    "uploadedBy": "bulk-sheet-import",
+    "createdAt": "2026-10-25T02:02:38.583Z",
+    "updatedAt": "2026-10-25T02:02:38.583Z"
   }
 ]
