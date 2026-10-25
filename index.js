@@ -1,5 +1,9 @@
 import express from "express";
 import cors from "cors";
+import fs from "fs";
+import path from "path";
+import crypto from "crypto";
+import { EdgeTTS } from "@andresaya/edge-tts";
 import { JsonCollection } from "./db.js";
 
 const app = express();
@@ -656,6 +660,61 @@ app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
       message: `Device binding cleared for ${user.name}. User can now re-bind from any device.`,
     });
   } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Initialize EdgeTTS service and audio cache folder
+const ttsService = new EdgeTTS();
+const AUDIO_CACHE_DIR = path.resolve("./data/audio_cache");
+if (!fs.existsSync(AUDIO_CACHE_DIR)) {
+  fs.mkdirSync(AUDIO_CACHE_DIR, { recursive: true });
+}
+
+// GET /api/v1/tts - Microsoft Edge Neural Text-to-Speech (Christopher Neural)
+app.get("/api/v1/tts", async (req, res) => {
+  try {
+    const rawText = (req.query.text || "").trim();
+    const voice = req.query.voice || "en-US-ChristopherNeural";
+
+    if (!rawText) {
+      return res.status(400).json({ success: false, message: "Text parameter is required" });
+    }
+
+    if (rawText.length > 500) {
+      return res.status(400).json({ success: false, message: "Text is too long (max 500 characters)" });
+    }
+
+    // Cache key based on voice and text
+    const hash = crypto.createHash("md5").update(`${voice}:${rawText.toLowerCase()}`).digest("hex");
+    const cachePath = path.join(AUDIO_CACHE_DIR, `${hash}.mp3`);
+
+    // Check if audio file is already cached locally
+    if (fs.existsSync(cachePath)) {
+      res.setHeader("Content-Type", "audio/mpeg");
+      res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      return fs.createReadStream(cachePath).pipe(res);
+    }
+
+    // Generate speech using Microsoft Christopher Neural voice
+    const result = await ttsService.generate(rawText, voice, {
+      rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
+    });
+
+    if (!result || !result.audio) {
+      return res.status(502).json({ success: false, message: "Failed to generate speech audio" });
+    }
+
+    // Save generated audio to cache asynchronously
+    fs.writeFile(cachePath, result.audio, (err) => {
+      if (err) console.error("[TTS Cache Error]", err);
+    });
+
+    res.setHeader("Content-Type", "audio/mpeg");
+    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+    res.send(result.audio);
+  } catch (err) {
+    console.error("[TTS Error]", err);
     res.status(500).json({ success: false, message: err.message });
   }
 });
