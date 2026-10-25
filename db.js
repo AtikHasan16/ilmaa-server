@@ -101,6 +101,38 @@ export class JsonCollection {
     return { matchedCount: 1, modifiedCount: 1 };
   }
 
+  async deleteOne(filter) {
+    const items = this._read();
+    const index = items.findIndex((item) => {
+      for (const [key, val] of Object.entries(filter)) {
+        if (item[key] !== val) return false;
+      }
+      return true;
+    });
+
+    if (index === -1) return { deletedCount: 0 };
+    items.splice(index, 1);
+    this._save(items);
+    return { deletedCount: 1 };
+  }
+
+  async deleteMany(filter = {}) {
+    const items = this._read();
+    if (Object.keys(filter).length === 0) {
+      this._save([]);
+      return { deletedCount: items.length };
+    }
+    const remaining = items.filter((item) => {
+      for (const [key, val] of Object.entries(filter)) {
+        if (item[key] !== val) return true;
+      }
+      return false;
+    });
+    const deletedCount = items.length - remaining.length;
+    this._save(remaining);
+    return { deletedCount };
+  }
+
   async countDocuments(filter = {}) {
     const items = await this.find(filter);
     return items.length;

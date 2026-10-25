@@ -1,11 +1,24 @@
 [
   {
-    "name": "Admin User",
+    "name": "Admin",
     "accessId": "1234567890",
     "role": "admin",
     "status": "approved",
-    "deviceToken": null,
+    "deviceToken": "dc0274bf-46df-4dfd-a8c4-484c0be45a52",
     "requestedDeviceToken": null,
-    "createdAt": "2026-10-24T12:48:41.854Z"
+    "createdAt": "2026-10-24T12:48:41.854Z",
+    "updatedAt": "2026-10-25T01:39:53.648Z",
+    "lastActiveAt": "2026-10-25T01:39:53.647Z"
+  },
+  {
+    "_id": "3b2dd583-e3ea-4ccd-ada0-befea2e8cecc",
+    "name": "Verba",
+    "accessId": "9999639858",
+    "role": "general",
+    "status": "approved",
+    "deviceToken": "dc0274bf-46df-4dfd-a8c4-484c0be45a52",
+    "requestedDeviceToken": "dc0274bf-46df-4dfd-a8c4-484c0be45a52",
+    "createdAt": "2026-10-24T14:19:43.666Z",
+    "updatedAt": "2026-10-24T14:20:58.194Z"
   }
 ]

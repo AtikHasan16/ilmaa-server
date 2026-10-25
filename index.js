@@ -1,10 +1,9 @@
-import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { JsonCollection } from "./db.js";
 
 const app = express();
-const port = process.env.PORT || 5000;
+const port = 5000;
 
 // Middleware
 app.use(
@@ -18,7 +17,7 @@ app.use(express.json());
 // Initialize Local Collections
 const usersCollection = new JsonCollection("users", [
   {
-    name: "Admin User",
+    name: "Admin",
     accessId: "1234567890",
     role: "admin",
     status: "approved",
@@ -80,6 +79,31 @@ const grammarCollection = new JsonCollection("grammar_questions", [
 ]);
 
 const progressCollection = new JsonCollection("vocabulary_progress", []);
+const auditLogsCollection = new JsonCollection("audit_logs", [
+  {
+    action: "SYSTEM_INIT",
+    userName: "Admin User",
+    accessId: "1234567890",
+    details: "System initialized with baseline admin access",
+    timestamp: new Date().toISOString(),
+  },
+]);
+
+// Activity tracking middleware via x-device-token header
+app.use(async (req, res, next) => {
+  const token = req.headers["x-device-token"];
+  if (token && typeof token === "string") {
+    try {
+      await usersCollection.updateOne(
+        { deviceToken: token },
+        { $set: { lastActiveAt: new Date().toISOString() } },
+      );
+    } catch {
+      // Ignore background activity tracking failures
+    }
+  }
+  next();
+});
 
 // Root health check
 app.get("/", (req, res) => {
@@ -224,9 +248,22 @@ app.post("/api/v1/auth/validate-device", async (req, res) => {
   }
 });
 
-// ==========================================
-// 2. VOCABULARY ENDPOINTS
-// ==========================================
+// POST /api/v1/auth/heartbeat
+// Periodic background ping to maintain online presence
+app.post("/api/v1/auth/heartbeat", async (req, res) => {
+  try {
+    const token = req.headers["x-device-token"];
+    if (token) {
+      await usersCollection.updateOne(
+        { deviceToken: token },
+        { $set: { lastActiveAt: new Date().toISOString() } },
+      );
+    }
+    res.json({ success: true, timestamp: new Date().toISOString() });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 // GET /api/v1/vocabulary
 app.get("/api/v1/vocabulary", async (req, res) => {
@@ -342,6 +379,15 @@ app.post("/api/v1/admin/access-ids", async (req, res) => {
     };
 
     const result = await usersCollection.insertOne(newUser);
+
+    await auditLogsCollection.insertOne({
+      action: "ID_GENERATED",
+      userName: newUser.name,
+      accessId: newUser.accessId,
+      details: `Generated new 10-digit ID with role: ${newUser.role}`,
+      timestamp: new Date().toISOString(),
+    });
+
     res.status(201).json({
       success: true,
       message: "Access ID generated successfully",
@@ -380,12 +426,23 @@ app.patch(
       const updateSet = {
         status: "approved",
         deviceToken: user.requestedDeviceToken || "token-" + Date.now(),
+        lastActiveAt: new Date().toISOString(),
       };
       if (role && ["general", "advance", "admin"].includes(role)) {
         updateSet.role = role;
       }
 
       await usersCollection.updateOne({ accessId }, { $set: updateSet });
+
+      // Record in audit log
+      await auditLogsCollection.insertOne({
+        action: "ACCESS_APPROVED",
+        userName: user.name,
+        accessId,
+        details: `Approved device access with role: ${role || user.role}`,
+        timestamp: new Date().toISOString(),
+      });
+
       res.json({ success: true, message: `Access approved for ${user.name}` });
     } catch (err) {
       res.status(500).json({ success: false, message: err.message });
@@ -399,16 +456,133 @@ app.patch(
   async (req, res) => {
     try {
       const { accessId } = req.params;
+      const user = await usersCollection.findOne({ accessId });
+
       await usersCollection.updateOne(
         { accessId },
         { $set: { status: "rejected" } },
       );
+
+      if (user) {
+        await auditLogsCollection.insertOne({
+          action: "ACCESS_REJECTED",
+          userName: user.name,
+          accessId,
+          details: "Access request rejected by admin",
+          timestamp: new Date().toISOString(),
+        });
+      }
+
       res.json({ success: true, message: "Request rejected" });
     } catch (err) {
       res.status(500).json({ success: false, message: err.message });
     }
   },
 );
+
+// GET /api/v1/admin/users-audit
+// Returns complete list of users, their device binding, online status (active in last 5 min)
+app.get("/api/v1/admin/users-audit", async (req, res) => {
+  try {
+    const allUsers = await usersCollection.find({});
+    const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+
+    const users = allUsers.map((u) => {
+      const lastSeen = u.lastActiveAt ? new Date(u.lastActiveAt).getTime() : 0;
+      const isOnline = u.status === "approved" && Date.now() - lastSeen < 5 * 60 * 1000;
+
+      return {
+        id: u._id || u.accessId,
+        name: u.name,
+        accessId: u.accessId,
+        role: u.role,
+        status: u.status,
+        deviceBound: !!u.deviceToken,
+        createdAt: u.createdAt,
+        lastActiveAt: u.lastActiveAt || null,
+        isOnline,
+      };
+    });
+
+    const activeNowCount = users.filter((u) => u.isOnline).length;
+    const approvedCount = users.filter((u) => u.status === "approved").length;
+
+    res.json({
+      success: true,
+      totalRegistered: users.length,
+      approvedCount,
+      activeNowCount,
+      users,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/v1/admin/audit-logs
+app.get("/api/v1/admin/audit-logs", async (req, res) => {
+  try {
+    const logs = await auditLogsCollection.find({});
+    // Return newest first
+    const sorted = logs.slice().reverse();
+    res.json({ success: true, count: sorted.length, data: sorted });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE /api/v1/admin/audit-logs/:id
+app.delete("/api/v1/admin/audit-logs/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await auditLogsCollection.deleteOne({ _id: id });
+    res.json({ success: true, message: "Log entry deleted", result });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE /api/v1/admin/audit-logs (Clear all logs)
+app.delete("/api/v1/admin/audit-logs", async (req, res) => {
+  try {
+    const result = await auditLogsCollection.deleteMany({});
+    res.json({ success: true, message: "All audit logs cleared", result });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// PATCH /api/v1/admin/users/:accessId/reset-device
+// Resets a user's bound device so they can log in from a new device/browser
+app.patch("/api/v1/admin/users/:accessId/reset-device", async (req, res) => {
+  try {
+    const { accessId } = req.params;
+    const user = await usersCollection.findOne({ accessId });
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    await usersCollection.updateOne(
+      { accessId },
+      { $set: { deviceToken: null, requestedDeviceToken: null } },
+    );
+
+    await auditLogsCollection.insertOne({
+      action: "DEVICE_RESET",
+      userName: user.name,
+      accessId,
+      details: "Admin reset hardware device binding",
+      timestamp: new Date().toISOString(),
+    });
+
+    res.json({
+      success: true,
+      message: `Device binding cleared for ${user.name}. User can now re-bind from any device.`,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
 
 // Start Server
 app.listen(port, () => {
