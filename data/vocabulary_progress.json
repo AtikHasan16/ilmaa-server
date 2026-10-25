@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "_id": "dd5168f4-7130-4257-8cc2-3b20ed809c5d",
+    "accessId": "1234567890",
+    "masteredWords": [
+      "Analysis",
+      "Approach",
+      "Area"
+    ],
+    "incorrectWords": [],
+    "progressByTopic": {},
+    "updatedAt": "2026-10-25T05:34:22.428Z",
+    "createdAt": "2026-10-25T05:30:00.793Z"
+  }
+]

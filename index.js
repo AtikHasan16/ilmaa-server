@@ -452,6 +452,144 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
 });
 
 // ==========================================
+// 2.5 USER VOCABULARY PROGRESS ENDPOINTS
+// ==========================================
+
+// GET /api/v1/vocabulary/progress - Get candidate's personal progress
+app.get("/api/v1/vocabulary/progress", async (req, res) => {
+  try {
+    const accessId = req.query.accessId || req.headers["x-access-id"];
+    if (!accessId) {
+      return res.status(400).json({ success: false, message: "Missing accessId" });
+    }
+
+    const cleanId = String(accessId).trim();
+    let userProgress = await progressCollection.findOne({ accessId: cleanId });
+
+    if (!userProgress) {
+      userProgress = {
+        accessId: cleanId,
+        masteredWords: [], // list of word strings correctly spelled
+        incorrectWords: [], // list of word strings with spelling errors
+        progressByTopic: {}, // { [topic]: { mastered: 0, incorrect: 0, lastIndex: 0 } }
+        updatedAt: new Date().toISOString(),
+      };
+    }
+
+    res.json({ success: true, data: userProgress });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/v1/vocabulary/progress - Record an answer (correct or incorrect)
+app.post("/api/v1/vocabulary/progress", async (req, res) => {
+  try {
+    const { accessId, word, isCorrect, topic = "Academic Word List: Sublist A" } = req.body;
+    if (!accessId || !word) {
+      return res.status(400).json({ success: false, message: "accessId and word are required" });
+    }
+
+    const cleanId = String(accessId).trim();
+    const cleanWord = String(word).trim();
+
+    let record = await progressCollection.findOne({ accessId: cleanId });
+    if (!record) {
+      record = {
+        accessId: cleanId,
+        masteredWords: [],
+        incorrectWords: [],
+        progressByTopic: {},
+        updatedAt: new Date().toISOString(),
+      };
+      await progressCollection.insertOne(record);
+    }
+
+    let mastered = Array.isArray(record.masteredWords) ? [...record.masteredWords] : [];
+    let incorrect = Array.isArray(record.incorrectWords) ? [...record.incorrectWords] : [];
+    const topicStats = record.progressByTopic || {};
+    const currTopic = topicStats[topic] || { mastered: 0, incorrect: 0 };
+
+    if (isCorrect) {
+      if (!mastered.includes(cleanWord)) {
+        mastered.push(cleanWord);
+      }
+      // If previously incorrect, user has now mastered it
+      incorrect = incorrect.filter((w) => w !== cleanWord);
+    } else {
+      if (!incorrect.includes(cleanWord)) {
+        incorrect.push(cleanWord);
+      }
+      // Cannot be mastered if just answered incorrectly
+      mastered = mastered.filter((w) => w !== cleanWord);
+    }
+
+    currTopic.mastered = mastered.length;
+    currTopic.incorrect = incorrect.length;
+    topicStats[topic] = currTopic;
+
+    await progressCollection.updateOne(
+      { accessId: cleanId },
+      {
+        $set: {
+          masteredWords: mastered,
+          incorrectWords: incorrect,
+          progressByTopic: topicStats,
+          updatedAt: new Date().toISOString(),
+        },
+      },
+    );
+
+    res.json({
+      success: true,
+      data: {
+        masteredWords: mastered,
+        incorrectWords: incorrect,
+        progressByTopic: topicStats,
+      },
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// POST /api/v1/vocabulary/progress/reset - Reset progress for a group/topic
+app.post("/api/v1/vocabulary/progress/reset", async (req, res) => {
+  try {
+    const { accessId, topic } = req.body;
+    if (!accessId) {
+      return res.status(400).json({ success: false, message: "Missing accessId" });
+    }
+
+    const cleanId = String(accessId).trim();
+    const record = await progressCollection.findOne({ accessId: cleanId });
+
+    if (record) {
+      const topicStats = record.progressByTopic || {};
+      if (topic) {
+        delete topicStats[topic];
+      }
+
+      await progressCollection.updateOne(
+        { accessId: cleanId },
+        {
+          $set: {
+            masteredWords: topic ? record.masteredWords : [],
+            incorrectWords: topic ? record.incorrectWords : [],
+            progressByTopic: topic ? topicStats : {},
+            updatedAt: new Date().toISOString(),
+          },
+        },
+      );
+    }
+
+    res.json({ success: true, message: "Progress reset successfully" });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// ==========================================
 // 3. GRAMMAR ENDPOINTS
 // ==========================================
 
