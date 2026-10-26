@@ -7,7 +7,7 @@ import crypto from "crypto";
 import { EdgeTTS } from "node-edge-tts";
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Middleware
 app.use(
@@ -1040,11 +1040,9 @@ app.get("/api/v1/tts", async (req, res) => {
   }
 });
 
-// Start Server
-if (process.env.NODE_ENV !== "production") {
-  app.listen(port, () => {
-    console.log(`[Imlaa Backend] Running smoothly on http://localhost:${port}`);
-  });
-}
+// Start Server (Binds to Render's dynamic PORT or local 5000)
+app.listen(port, () => {
+  console.log(`[Imlaa Backend] Running smoothly on port ${port}`);
+});
 
 export default app;
