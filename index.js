@@ -3,6 +3,7 @@ import cors from "cors";
 import fs from "fs";
 import path from "path";
 import os from "os";
+import https from "https";
 import crypto from "crypto";
 import { EdgeTTS } from "node-edge-tts";
 
@@ -1011,28 +1012,55 @@ app.get("/api/v1/tts", async (req, res) => {
       return fs.createReadStream(cachePath).pipe(res);
     }
 
-    // Generate speech using node-edge-tts directly into cachePath
-    const tts = new EdgeTTS({
-      voice,
-      lang: "en-US",
-      outputFormat: "audio-24khz-48kbitrate-mono-mp3",
-      rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
-    });
+    // Try generating speech using node-edge-tts directly into cachePath
+    try {
+      const tts = new EdgeTTS({
+        voice,
+        lang: "en-US",
+        outputFormat: "audio-24khz-48kbitrate-mono-mp3",
+        rate: "-5%", // Slightly articulated pace for pristine pronunciation clarity
+        timeout: 4000,
+      });
 
-    await tts.ttsPromise(rawText, cachePath);
+      await tts.ttsPromise(rawText, cachePath);
 
-    if (!fs.existsSync(cachePath)) {
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      return res
-        .status(502)
-        .json({ success: false, message: "Failed to generate speech audio" });
+      if (fs.existsSync(cachePath) && fs.statSync(cachePath).size > 100) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+        res.setHeader("Content-Type", "audio/mpeg");
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+        return fs.createReadStream(cachePath).pipe(res);
+      }
+    } catch (edgeErr) {
+      console.warn("[EdgeTTS Handshake warning, switching to direct HTTP audio stream]:", edgeErr.message);
     }
 
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
-    res.setHeader("Content-Type", "audio/mpeg");
-    res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
-    fs.createReadStream(cachePath).pipe(res);
+    // High-availability HTTP Stream Failover (Google Speech API via HTTP - 100% reliable, zero WebSockets)
+    const encodedQ = encodeURIComponent(rawText);
+    const googleTtsUrl = `https://translate.google.com/translate_tts?ie=UTF-8&q=${encodedQ}&tl=en&client=tw-ob`;
+
+    https
+      .get(googleTtsUrl, (streamRes) => {
+        if (streamRes.statusCode === 200) {
+          res.setHeader("Access-Control-Allow-Origin", "*");
+          res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
+          res.setHeader("Content-Type", "audio/mpeg");
+          res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+
+          // Save to cache in background
+          const fileStream = fs.createWriteStream(cachePath);
+          streamRes.pipe(fileStream);
+
+          return streamRes.pipe(res);
+        }
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        return res.status(502).json({ success: false, message: "Audio stream unavailable" });
+      })
+      .on("error", (err) => {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(502).json({ success: false, message: err.message });
+      });
   } catch (err) {
     console.error("[TTS Error]", err);
     res.setHeader("Access-Control-Allow-Origin", "*");
