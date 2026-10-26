@@ -221,24 +221,34 @@ app.get("/api/v1/vocabulary/stats", async (req, res) => {
       const lowerTopic = topicName.toLowerCase();
       const lowerTab = (item.targetTab || "").toLowerCase();
 
-      // Check if item belongs to Listening Vocabs:
-      // - Explicitly uploaded as listening (targetTab === 'listening')
-      // - Or topic is 'Studying university/college', 'Subjects', or contains 'listening'
-      const isListening =
-        lowerTab === "listening" ||
+      const uploaderStr = (item.uploadedBy || "").toLowerCase();
+
+      // 1. Tagged in targetTab or uploadedBy
+      const isTaggedActive = lowerTab === "active" || uploaderStr.startsWith("active:") || uploaderStr.includes("active") || uploaderStr === "admin";
+      const isTaggedListening = lowerTab === "listening" || uploaderStr.startsWith("listening:") || uploaderStr.includes("listening");
+      const isTaggedUploaded = lowerTab === "uploaded" || uploaderStr.startsWith("uploaded:");
+
+      // 2. Semantic title checks
+      const isListeningTitle =
         lowerTopic.includes("studying university") ||
         lowerTopic.includes("subjects") ||
         lowerTopic.includes("listening") ||
         lowerTopic.includes("1200");
 
-      // Check if item belongs to All Active:
-      // - Academic Word List or targetTab === 'active'
-      const isAcademic = lowerTopic.includes("academic word list");
-      const isActive = lowerTab === "active" || isAcademic;
+      const isAcademicTitle = lowerTopic.includes("academic word list");
 
-      if (isListening) {
+      let assignedTab = "uploaded";
+      if (isTaggedListening || (!isTaggedActive && !isTaggedUploaded && isListeningTitle)) {
+        assignedTab = "listening";
+      } else if (isTaggedActive || isAcademicTitle) {
+        assignedTab = "active";
+      } else {
+        assignedTab = "uploaded";
+      }
+
+      if (assignedTab === "listening") {
         listeningTopicsMap[topicName] = (listeningTopicsMap[topicName] || 0) + 1;
-      } else if (isActive) {
+      } else if (assignedTab === "active") {
         activeTopicsMap[topicName] = (activeTopicsMap[topicName] || 0) + 1;
       } else {
         totalUploaded += 1;
