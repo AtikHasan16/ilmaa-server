@@ -211,17 +211,34 @@ app.get("/api/v1/vocabulary/stats", async (req, res) => {
     const stats = {};
     const uploadedTopicsMap = {};
     const activeTopicsMap = {};
+    const listeningTopicsMap = {};
     let totalUploaded = 0;
 
     for (const item of allWords) {
       const topicName = item.topic || "Uploaded";
       stats[topicName] = (stats[topicName] || 0) + 1;
 
-      // If topic is Academic Word List or explicitly marked as active corpus
-      const isAcademic = topicName.toLowerCase().includes("academic word list");
-      const isUploadedCorpus = item.uploadedBy && !isAcademic && !item.targetTab?.includes("active");
+      const lowerTopic = topicName.toLowerCase();
+      const lowerTab = (item.targetTab || "").toLowerCase();
 
-      if (isAcademic || item.targetTab === "active") {
+      // Check if item belongs to Listening Vocabs:
+      // - Explicitly uploaded as listening (targetTab === 'listening')
+      // - Or topic is 'Studying university/college', 'Subjects', or contains 'listening'
+      const isListening =
+        lowerTab === "listening" ||
+        lowerTopic.includes("studying university") ||
+        lowerTopic.includes("subjects") ||
+        lowerTopic.includes("listening") ||
+        lowerTopic.includes("1200");
+
+      // Check if item belongs to All Active:
+      // - Academic Word List or targetTab === 'active'
+      const isAcademic = lowerTopic.includes("academic word list");
+      const isActive = lowerTab === "active" || isAcademic;
+
+      if (isListening) {
+        listeningTopicsMap[topicName] = (listeningTopicsMap[topicName] || 0) + 1;
+      } else if (isActive) {
         activeTopicsMap[topicName] = (activeTopicsMap[topicName] || 0) + 1;
       } else {
         totalUploaded += 1;
@@ -244,12 +261,18 @@ app.get("/api/v1/vocabulary/stats", async (req, res) => {
       count: activeTopicsMap[topicName],
     }));
 
+    const listeningTopics = Object.keys(listeningTopicsMap).map((topicName) => ({
+      title: topicName,
+      count: listeningTopicsMap[topicName],
+    }));
+
     res.json({
       success: true,
       totalCount: allWords.length,
       uploadedCount: totalUploaded,
       byTopic: stats,
       activeTopics,
+      listeningTopics,
       uploadedTopics,
     });
   } catch (err) {
@@ -271,6 +294,58 @@ app.get("/api/v1/vocabulary", async (req, res) => {
 
     const words = await vocabularyCollection.find(filter);
     res.json({ success: true, count: words.length, data: words });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// GET /api/v1/vocabulary/audit-logs - Monitoring upload history and reports
+app.get("/api/v1/vocabulary/audit-logs", async (req, res) => {
+  try {
+    const logs = await auditLogsCollection.find({});
+    // Return sorted newest first
+    logs.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
+    res.json({ success: true, count: logs.length, data: logs });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE /api/v1/vocabulary/topic - Delete an entire topic group card
+app.delete("/api/v1/vocabulary/topic", async (req, res) => {
+  try {
+    const { topic, deletedBy = "admin" } = req.body;
+    if (!topic) {
+      return res.status(400).json({ success: false, message: "Missing topic name." });
+    }
+
+    const result = await vocabularyCollection.deleteMany({ topic });
+
+    // Record audit log
+    await auditLogsCollection.insertOne({
+      action: "VOCAB_TOPIC_DELETED",
+      userName: deletedBy,
+      accessId: "ADMIN",
+      details: `Deleted topic "${topic}" (${result.deletedCount || 0} words removed)`,
+      timestamp: new Date().toISOString(),
+    });
+
+    res.json({
+      success: true,
+      message: `Topic "${topic}" and all its ${result.deletedCount || 0} words deleted.`,
+      deletedCount: result.deletedCount || 0,
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// DELETE /api/v1/vocabulary/:id - Delete a single word entry
+app.delete("/api/v1/vocabulary/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await vocabularyCollection.deleteOne({ id });
+    res.json({ success: true, message: "Word deleted successfully", result });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
@@ -307,18 +382,36 @@ app.post("/api/v1/vocabulary", async (req, res) => {
             .filter(Boolean)
         : [];
 
+    const resolvedTab = targetTab === "listening" ? "listening" : targetTab === "uploaded" ? "uploaded" : "active";
+    const defaultFallbackTopic =
+      resolvedTab === "listening"
+        ? "Studying university/college"
+        : resolvedTab === "active"
+          ? "Academic Word List: Sublist A"
+          : "Uploaded";
+
     const newWord = {
       word: word.trim(),
       pos: pos.trim(),
       banglaMeaning: banglaMeaning.trim(),
       synonyms: synList,
       exampleUsage: (exampleUsage || "").trim(),
-      topic: topic || (targetTab === "active" ? "Academic Word List: Sublist A" : "Uploaded"),
-      targetTab: targetTab === "uploaded" ? "uploaded" : "active",
+      topic: topic || defaultFallbackTopic,
+      targetTab: resolvedTab,
       uploadedBy: uploadedBy || "user-upload",
     };
 
     const result = await vocabularyCollection.insertOne(newWord);
+
+    // Audit log
+    await auditLogsCollection.insertOne({
+      action: "VOCAB_SINGLE_UPLOAD",
+      userName: uploadedBy || "user-upload",
+      accessId: "SYSTEM",
+      details: `Added word "${newWord.word}" to topic "${newWord.topic}" [${resolvedTab}]`,
+      timestamp: new Date().toISOString(),
+    });
+
     res.status(201).json({
       success: true,
       message: "Word uploaded successfully",
@@ -349,6 +442,14 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
     const validatedDocs = [];
     const skipped = [];
 
+    const resolvedTab = targetTab === "listening" ? "listening" : targetTab === "uploaded" ? "uploaded" : "active";
+    const defaultFallbackTopic =
+      resolvedTab === "listening"
+        ? "Studying university/college"
+        : resolvedTab === "active"
+          ? "Academic Word List: Sublist A"
+          : "Uploaded";
+
     for (const [idx, row] of items.entries()) {
       const word = (row.word || "").trim();
       const pos = (row.pos || "Adjective").trim();
@@ -377,8 +478,8 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
         banglaMeaning,
         synonyms: synList,
         exampleUsage: (row.exampleUsage || "").trim(),
-        topic: (row.topic || defaultTopic || (targetTab === "active" ? "Academic Word List: Sublist A" : "Uploaded")).trim(),
-        targetTab: row.targetTab || targetTab,
+        topic: (row.topic || defaultTopic || defaultFallbackTopic).trim(),
+        targetTab: row.targetTab || resolvedTab,
         uploadedBy: row.uploadedBy || uploadedBy,
       });
     }
@@ -398,7 +499,7 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
       action: "VOCAB_BULK_UPLOAD",
       userName: uploadedBy,
       accessId: "SYSTEM",
-      details: `Bulk imported ${validatedDocs.length} words (skipped: ${skipped.length})`,
+      details: `Bulk imported ${validatedDocs.length} words into "${defaultTopic || defaultFallbackTopic}" [${resolvedTab}] (skipped: ${skipped.length})`,
       timestamp: new Date().toISOString(),
     });
 
