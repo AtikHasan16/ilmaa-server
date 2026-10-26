@@ -455,6 +455,7 @@ app.post("/api/v1/vocabulary/progress", async (req, res) => {
       word,
       isCorrect,
       topic = "Academic Word List: Sublist A",
+      currentIndex = null,
     } = req.body;
     if (!accessId || !word) {
       return res
@@ -484,7 +485,7 @@ app.post("/api/v1/vocabulary/progress", async (req, res) => {
       ? [...record.incorrectWords]
       : [];
     const topicStats = record.progressByTopic || {};
-    const currTopic = topicStats[topic] || { mastered: 0, incorrect: 0 };
+    const currTopic = topicStats[topic] || { mastered: 0, incorrect: 0, lastIndex: 0 };
 
     if (isCorrect) {
       if (!mastered.includes(cleanWord)) {
@@ -502,6 +503,10 @@ app.post("/api/v1/vocabulary/progress", async (req, res) => {
 
     currTopic.mastered = mastered.length;
     currTopic.incorrect = incorrect.length;
+    currTopic.lastWord = cleanWord;
+    if (typeof currentIndex === "number") {
+      currTopic.lastIndex = currentIndex;
+    }
     topicStats[topic] = currTopic;
 
     await progressCollection.updateOne(
