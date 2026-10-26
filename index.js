@@ -210,17 +210,28 @@ app.get("/api/v1/vocabulary/stats", async (req, res) => {
     const allWords = await vocabularyCollection.find({});
     const stats = {};
     const uploadedTopicsMap = {};
+    const activeTopicsMap = {};
     let totalUploaded = 0;
 
     for (const item of allWords) {
       const topicName = item.topic || "Uploaded";
       stats[topicName] = (stats[topicName] || 0) + 1;
 
-      // Words uploaded by users (not part of the fixed Academic Word List)
-      if (item.uploadedBy && item.topic !== "Academic Word List: Sublist A") {
+      // If topic is Academic Word List or explicitly marked as active corpus
+      const isAcademic = topicName.toLowerCase().includes("academic word list");
+      const isUploadedCorpus = item.uploadedBy && !isAcademic && !item.targetTab?.includes("active");
+
+      if (isAcademic || item.targetTab === "active") {
+        activeTopicsMap[topicName] = (activeTopicsMap[topicName] || 0) + 1;
+      } else {
         totalUploaded += 1;
         uploadedTopicsMap[topicName] = (uploadedTopicsMap[topicName] || 0) + 1;
       }
+    }
+
+    // Default Academic Word List if empty in DB
+    if (!activeTopicsMap["Academic Word List: Sublist A"]) {
+      activeTopicsMap["Academic Word List: Sublist A"] = stats["Academic Word List: Sublist A"] || 300;
     }
 
     const uploadedTopics = Object.keys(uploadedTopicsMap).map((topicName) => ({
@@ -228,11 +239,17 @@ app.get("/api/v1/vocabulary/stats", async (req, res) => {
       count: uploadedTopicsMap[topicName],
     }));
 
+    const activeTopics = Object.keys(activeTopicsMap).map((topicName) => ({
+      title: topicName,
+      count: activeTopicsMap[topicName],
+    }));
+
     res.json({
       success: true,
       totalCount: allWords.length,
       uploadedCount: totalUploaded,
       byTopic: stats,
+      activeTopics,
       uploadedTopics,
     });
   } catch (err) {
@@ -269,6 +286,7 @@ app.post("/api/v1/vocabulary", async (req, res) => {
       synonyms,
       exampleUsage,
       topic,
+      targetTab = "active", // 'active' | 'uploaded'
       uploadedBy,
     } = req.body;
 
@@ -295,7 +313,8 @@ app.post("/api/v1/vocabulary", async (req, res) => {
       banglaMeaning: banglaMeaning.trim(),
       synonyms: synList,
       exampleUsage: (exampleUsage || "").trim(),
-      topic: topic || "Uploaded",
+      topic: topic || (targetTab === "active" ? "Academic Word List: Sublist A" : "Uploaded"),
+      targetTab: targetTab === "uploaded" ? "uploaded" : "active",
       uploadedBy: uploadedBy || "user-upload",
     };
 
@@ -315,7 +334,8 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
   try {
     const {
       items,
-      defaultTopic = "Uploaded",
+      defaultTopic = "Academic Word List: Sublist A",
+      targetTab = "active",
       uploadedBy = "bulk-upload",
     } = req.body;
 
@@ -357,7 +377,8 @@ app.post("/api/v1/vocabulary/bulk", async (req, res) => {
         banglaMeaning,
         synonyms: synList,
         exampleUsage: (row.exampleUsage || "").trim(),
-        topic: (row.topic || defaultTopic || "Uploaded").trim(),
+        topic: (row.topic || defaultTopic || (targetTab === "active" ? "Academic Word List: Sublist A" : "Uploaded")).trim(),
+        targetTab: row.targetTab || targetTab,
         uploadedBy: row.uploadedBy || uploadedBy,
       });
     }
