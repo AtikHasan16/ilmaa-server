@@ -1,2 +1,9 @@
 node_modules/
 .env
+.env.*
+!.env.example
+data/audio_cache/
+*.mp3
+.DS_Store
+logs/
+*.log

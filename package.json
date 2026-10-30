@@ -1,21 +1,26 @@
 {
   "name": "imlaa-server",
   "version": "1.0.0",
-  "description": "Backend API for Imlaa IELTS learning workspace",
+  "description": "Authenticated text-to-speech service for Imlaa",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "node index.js",
     "dev": "node --watch index.js",
-    "build": "node -e 'console.log(\"Build step ready\")'"
+    "build": "node -e 'console.log(\"Build step ready\")'",
+    "check": "node --check index.js && node --check middleware/requireSupabaseAuth.js",
+    "test": "node --test",
+    "security:scan": "node scripts/scan-secrets.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
-    "express-validator": "^7.2.1",
     "node-edge-tts": "^1.2.11",
-    "uuid": "^14.0.3"
+    "express-rate-limit": "^8.1.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
   }
 }

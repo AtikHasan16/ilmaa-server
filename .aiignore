@@ -1,0 +1,10 @@
+# AI and Assistant Ignore Patterns
+node_modules/
+.git/
+package-lock.json
+.env
+.env.*
+!.env.example
+data/audio_cache/
+*.mp3
+*.log

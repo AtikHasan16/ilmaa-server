@@ -1,39 +1,45 @@
-# Imlaa backend
+# Imlaa TTS service
 
-The Express server provides the legacy REST endpoints and the text-to-speech
-endpoint. It uses Supabase for persistence; it does not use MongoDB or a local
-JSON database.
+The Express service handles authenticated text-to-speech only. Supabase
+PostgREST, protected by RLS, is the application's data API; the service does
+not expose CRUD, admin, access-ID, or progress routes.
 
-The React frontend's data adapter talks directly to Supabase. The frontend uses
-this server separately for `/api/v1/tts`, with browser speech synthesis as a
-fallback.
+The frontend sends TTS requests to `POST /api/tts`. Supabase Auth verifies the
+bearer token; requests are limited by client IP and signed-in user. Public
+landing-page audio uses browser speech synthesis and does not call this
+service.
 
 ## Requirements
 
 - Node.js
-- Supabase project URL and server key configured in `server/.env`
-- Do not expose a Supabase service-role key to the browser or commit it
+- Supabase project URL and anon key in `.env`, copied from `.env.example`
+- The service does not need or use a Supabase service-role key
 
 ## Run locally
 
-Run these commands from the `server` directory. The backend has its own
-`package.json`; installing the frontend dependencies does not install these.
+Run these commands from the `server` directory:
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-By default, the server listens on port `5000`; set `PORT` to override it.
+The server listens on port `5000` by default. Set `PORT` to override it and
+`CORS_ORIGINS` to a comma-separated list of exact frontend origins (include
+the production site and any allowed preview origins).
 
 ## Deployment and security
 
-Admin endpoints require a valid Supabase bearer token and an administrator
-profile. User progress endpoints require a valid bearer token and only permit
-access to the caller's own account. Legacy device-token authentication returns
-`410 Gone`; it is not part of the current Supabase Auth flow.
+Set `SUPABASE_URL`, `SUPABASE_ANON_KEY`, and `CORS_ORIGINS` in the hosting
+environment. TTS requests require a valid Supabase session. The service applies
+in-memory limits of 120 requests per minute per IP and 30 per minute per user.
+For multi-instance or serverless deployments, configure an additional shared
+rate limit at the hosting edge; in-memory counters are not shared across
+instances and reset on restart.
 
-The database policies in the root `supabase_schema.sql` must also be applied
-to the Supabase project. Frontend route guards are not a substitute for RLS.
+The Supabase schema and security migration are maintained in the frontend
+repository's `database/` directory. Normal data access remains in the browser
+using the anon key and RLS.
 
-The audio cache is temporary and may be cleared when the server restarts.
+The generated-audio cache is temporary and may be cleared when the service
+restarts.
