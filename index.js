@@ -20,28 +20,131 @@ app.use(
 app.use(express.json());
 
 // Initialize Supabase Collections (Persistent cloud database over HTTPS port 443)
-import { SupabaseCollection } from "./db.js";
+import { SupabaseCollection, supabase } from "./db.js";
 
 const usersCollection = new SupabaseCollection("users");
 const vocabularyCollection = new SupabaseCollection("vocabularies");
 const grammarCollection = new SupabaseCollection("grammar_questions");
-const progressCollection = new SupabaseCollection("vocabulary_progress");
 const auditLogsCollection = new SupabaseCollection("audit_logs");
 
-// Activity tracking middleware via x-device-token header
-app.use(async (req, res, next) => {
-  const token = req.headers["x-device-token"];
-  if (token && typeof token === "string") {
-    try {
-      await usersCollection.updateOne(
-        { deviceToken: token },
-        { $set: { lastActiveAt: new Date().toISOString() } },
-      );
-    } catch {
-      // Ignore background activity tracking failures
-    }
+async function authenticateSupabaseUser(req, res, next) {
+  const authorization = req.get("authorization") || "";
+  const match = authorization.match(/^Bearer\s+(.+)$/i);
+  if (!match) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Authentication required." });
   }
-  next();
+
+  try {
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(match[1]);
+    if (authError || !user) {
+      return res
+        .status(401)
+        .json({ success: false, message: "Invalid or expired session." });
+    }
+
+    const { data: profile, error: profileError } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    if (profileError) {
+      console.error("[Auth profile lookup failed]:", profileError.message);
+      return res.status(503).json({
+        success: false,
+        message: "Unable to verify account permissions.",
+      });
+    }
+
+    req.authUser = user;
+    req.authRole = profile?.role || "general";
+    return next();
+  } catch (err) {
+    console.error("[Request authentication failed]:", err);
+    return res.status(503).json({
+      success: false,
+      message: "Unable to verify account permissions.",
+    });
+  }
+}
+
+function requireAdmin(req, res, next) {
+  if (req.authRole !== "admin") {
+    return res
+      .status(403)
+      .json({ success: false, message: "Administrator access required." });
+  }
+  return next();
+}
+
+function requireOwnAccessId(getAccessId) {
+  return (req, res, next) => {
+    const accessId = String(getAccessId(req) || "").trim();
+    if (!(userId || accessId)) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Missing accessId." });
+    }
+    if (req.authRole !== "admin" && accessId !== req.authUser.id) {
+      return res.status(403).json({
+        success: false,
+        message: "Cannot access another user's data.",
+      });
+    }
+    return next();
+  };
+}
+
+function requireSupabaseUserId(value) {
+  const userId = String(value || "").trim();
+  if (!/^[\da-f]{8}-(?:[\da-f]{4}-){3}[\da-f]{12}$/i.test(userId)) {
+    throw new Error("A valid Supabase user ID is required.");
+  }
+  return userId;
+}
+
+async function loadVocabularyProgress(userId) {
+  const { data, error } = await supabase
+    .from("spelling_progress")
+    .select("topic, mastered_words, incorrect_words, last_index")
+    .eq("user_id", userId);
+  if (error) throw error;
+
+  const masteredWords = new Set();
+  const incorrectWords = new Set();
+  const progressByTopic = {};
+  for (const row of data || []) {
+    const mastered = row.mastered_words || [];
+    const incorrect = row.incorrect_words || [];
+    mastered.forEach((word) => masteredWords.add(word));
+    incorrect.forEach((word) => incorrectWords.add(word));
+    progressByTopic[row.topic] = {
+      mastered: mastered.length,
+      incorrect: incorrect.length,
+      lastIndex: row.last_index || 0,
+    };
+  }
+
+  return {
+    masteredWords: [...masteredWords],
+    incorrectWords: [...incorrectWords],
+    progressByTopic,
+  };
+}
+
+app.use("/api/v1/admin", authenticateSupabaseUser, requireAdmin);
+
+app.use("/api/v1/auth", (_req, res) => {
+  res.status(410).json({
+    success: false,
+    message:
+      "Legacy device-token authentication has been removed. Use Supabase Auth.",
+  });
 });
 
 // Root health check
@@ -205,131 +308,165 @@ app.post("/api/v1/auth/heartbeat", async (req, res) => {
 });
 
 // GET /api/v1/vocabulary/stats (Topic counts for dynamic dashboard and cards)
-app.get("/api/v1/vocabulary/stats", async (req, res) => {
-  try {
-    const { userId = "", userRole = "general", userName = "" } = req.query;
-    const reqUserId = String(userId).trim();
-    const reqUserName = String(userName).trim().toLowerCase();
-    const isAdmin = userRole === "admin" || req.headers["x-user-role"] === "admin";
+app.get(
+  "/api/v1/vocabulary/stats",
+  authenticateSupabaseUser,
+  async (req, res) => {
+    try {
+      const reqUserId = req.authUser.id;
+      const reqUserName = String(
+        req.authUser.user_metadata?.full_name ||
+          req.authUser.user_metadata?.name ||
+          "",
+      )
+        .trim()
+        .toLowerCase();
+      const isAdmin = req.authRole === "admin";
 
-    const allWords = await vocabularyCollection.find({});
-    const stats = {};
-    const uploadedTopicsMap = {};
-    const activeTopicsMap = {};
-    const listeningTopicsMap = {};
-    let totalUploaded = 0;
+      const allWords = await vocabularyCollection.find({});
+      const stats = {};
+      const uploadedTopicsMap = {};
+      const activeTopicsMap = {};
+      const listeningTopicsMap = {};
+      let totalUploaded = 0;
 
-    for (const item of allWords) {
-      const topicName = item.topic || "Uploaded";
-      stats[topicName] = (stats[topicName] || 0) + 1;
+      for (const item of allWords) {
+        const topicName = item.topic || "Uploaded";
 
-      const lowerTopic = topicName.toLowerCase();
-      const lowerTab = (item.targetTab || "").toLowerCase();
+        const lowerTopic = topicName.toLowerCase();
+        const lowerTab = (item.targetTab || "").toLowerCase();
 
-      const uploaderStr = (item.uploadedBy || "").toLowerCase();
+        const uploaderStr = (item.uploadedBy || "").toLowerCase();
 
-      // 1. Tagged in targetTab or uploadedBy
-      const isTaggedActive = lowerTab === "active" || uploaderStr.startsWith("active:") || uploaderStr.includes("active") || uploaderStr === "admin";
-      const isTaggedListening = lowerTab === "listening" || uploaderStr.startsWith("listening:") || uploaderStr.includes("listening");
-      const isTaggedUploaded = lowerTab === "uploaded" || uploaderStr.startsWith("uploaded:");
+        // 1. Tagged in targetTab or uploadedBy
+        const isTaggedActive =
+          lowerTab === "active" ||
+          uploaderStr.startsWith("active:") ||
+          uploaderStr.includes("active") ||
+          uploaderStr === "admin";
+        const isTaggedListening =
+          lowerTab === "listening" ||
+          uploaderStr.startsWith("listening:") ||
+          uploaderStr.includes("listening");
+        const isTaggedUploaded =
+          lowerTab === "uploaded" || uploaderStr.startsWith("uploaded:");
 
-      // 2. Semantic title checks
-      const isListeningTitle =
-        lowerTopic.includes("studying university") ||
-        lowerTopic.includes("subjects") ||
-        lowerTopic.includes("listening") ||
-        lowerTopic.includes("1200");
+        // 2. Semantic title checks
+        const isListeningTitle =
+          lowerTopic.includes("studying university") ||
+          lowerTopic.includes("subjects") ||
+          lowerTopic.includes("listening") ||
+          lowerTopic.includes("1200");
 
-      const isAcademicTitle = lowerTopic.includes("academic word list");
+        const isAcademicTitle = lowerTopic.includes("academic word list");
 
-      let assignedTab = "uploaded";
-      if (isTaggedListening || (!isTaggedActive && !isTaggedUploaded && isListeningTitle)) {
-        assignedTab = "listening";
-      } else if (isTaggedActive || isAcademicTitle) {
-        assignedTab = "active";
-      } else {
-        assignedTab = "uploaded";
-      }
+        let assignedTab = "uploaded";
+        if (
+          isTaggedListening ||
+          (!isTaggedActive && !isTaggedUploaded && isListeningTitle)
+        ) {
+          assignedTab = "listening";
+        } else if (isTaggedActive || isAcademicTitle) {
+          assignedTab = "active";
+        } else {
+          assignedTab = "uploaded";
+        }
 
-      // Parse uploader name
-      let parsedUploaderName = "";
-      let parsedUploaderId = "";
-      const uploaderRaw = item.uploadedBy || "";
-      if (uploaderRaw.includes(":")) {
-        const segs = uploaderRaw.split(":");
-        if (segs.length >= 3) {
-          parsedUploaderId = segs[1];
-          parsedUploaderName = segs.slice(2).join(":");
-        } else if (segs.length === 2) {
-          parsedUploaderName = segs[1];
+        // Parse uploader name
+        let parsedUploaderName = "";
+        let parsedUploaderId = "";
+        const uploaderRaw = item.uploadedBy || "";
+        if (uploaderRaw.includes(":")) {
+          const segs = uploaderRaw.split(":");
+          if (segs.length >= 3) {
+            parsedUploaderId = segs[1];
+            parsedUploaderName = segs.slice(2).join(":");
+          } else if (segs.length === 2) {
+            parsedUploaderName = segs[1];
+          }
+        }
+
+        // Rule 1: Uploaded vocabulary only visible to uploader or admin
+        if (assignedTab === "uploaded" && !isAdmin) {
+          const matchesId = reqUserId && parsedUploaderId === reqUserId;
+          if (!matchesId) {
+            continue;
+          }
+        }
+
+        stats[topicName] = (stats[topicName] || 0) + 1;
+
+        if (assignedTab === "listening") {
+          listeningTopicsMap[topicName] =
+            (listeningTopicsMap[topicName] || 0) + 1;
+        } else if (assignedTab === "active") {
+          activeTopicsMap[topicName] = (activeTopicsMap[topicName] || 0) + 1;
+        } else {
+          totalUploaded += 1;
+          if (!uploadedTopicsMap[topicName]) {
+            uploadedTopicsMap[topicName] = {
+              count: 0,
+              uploaderName:
+                parsedUploaderName ||
+                (isAdmin ? "Admin" : reqUserName || "Candidate"),
+            };
+          }
+          uploadedTopicsMap[topicName].count += 1;
+          if (
+            parsedUploaderName &&
+            !uploadedTopicsMap[topicName].uploaderName
+          ) {
+            uploadedTopicsMap[topicName].uploaderName = parsedUploaderName;
+          }
         }
       }
 
-      // Rule 1: Uploaded vocabulary only visible to uploader or admin
-      if (assignedTab === "uploaded" && !isAdmin) {
-        const matchesId = reqUserId && (parsedUploaderId === reqUserId || uploaderStr.includes(reqUserId.toLowerCase()));
-        const matchesName = reqUserName && (parsedUploaderName.toLowerCase() === reqUserName || uploaderStr.includes(reqUserName));
-        if (!matchesId && !matchesName) {
-          continue;
-        }
+      // Default Academic Word List if empty in DB
+      if (!activeTopicsMap["Academic Word List: Sublist A"]) {
+        activeTopicsMap["Academic Word List: Sublist A"] =
+          stats["Academic Word List: Sublist A"] || 300;
       }
 
-      if (assignedTab === "listening") {
-        listeningTopicsMap[topicName] = (listeningTopicsMap[topicName] || 0) + 1;
-      } else if (assignedTab === "active") {
-        activeTopicsMap[topicName] = (activeTopicsMap[topicName] || 0) + 1;
-      } else {
-        totalUploaded += 1;
-        if (!uploadedTopicsMap[topicName]) {
-          uploadedTopicsMap[topicName] = {
-            count: 0,
-            uploaderName: parsedUploaderName || (isAdmin ? "Admin" : (userName || "Candidate")),
-          };
-        }
-        uploadedTopicsMap[topicName].count += 1;
-        if (parsedUploaderName && !uploadedTopicsMap[topicName].uploaderName) {
-          uploadedTopicsMap[topicName].uploaderName = parsedUploaderName;
-        }
-      }
+      const uploadedTopics = Object.keys(uploadedTopicsMap).map(
+        (topicName) => ({
+          title: topicName,
+          count: uploadedTopicsMap[topicName].count,
+          uploaderName: uploadedTopicsMap[topicName].uploaderName,
+        }),
+      );
+
+      const activeTopics = Object.keys(activeTopicsMap).map((topicName) => ({
+        title: topicName,
+        count: activeTopicsMap[topicName],
+      }));
+
+      const listeningTopics = Object.keys(listeningTopicsMap).map(
+        (topicName) => ({
+          title: topicName,
+          count: listeningTopicsMap[topicName],
+        }),
+      );
+
+      res.json({
+        success: true,
+        totalCount: Object.values(stats).reduce(
+          (total, count) => total + count,
+          0,
+        ),
+        uploadedCount: totalUploaded,
+        byTopic: stats,
+        activeTopics,
+        listeningTopics,
+        uploadedTopics,
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    // Default Academic Word List if empty in DB
-    if (!activeTopicsMap["Academic Word List: Sublist A"]) {
-      activeTopicsMap["Academic Word List: Sublist A"] = stats["Academic Word List: Sublist A"] || 300;
-    }
-
-    const uploadedTopics = Object.keys(uploadedTopicsMap).map((topicName) => ({
-      title: topicName,
-      count: uploadedTopicsMap[topicName].count,
-      uploaderName: uploadedTopicsMap[topicName].uploaderName,
-    }));
-
-    const activeTopics = Object.keys(activeTopicsMap).map((topicName) => ({
-      title: topicName,
-      count: activeTopicsMap[topicName],
-    }));
-
-    const listeningTopics = Object.keys(listeningTopicsMap).map((topicName) => ({
-      title: topicName,
-      count: listeningTopicsMap[topicName],
-    }));
-
-    res.json({
-      success: true,
-      totalCount: allWords.length,
-      uploadedCount: totalUploaded,
-      byTopic: stats,
-      activeTopics,
-      listeningTopics,
-      uploadedTopics,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // GET /api/v1/vocabulary
-app.get("/api/v1/vocabulary", async (req, res) => {
+app.get("/api/v1/vocabulary", authenticateSupabaseUser, async (req, res) => {
   try {
     const { topic, uploadedOnly } = req.query;
     const filter = {};
@@ -341,66 +478,95 @@ app.get("/api/v1/vocabulary", async (req, res) => {
     }
 
     const words = await vocabularyCollection.find(filter);
-    res.json({ success: true, count: words.length, data: words });
+    const visibleWords = words.filter((word) => {
+      if (req.authRole === "admin") return true;
+      const uploadedBy = String(word.uploadedBy || "").toLowerCase();
+      const isPrivateUpload =
+        word.targetTab === "uploaded" || uploadedBy.startsWith("uploaded:");
+      return (
+        !isPrivateUpload ||
+        uploadedBy.startsWith(`uploaded:${req.authUser.id.toLowerCase()}:`)
+      );
+    });
+    res.json({ success: true, count: visibleWords.length, data: visibleWords });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }
 });
 
 // GET /api/v1/vocabulary/audit-logs - Monitoring upload history and reports
-app.get("/api/v1/vocabulary/audit-logs", async (req, res) => {
-  try {
-    const logs = await auditLogsCollection.find({});
-    // Return sorted newest first
-    logs.sort((a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0));
-    res.json({ success: true, count: logs.length, data: logs });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+app.get(
+  "/api/v1/vocabulary/audit-logs",
+  authenticateSupabaseUser,
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const logs = await auditLogsCollection.find({});
+      // Return sorted newest first
+      logs.sort(
+        (a, b) => new Date(b.timestamp || 0) - new Date(a.timestamp || 0),
+      );
+      res.json({ success: true, count: logs.length, data: logs });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  },
+);
 
 // DELETE /api/v1/vocabulary/topic - Delete an entire topic group card
-app.delete("/api/v1/vocabulary/topic", async (req, res) => {
-  try {
-    const { topic, deletedBy = "admin" } = req.body;
-    if (!topic) {
-      return res.status(400).json({ success: false, message: "Missing topic name." });
+app.delete(
+  "/api/v1/vocabulary/topic",
+  authenticateSupabaseUser,
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const { topic, deletedBy = "admin" } = req.body;
+      if (!topic) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Missing topic name." });
+      }
+
+      const result = await vocabularyCollection.deleteMany({ topic });
+
+      // Record audit log
+      await auditLogsCollection.insertOne({
+        action: "VOCAB_TOPIC_DELETED",
+        userName: deletedBy,
+        accessId: "ADMIN",
+        details: `Deleted topic "${topic}" (${result.deletedCount || 0} words removed)`,
+        timestamp: new Date().toISOString(),
+      });
+
+      res.json({
+        success: true,
+        message: `Topic "${topic}" and all its ${result.deletedCount || 0} words deleted.`,
+        deletedCount: result.deletedCount || 0,
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    const result = await vocabularyCollection.deleteMany({ topic });
-
-    // Record audit log
-    await auditLogsCollection.insertOne({
-      action: "VOCAB_TOPIC_DELETED",
-      userName: deletedBy,
-      accessId: "ADMIN",
-      details: `Deleted topic "${topic}" (${result.deletedCount || 0} words removed)`,
-      timestamp: new Date().toISOString(),
-    });
-
-    res.json({
-      success: true,
-      message: `Topic "${topic}" and all its ${result.deletedCount || 0} words deleted.`,
-      deletedCount: result.deletedCount || 0,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // DELETE /api/v1/vocabulary/:id - Delete a single word entry
-app.delete("/api/v1/vocabulary/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await vocabularyCollection.deleteOne({ id });
-    res.json({ success: true, message: "Word deleted successfully", result });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+app.delete(
+  "/api/v1/vocabulary/:id",
+  authenticateSupabaseUser,
+  requireAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+      const result = await vocabularyCollection.deleteOne({ id });
+      res.json({ success: true, message: "Word deleted successfully", result });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  },
+);
 
 // POST /api/v1/vocabulary (Upload to Study)
-app.post("/api/v1/vocabulary", async (req, res) => {
+app.post("/api/v1/vocabulary", authenticateSupabaseUser, async (req, res) => {
   try {
     const {
       word,
@@ -421,6 +587,11 @@ app.post("/api/v1/vocabulary", async (req, res) => {
       });
     }
 
+    const requestedTab = ["active", "listening", "uploaded"].includes(targetTab)
+      ? targetTab
+      : "active";
+    const resolvedTab = req.authRole === "admin" ? requestedTab : "uploaded";
+
     const synList = Array.isArray(synonyms)
       ? synonyms
       : typeof synonyms === "string"
@@ -430,7 +601,6 @@ app.post("/api/v1/vocabulary", async (req, res) => {
             .filter(Boolean)
         : [];
 
-    const resolvedTab = targetTab === "listening" ? "listening" : targetTab === "uploaded" ? "uploaded" : "active";
     const defaultFallbackTopic =
       resolvedTab === "listening"
         ? "Studying university/college"
@@ -446,16 +616,25 @@ app.post("/api/v1/vocabulary", async (req, res) => {
       exampleUsage: (exampleUsage || "").trim(),
       topic: topic || defaultFallbackTopic,
       targetTab: resolvedTab,
-      uploadedBy: uploadedBy || "user-upload",
+      uploadedBy:
+        req.authRole === "admin"
+          ? uploadedBy || "admin"
+          : `uploaded:${req.authUser.id}:${req.authUser.user_metadata?.full_name || "Candidate"}`,
     };
+    const actorName = String(
+      req.authUser.user_metadata?.full_name ||
+        req.authUser.user_metadata?.name ||
+        "Candidate",
+    );
 
     const result = await vocabularyCollection.insertOne(newWord);
 
     // Audit log
     await auditLogsCollection.insertOne({
+      userId: req.authUser.id,
       action: "VOCAB_SINGLE_UPLOAD",
-      userName: uploadedBy || "user-upload",
-      accessId: "SYSTEM",
+      userName: req.authRole === "admin" ? uploadedBy || actorName : actorName,
+      accessId: req.authUser.id,
       details: `Added word "${newWord.word}" to topic "${newWord.topic}" [${resolvedTab}]`,
       timestamp: new Date().toISOString(),
     });
@@ -471,398 +650,418 @@ app.post("/api/v1/vocabulary", async (req, res) => {
 });
 
 // POST /api/v1/vocabulary/bulk (Bulk Import TSV/CSV)
-app.post("/api/v1/vocabulary/bulk", async (req, res) => {
-  try {
-    const {
-      items,
-      defaultTopic = "Academic Word List: Sublist A",
-      targetTab = "active",
-      uploadedBy = "bulk-upload",
-      userId,
-      userRole = "general",
-    } = req.body;
+app.post(
+  "/api/v1/vocabulary/bulk",
+  authenticateSupabaseUser,
+  async (req, res) => {
+    try {
+      const {
+        items,
+        defaultTopic = "Academic Word List: Sublist A",
+        targetTab = "active",
+        uploadedBy = "bulk-upload",
+      } = req.body;
 
-    const isAdmin = userRole === "admin" || req.headers["x-user-role"] === "admin";
+      const isAdmin = req.authRole === "admin";
 
-    // Backend Rule 1: Non-admin users are strictly limited to the "uploaded" tab
-    if (!isAdmin && targetTab !== "uploaded") {
-      return res.status(403).json({
-        success: false,
-        message: "General members are only authorized to upload into the Uploaded tab.",
-      });
-    }
+      // Backend Rule 1: Non-admin users are strictly limited to the "uploaded" tab
+      if (!isAdmin && targetTab !== "uploaded") {
+        return res.status(403).json({
+          success: false,
+          message:
+            "General members are only authorized to upload into the Uploaded tab.",
+        });
+      }
 
-    // Backend Rule 2: Non-admin daily quota check (200 words max per day)
-    if (!isAdmin) {
-      if (!Array.isArray(items) || items.length > 200) {
+      // Backend Rule 2: Non-admin daily quota check (200 words max per day)
+      if (!isAdmin) {
+        if (!Array.isArray(items) || items.length > 200) {
+          return res.status(400).json({
+            success: false,
+            message:
+              "General users cannot import more than 200 words in a single batch (200 words/day limit).",
+          });
+        }
+      }
+
+      if (!Array.isArray(items) || items.length === 0) {
         return res.status(400).json({
           success: false,
-          message: "General users cannot import more than 200 words in a single batch (200 words/day limit).",
+          message: "Payload must include an array of items.",
         });
       }
-    }
 
-    if (!Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "Payload must include an array of items.",
-      });
-    }
+      const validatedDocs = [];
+      const skipped = [];
 
-    const validatedDocs = [];
-    const skipped = [];
+      const resolvedTab = isAdmin
+        ? targetTab === "listening"
+          ? "listening"
+          : targetTab === "uploaded"
+            ? "uploaded"
+            : "active"
+        : "uploaded";
+      const actorName = String(
+        req.authUser.user_metadata?.full_name ||
+          req.authUser.user_metadata?.name ||
+          "Candidate",
+      );
+      const defaultFallbackTopic =
+        resolvedTab === "listening"
+          ? "Studying university/college"
+          : resolvedTab === "active"
+            ? "Academic Word List: Sublist A"
+            : "Uploaded";
 
-    const resolvedTab = targetTab === "listening" ? "listening" : targetTab === "uploaded" ? "uploaded" : "active";
-    const defaultFallbackTopic =
-      resolvedTab === "listening"
-        ? "Studying university/college"
-        : resolvedTab === "active"
-          ? "Academic Word List: Sublist A"
-          : "Uploaded";
+      for (const [idx, row] of items.entries()) {
+        const word = (row.word || "").trim();
+        const pos = (row.pos || "Adjective").trim();
+        const banglaMeaning = (row.banglaMeaning || "").trim();
 
-    for (const [idx, row] of items.entries()) {
-      const word = (row.word || "").trim();
-      const pos = (row.pos || "Adjective").trim();
-      const banglaMeaning = (row.banglaMeaning || "").trim();
+        if (!word || !banglaMeaning) {
+          skipped.push({
+            rowNumber: idx + 1,
+            reason: "Missing word or banglaMeaning",
+          });
+          continue;
+        }
 
-      if (!word || !banglaMeaning) {
-        skipped.push({
-          rowNumber: idx + 1,
-          reason: "Missing word or banglaMeaning",
-        });
-        continue;
-      }
-
-      const synList = Array.isArray(row.synonyms)
-        ? row.synonyms
-        : typeof row.synonyms === "string"
+        const synList = Array.isArray(row.synonyms)
           ? row.synonyms
-              .split(/[,|;]/)
-              .map((s) => s.trim())
-              .filter(Boolean)
-          : [];
+          : typeof row.synonyms === "string"
+            ? row.synonyms
+                .split(/[,|;]/)
+                .map((s) => s.trim())
+                .filter(Boolean)
+            : [];
 
-      validatedDocs.push({
-        word,
-        pos,
-        banglaMeaning,
-        synonyms: synList,
-        exampleUsage: (row.exampleUsage || "").trim(),
-        topic: (row.topic || defaultTopic || defaultFallbackTopic).trim(),
-        targetTab: row.targetTab || resolvedTab,
-        uploadedBy: row.uploadedBy || uploadedBy,
+        validatedDocs.push({
+          word,
+          pos,
+          banglaMeaning,
+          synonyms: synList,
+          exampleUsage: (row.exampleUsage || "").trim(),
+          topic: (row.topic || defaultTopic || defaultFallbackTopic).trim(),
+          targetTab: resolvedTab,
+          uploadedBy: isAdmin
+            ? row.uploadedBy || uploadedBy
+            : `uploaded:${req.authUser.id}:${req.authUser.user_metadata?.full_name || "Candidate"}`,
+        });
+      }
+
+      if (validatedDocs.length === 0) {
+        return res.status(400).json({
+          success: false,
+          message: "No valid rows found to import.",
+          skipped,
+        });
+      }
+
+      const result = await vocabularyCollection.insertMany(validatedDocs);
+
+      // Audit log
+      await auditLogsCollection.insertOne({
+        userId: req.authUser.id,
+        action: "VOCAB_BULK_UPLOAD",
+        userName: isAdmin ? uploadedBy : actorName,
+        accessId: req.authUser.id,
+        details: `Bulk imported ${validatedDocs.length} words into "${defaultTopic || defaultFallbackTopic}" [${resolvedTab}] (skipped: ${skipped.length})`,
+        timestamp: new Date().toISOString(),
       });
-    }
 
-    if (validatedDocs.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: "No valid rows found to import.",
+      res.status(201).json({
+        success: true,
+        message: `Successfully imported ${validatedDocs.length} vocabulary words.`,
+        insertedCount: result.insertedCount,
+        skippedCount: skipped.length,
         skipped,
       });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    const result = await vocabularyCollection.insertMany(validatedDocs);
-
-    // Audit log
-    await auditLogsCollection.insertOne({
-      action: "VOCAB_BULK_UPLOAD",
-      userName: uploadedBy,
-      accessId: "SYSTEM",
-      details: `Bulk imported ${validatedDocs.length} words into "${defaultTopic || defaultFallbackTopic}" [${resolvedTab}] (skipped: ${skipped.length})`,
-      timestamp: new Date().toISOString(),
-    });
-
-    res.status(201).json({
-      success: true,
-      message: `Successfully imported ${validatedDocs.length} vocabulary words.`,
-      insertedCount: result.insertedCount,
-      skippedCount: skipped.length,
-      skipped,
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // ==========================================
 // 2.5 USER VOCABULARY PROGRESS ENDPOINTS
 // ==========================================
 
 // GET /api/v1/vocabulary/progress - Get candidate's personal progress
-app.get("/api/v1/vocabulary/progress", async (req, res) => {
-  try {
-    const accessId = req.query.accessId || req.headers["x-access-id"];
-    if (!accessId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing accessId" });
+app.get(
+  "/api/v1/vocabulary/progress",
+  authenticateSupabaseUser,
+  requireOwnAccessId((req) => req.query.userId || req.query.accessId || req.headers["x-access-id"]),
+  async (req, res) => {
+    try {
+      const userId = requireSupabaseUserId(
+        req.query.userId || req.query.accessId || req.headers["x-access-id"],
+      );
+      const userProgress = await loadVocabularyProgress(userId);
+      res.json({ success: true, data: userProgress });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    const cleanId = String(accessId).trim();
-    let userProgress = await progressCollection.findOne({ accessId: cleanId });
-
-    if (!userProgress) {
-      userProgress = {
-        accessId: cleanId,
-        masteredWords: [], // list of word strings correctly spelled
-        incorrectWords: [], // list of word strings with spelling errors
-        progressByTopic: {}, // { [topic]: { mastered: 0, incorrect: 0, lastIndex: 0 } }
-        updatedAt: new Date().toISOString(),
-      };
-    }
-
-    res.json({ success: true, data: userProgress });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // POST /api/v1/vocabulary/progress - Record an answer (correct or incorrect)
-app.post("/api/v1/vocabulary/progress", async (req, res) => {
-  try {
-    const {
-      accessId,
-      word,
-      isCorrect,
-      topic = "Academic Word List: Sublist A",
-      currentIndex = null,
-    } = req.body;
-    if (!accessId || !word) {
-      return res
-        .status(400)
-        .json({ success: false, message: "accessId and word are required" });
-    }
-
-    const cleanId = String(accessId).trim();
-    const cleanWord = String(word).trim();
-
-    let record = await progressCollection.findOne({ accessId: cleanId });
-    if (!record) {
-      record = {
-        accessId: cleanId,
-        masteredWords: [],
-        incorrectWords: [],
-        progressByTopic: {},
-        updatedAt: new Date().toISOString(),
-      };
-      await progressCollection.insertOne(record);
-    }
-
-    let mastered = Array.isArray(record.masteredWords)
-      ? [...record.masteredWords]
-      : [];
-    let incorrect = Array.isArray(record.incorrectWords)
-      ? [...record.incorrectWords]
-      : [];
-    const topicStats = record.progressByTopic || {};
-    const currTopic = topicStats[topic] || { mastered: 0, incorrect: 0, lastIndex: 0 };
-
-    if (isCorrect) {
-      if (!mastered.includes(cleanWord)) {
-        mastered.push(cleanWord);
+app.post(
+  "/api/v1/vocabulary/progress",
+  authenticateSupabaseUser,
+  requireOwnAccessId((req) => req.body.userId || req.body.accessId),
+  async (req, res) => {
+    try {
+      const {
+        userId,
+        accessId,
+        word,
+        isCorrect,
+        topic = "Academic Word List: Sublist A",
+        currentIndex = null,
+      } = req.body;
+      if (!(userId || accessId) || !word) {
+        return res
+          .status(400)
+          .json({ success: false, message: "accessId and word are required" });
       }
-      // If previously incorrect, user has now mastered it
-      incorrect = incorrect.filter((w) => w !== cleanWord);
-    } else {
-      if (!incorrect.includes(cleanWord)) {
-        incorrect.push(cleanWord);
+
+      const cleanId = requireSupabaseUserId(userId || accessId);
+      const cleanWord = String(word).trim();
+      const { data: existing, error: selectError } = await supabase
+        .from("spelling_progress")
+        .select("mastered_words, incorrect_words")
+        .eq("user_id", cleanId)
+        .eq("topic", topic)
+        .maybeSingle();
+      if (selectError) throw selectError;
+
+      let mastered = existing?.mastered_words || [];
+      let incorrect = existing?.incorrect_words || [];
+
+      if (isCorrect) {
+        if (!mastered.includes(cleanWord)) {
+          mastered.push(cleanWord);
+        }
+        // If previously incorrect, user has now mastered it
+        incorrect = incorrect.filter((w) => w !== cleanWord);
+      } else {
+        if (!incorrect.includes(cleanWord)) {
+          incorrect.push(cleanWord);
+        }
+        // Cannot be mastered if just answered incorrectly
+        mastered = mastered.filter((w) => w !== cleanWord);
       }
-      // Cannot be mastered if just answered incorrectly
-      mastered = mastered.filter((w) => w !== cleanWord);
+
+      const { error: upsertError } = await supabase
+        .from("spelling_progress")
+        .upsert({
+          user_id: cleanId,
+          topic,
+          mastered_words: mastered,
+          incorrect_words: incorrect,
+          last_index: Number.isInteger(currentIndex) ? currentIndex : 0,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "user_id,topic" });
+      if (upsertError) throw upsertError;
+
+      res.json({
+        success: true,
+        data: await loadVocabularyProgress(cleanId),
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    currTopic.mastered = mastered.length;
-    currTopic.incorrect = incorrect.length;
-    currTopic.lastWord = cleanWord;
-    if (typeof currentIndex === "number") {
-      currTopic.lastIndex = currentIndex;
-    }
-    topicStats[topic] = currTopic;
-
-    await progressCollection.updateOne(
-      { accessId: cleanId },
-      {
-        $set: {
-          masteredWords: mastered,
-          incorrectWords: incorrect,
-          progressByTopic: topicStats,
-          updatedAt: new Date().toISOString(),
-        },
-      },
-    );
-
-    res.json({
-      success: true,
-      data: {
-        masteredWords: mastered,
-        incorrectWords: incorrect,
-        progressByTopic: topicStats,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // POST /api/v1/vocabulary/progress/reset - Reset progress for a group/topic
-app.post("/api/v1/vocabulary/progress/reset", async (req, res) => {
-  try {
-    const { accessId, topic } = req.body;
-    if (!accessId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing accessId" });
+app.post(
+  "/api/v1/vocabulary/progress/reset",
+  authenticateSupabaseUser,
+  requireOwnAccessId((req) => req.body.userId || req.body.accessId),
+  async (req, res) => {
+    try {
+      const userId = requireSupabaseUserId(req.body.userId || req.body.accessId);
+      let query = supabase.from("spelling_progress").delete().eq("user_id", userId);
+      if (req.body.topic) query = query.eq("topic", req.body.topic);
+      const { error } = await query;
+      if (error) throw error;
+      res.json({ success: true, message: "Progress reset successfully" });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    const cleanId = String(accessId).trim();
-    const record = await progressCollection.findOne({ accessId: cleanId });
-
-    if (record) {
-      const topicStats = record.progressByTopic || {};
-      if (topic) {
-        delete topicStats[topic];
-      }
-
-      await progressCollection.updateOne(
-        { accessId: cleanId },
-        {
-          $set: {
-            masteredWords: topic ? record.masteredWords : [],
-            incorrectWords: topic ? record.incorrectWords : [],
-            progressByTopic: topic ? topicStats : {},
-            updatedAt: new Date().toISOString(),
-          },
-        },
-      );
-    }
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // POST /api/v1/user/study-session - Record study session duration & grammar drill scores
-app.post("/api/v1/user/study-session", async (req, res) => {
-  try {
-    const {
-      accessId,
-      durationSeconds = 0,
-      grammarScore = null,
-      totalQuestions = null,
-    } = req.body;
-    if (!accessId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing accessId" });
-    }
-
-    const cleanId = String(accessId).trim();
-    let record = await progressCollection.findOne({ accessId: cleanId });
-
-    if (!record) {
-      record = {
-        accessId: cleanId,
-        masteredWords: [],
-        incorrectWords: [],
-        progressByTopic: {},
-        totalStudySeconds: 0,
-        totalSessions: 0,
-        highestGrammarScore: null,
-        updatedAt: new Date().toISOString(),
-      };
-      await progressCollection.insertOne(record);
-    }
-
-    const newSessions = (record.totalSessions || 0) + 1;
-    const newSeconds =
-      (record.totalStudySeconds || 0) +
-      Math.max(0, parseInt(durationSeconds, 10) || 0);
-
-    let highestScore = record.highestGrammarScore || null;
-    if (
-      grammarScore !== null &&
-      totalQuestions !== null &&
-      totalQuestions > 0
-    ) {
-      const currentPct = Math.round((grammarScore / totalQuestions) * 100);
-      const prevPct = highestScore
-        ? Math.round((highestScore.score / highestScore.total) * 100)
-        : -1;
-      if (currentPct > prevPct) {
-        highestScore = {
-          score: grammarScore,
-          total: totalQuestions,
-          percent: currentPct,
-          achievedAt: new Date().toISOString(),
-        };
+app.post(
+  "/api/v1/user/study-session",
+  authenticateSupabaseUser,
+  requireOwnAccessId((req) => req.body.userId || req.body.accessId),
+  async (req, res) => {
+    try {
+      const {
+        userId,
+        accessId,
+        durationSeconds = 0,
+        grammarScore = null,
+        totalQuestions = null,
+      } = req.body;
+      if (!accessId) {
+        return res
+          .status(400)
+          .json({ success: false, message: "Missing accessId" });
       }
-    }
 
-    await progressCollection.updateOne(
-      { accessId: cleanId },
-      {
-        $set: {
-          totalSessions: newSessions,
-          totalStudySeconds: newSeconds,
+      const cleanId = requireSupabaseUserId(userId || accessId);
+      const cleanDuration = Math.max(0, Number.parseInt(durationSeconds, 10) || 0);
+      const timestamp = new Date().toISOString();
+      const hasGrammarScore =
+        grammarScore !== null &&
+        grammarScore !== undefined &&
+        totalQuestions !== null &&
+        totalQuestions !== undefined &&
+        Number.isFinite(Number(grammarScore)) &&
+        Number.isFinite(Number(totalQuestions)) &&
+        Number(totalQuestions) > 0;
+      const { error: activityError } = await supabase
+        .from("user_activity_logs")
+        .insert({
+          user_id: cleanId,
+          action: "STUDY_SESSION",
+          details: hasGrammarScore
+            ? JSON.stringify({
+                grammarScore: Number(grammarScore),
+                totalQuestions: Number(totalQuestions),
+              })
+            : null,
+          duration_seconds: cleanDuration,
+          timestamp,
+        });
+      if (activityError) throw activityError;
+
+      let highestScore = null;
+      if (hasGrammarScore) {
+        const { data: current, error: grammarSelectError } = await supabase
+          .from("grammar_progress")
+          .select("highest_score, total_questions")
+          .eq("user_id", cleanId)
+          .maybeSingle();
+        if (grammarSelectError) throw grammarSelectError;
+
+        const currentPercent = Number(grammarScore) / Number(totalQuestions);
+        const previousPercent = current?.total_questions
+          ? Number(current.highest_score || 0) / Number(current.total_questions)
+          : -1;
+        if (currentPercent > previousPercent) {
+          const { error: grammarUpsertError } = await supabase
+            .from("grammar_progress")
+            .upsert({
+              user_id: cleanId,
+              highest_score: Number(grammarScore),
+              total_questions: Number(totalQuestions),
+              updated_at: timestamp,
+            }, { onConflict: "user_id" });
+          if (grammarUpsertError) throw grammarUpsertError;
+          highestScore = {
+            score: Number(grammarScore),
+            total: Number(totalQuestions),
+            percent: Math.round(currentPercent * 100),
+            achievedAt: timestamp,
+          };
+        } else if (current) {
+          highestScore = {
+            score: current.highest_score,
+            total: current.total_questions,
+            percent: Math.round(previousPercent * 100),
+          };
+        }
+      }
+
+      res.json({
+        success: true,
+        data: {
+          durationSeconds: cleanDuration,
           highestGrammarScore: highestScore,
-          updatedAt: new Date().toISOString(),
         },
-      },
-    );
-
-    res.json({
-      success: true,
-      data: {
-        totalSessions: newSessions,
-        totalStudySeconds: newSeconds,
-        highestGrammarScore: highestScore,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
+    }
+  },
+);
 
 // GET /api/v1/user/profile-metrics - Comprehensive study stats for candidate
-app.get("/api/v1/user/profile-metrics", async (req, res) => {
-  try {
-    const accessId = req.query.accessId || req.headers["x-access-id"];
-    if (!accessId) {
-      return res
-        .status(400)
-        .json({ success: false, message: "Missing accessId" });
+app.get(
+  "/api/v1/user/profile-metrics",
+  authenticateSupabaseUser,
+  requireOwnAccessId((req) => req.query.userId || req.query.accessId || req.headers["x-access-id"]),
+  async (req, res) => {
+    try {
+      const userId = requireSupabaseUserId(
+        req.query.userId || req.query.accessId || req.headers["x-access-id"],
+      );
+      const [
+        { data: spellingRows, error: spellingError },
+        { data: flashcardRows, error: flashcardError },
+        { data: activityRows, error: activityError },
+        { data: grammar, error: grammarError },
+        totalVocab,
+      ] = await Promise.all([
+        supabase.from("spelling_progress").select("mastered_words, incorrect_words").eq("user_id", userId),
+        supabase.from("flashcard_progress").select("known_words, unknown_words, forgot_words").eq("user_id", userId),
+        supabase.from("user_activity_logs").select("duration_seconds").eq("user_id", userId).eq("action", "STUDY_SESSION"),
+        supabase.from("grammar_progress").select("highest_score, total_questions").eq("user_id", userId).maybeSingle(),
+        vocabularyCollection.countDocuments(),
+      ]);
+      const queryError = spellingError || flashcardError || activityError || grammarError;
+      if (queryError) throw queryError;
+
+      const mastered = new Set();
+      const inProgress = new Set();
+      for (const row of spellingRows || []) {
+        (row.mastered_words || []).forEach((word) => mastered.add(word));
+        (row.incorrect_words || []).forEach((word) => inProgress.add(word));
+      }
+      for (const row of flashcardRows || []) {
+        (row.known_words || []).forEach((word) => mastered.add(word));
+        (row.unknown_words || []).forEach((word) => inProgress.add(word));
+        (row.forgot_words || []).forEach((word) => inProgress.add(word));
+      }
+
+      const totalSessions = (activityRows || []).length || (mastered.size > 0 ? 1 : 0);
+      const recordedSeconds = (activityRows || []).reduce(
+        (total, row) => total + Math.max(0, Number(row.duration_seconds) || 0),
+        0,
+      );
+      const totalStudySeconds =
+        recordedSeconds || mastered.size * 30 + inProgress.size * 20;
+      const highestGrammarScore = grammar?.highest_score
+        ? {
+            score: grammar.highest_score,
+            total: grammar.total_questions || 0,
+            percent: grammar.total_questions
+              ? Math.round((grammar.highest_score / grammar.total_questions) * 100)
+              : 0,
+          }
+        : null;
+
+      res.json({
+        success: true,
+        data: {
+          totalVocabInCorpus: totalVocab,
+          masteredCount: mastered.size,
+          inProgressCount: inProgress.size,
+          totalSessions,
+          totalStudySeconds,
+          highestGrammarScore,
+        },
+      });
+    } catch (err) {
+      res.status(500).json({ success: false, message: err.message });
     }
-
-    const cleanId = String(accessId).trim();
-    const [progress, totalVocab] = await Promise.all([
-      progressCollection.findOne({ accessId: cleanId }),
-      vocabularyCollection.countDocuments(),
-    ]);
-
-    const masteredCount = progress?.masteredWords?.length || 0;
-    const inProgressCount = progress?.incorrectWords?.length || 0;
-    const totalSessions =
-      progress?.totalSessions || (masteredCount > 0 ? 1 : 0);
-    // Baseline duration estimate: if sessions exist, at least session count * 2 mins or recorded duration
-    const totalStudySeconds =
-      progress?.totalStudySeconds || masteredCount * 30 + inProgressCount * 20;
-    const highestGrammarScore = progress?.highestGrammarScore || null;
-
-    res.json({
-      success: true,
-      data: {
-        totalVocabInCorpus: totalVocab,
-        masteredCount,
-        inProgressCount,
-        totalSessions,
-        totalStudySeconds,
-        highestGrammarScore,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-});
+  },
+);
 
 // ==========================================
 // 3. GRAMMAR ENDPOINTS
@@ -895,7 +1094,7 @@ app.get("/api/v1/grammar/questions", async (req, res) => {
     let filter = {};
 
     if (modParam && modParam !== "all" && modParam !== "mixed") {
-      // Map frontend topic IDs to module slugs in grammar_questions.json
+      // Map frontend topic IDs to module slugs in the grammar_questions table
       if (
         modParam === "modifiers-dangling" ||
         modParam === "run-on-comma-splices"
@@ -1229,7 +1428,10 @@ app.get("/api/v1/tts", async (req, res) => {
         return fs.createReadStream(cachePath).pipe(res);
       }
     } catch (edgeErr) {
-      console.warn("[EdgeTTS Handshake warning, switching to direct HTTP audio stream]:", edgeErr.message);
+      console.warn(
+        "[EdgeTTS Handshake warning, switching to direct HTTP audio stream]:",
+        edgeErr.message,
+      );
     }
 
     // High-availability HTTP Stream Failover (Google Speech API via HTTP - 100% reliable, zero WebSockets)
@@ -1252,7 +1454,9 @@ app.get("/api/v1/tts", async (req, res) => {
         }
 
         res.setHeader("Access-Control-Allow-Origin", "*");
-        return res.status(502).json({ success: false, message: "Audio stream unavailable" });
+        return res
+          .status(502)
+          .json({ success: false, message: "Audio stream unavailable" });
       })
       .on("error", (err) => {
         res.setHeader("Access-Control-Allow-Origin", "*");

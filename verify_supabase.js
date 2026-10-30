@@ -2,29 +2,28 @@ import { SupabaseCollection } from "./db.js";
 
 async function verify() {
   console.log("=== Verifying Supabase Backend Integration ===");
-  const usersCollection = new SupabaseCollection("users");
+  const profilesCollection = new SupabaseCollection("profiles");
   const vocabCollection = new SupabaseCollection("vocabularies");
   const grammarCollection = new SupabaseCollection("grammar_questions");
-  const progressCollection = new SupabaseCollection("vocabulary_progress");
+  const spellingProgressCollection = new SupabaseCollection("spelling_progress");
+  const flashcardProgressCollection = new SupabaseCollection("flashcard_progress");
   const auditLogsCollection = new SupabaseCollection("audit_logs");
 
-  const [usersCount, vocabCount, grammarCount, progressCount, logsCount] = await Promise.all([
-    usersCollection.countDocuments(),
+  const [profilesCount, vocabCount, grammarCount, spellingCount, flashcardCount, logsCount] = await Promise.all([
+    profilesCollection.countDocuments(),
     vocabCollection.countDocuments(),
     grammarCollection.countDocuments(),
-    progressCollection.countDocuments(),
+    spellingProgressCollection.countDocuments(),
+    flashcardProgressCollection.countDocuments(),
     auditLogsCollection.countDocuments(),
   ]);
 
-  console.log(`Users in Supabase: ${usersCount}`);
+  console.log(`Profiles in Supabase: ${profilesCount}`);
   console.log(`Vocab words in Supabase: ${vocabCount}`);
   console.log(`Grammar questions in Supabase: ${grammarCount}`);
-  console.log(`Progress records in Supabase: ${progressCount}`);
+  console.log(`Spelling progress records in Supabase: ${spellingCount}`);
+  console.log(`Flashcard progress records in Supabase: ${flashcardCount}`);
   console.log(`Audit logs in Supabase: ${logsCount}`);
-
-  // Test findOne user
-  const adminUser = await usersCollection.findOne({ accessId: "1234567890" });
-  console.log("Admin User found via Supabase:", adminUser ? `${adminUser.name} (${adminUser.role})` : "Not found");
 
   // Test find grammar by module
   const parallelismQuestions = await grammarCollection.find({ module: "parallelism" });

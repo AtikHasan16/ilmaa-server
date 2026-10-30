@@ -47,7 +47,7 @@ function toSnake(obj) {
 }
 
 /**
- * SupabaseCollection adapter that implements the exact same API as JsonCollection
+ * SupabaseCollection adapter for the server's Supabase tables
  * (.find, .findOne, .insertOne, .insertMany, .updateOne, .deleteOne, .deleteMany, .countDocuments)
  */
 export class SupabaseCollection {
