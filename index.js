@@ -1,4 +1,4 @@
-import "dotenv/config.js";
+import dotenv from "dotenv";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import https from "node:https";
@@ -12,10 +12,33 @@ import { createClient } from "@supabase/supabase-js";
 import { EdgeTTS } from "node-edge-tts";
 import { createRequireSupabaseAuth } from "./middleware/requireSupabaseAuth.js";
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Robustly resolve .env from server dir, current working dir, or project root
+const envCandidates = [
+  path.resolve(__dirname, ".env"),
+  path.resolve(process.cwd(), ".env"),
+  path.resolve(__dirname, "../.env"),
+  path.resolve(__dirname, "../project-ilmaa/.env"),
+];
+
+for (const envPath of envCandidates) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+  }
+}
+
 const port = Number(process.env.PORT) || 5000;
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-const configuredOrigins = process.env.CORS_ORIGINS;
+const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+const supabaseAnonKey =
+  process.env.SUPABASE_ANON_KEY ||
+  process.env.SUPABASE_KEY ||
+  process.env.VITE_SUPABASE_ANON_KEY;
+const configuredOrigins =
+  process.env.CORS_ORIGINS ||
+  process.env.FRONTEND_URL ||
+  process.env.VITE_FRONTEND_URL;
 
 if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error("SUPABASE_URL and SUPABASE_ANON_KEY must be configured.");

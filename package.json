@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "dev": "node --watch index.js",
+    "dev": "node --watch-path=index.js --watch-path=middleware index.js",
     "build": "node -e 'console.log(\"Build step ready\")'",
     "check": "node --check index.js && node --check middleware/requireSupabaseAuth.js",
     "test": "node --test",
